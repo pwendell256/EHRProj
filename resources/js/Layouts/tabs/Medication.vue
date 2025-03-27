@@ -3,82 +3,144 @@
         <div class="flex justify-between items-center mb-4">
             <div>
                 <h2 class="text-xl font-semibold flex items-center">
-                    <span class="mr-2">💊</span> Medication
+                    <Pill class="w-5 h-5 mr-2" /> Medication
                 </h2>
                 <p class="text-gray-500 text-sm">Track patient prescriptions.</p>
             </div>
         </div>
 
-        <button @click="isAddModalOpen = true" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mb-3">
-            Add Medication
-        </button>
+        <UseTemplate>
+            <form @submit.prevent="isEditing ? updateMedication() : saveMedication()" class="grid gap-4 px-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-2 col-span-2">
+                        <Label for="date">Date</Label>
+                        <Input id="date" type="date" v-model="form.date" required />
+                        <p v-if="form.errors?.date" class="text-red-500 text-sm">{{ form.errors.date }}</p>
+                    </div>
 
-        <div class="border-t border-b border-gray-300 overflow-hidden rounded-lg">
-            <table class="w-full text-left">
-                <thead class="bg-gray-900 text-white">
-                    <tr>
-                        <th class="py-2 px-4">Date</th>
-                        <th class="py-2 px-4">Medication</th>
-                        <th class="py-2 px-4">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="border-b" v-for="record in patient.medications" :key="record.id">
-                        <td class="py-2 px-4">{{ record.date }}</td>
-                        <td class="py-2 px-4">{{ record.medication }}</td>
-                        <td class="py-2 px-4 flex space-x-2">
-                            <button class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">View</button>
-                            <button @click="openEditModal(record)" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Edit</button>
-                            <button @click="deleteRecord(record.id)"class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Add Medication Modal -->
-        <div v-if="isAddModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-            <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-                <h3 class="text-lg font-semibold mb-4">Add Medication</h3>
-                
-                <label class="block text-sm font-medium">Date</label>
-                <input type="date" v-model="form.date" class="w-full p-2 border rounded mb-3" />
-
-                <label class="block text-sm font-medium">Medication</label>
-                <input type="text" v-model="form.medication" class="w-full p-2 border rounded mb-3" />
-
-                <div class="flex justify-end space-x-2">
-                    <button @click="closeAddModal" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
-                        Cancel
-                    </button>
-                    <button @click="saveMedication" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-                        Save
-                    </button>
+                    <div class="flex flex-col gap-2 col-span-2">
+                        <Label for="medication">Medication</Label>
+                        <Input id="medication" type="text" v-model="form.medication" required />
+                        <p v-if="form.errors?.medication" class="text-red-500 text-sm">{{ form.errors.medication }}</p>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Edit Medication Modal -->
-        <div v-if="isEditModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-            <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-                <h3 class="text-lg font-semibold mb-4">Edit Medication</h3>
-                
-                <label class="block text-sm font-medium">Date</label>
-                <input type="date" v-model="editForm.date" class="w-full p-2 border rounded mb-3" />
-
-                <label class="block text-sm font-medium">Medication</label>
-                <input type="text" v-model="editForm.medication" class="w-full p-2 border rounded mb-3" />
-
-                <div class="flex justify-end space-x-2">
-                    <button @click="closeEditModal" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
-                        Cancel
-                    </button>
-                    <button @click="updateMedication" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
-                        Update
-                    </button>
+                <div class="flex justify-end pt-2 gap-2">
+                    <Button type="button" variant="outline" @click="isOpen = false">Cancel</Button>
+                    <Button type="submit">{{ isEditing ? 'Update' : 'Save' }}</Button>
                 </div>
-            </div>
+            </form>
+        </UseTemplate>
+
+        <!-- Dialog version -->
+        <Dialog v-if="isDesktop" v-model:open="isOpen">
+            <DialogTrigger as-child>
+                <Button @click="openModal()">+ Add Medication</Button>
+            </DialogTrigger>
+            <DialogContent class="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle>{{ isEditing ? 'Edit' : 'Add' }} Medication</DialogTitle>
+                    <DialogDescription>
+                        Enter medication details and save the record.
+                    </DialogDescription>
+                </DialogHeader>
+                <GridForm />
+            </DialogContent>
+        </Dialog>
+
+        <!-- Drawer version -->
+        <Drawer v-else v-model:open="isOpen">
+            <DrawerTrigger as-child>
+                <Button variant="outline">+ Add Medication</Button>
+            </DrawerTrigger>
+            <DrawerContent>
+                <DrawerHeader class="text-left">
+                    <DrawerTitle>{{ isEditing ? 'Edit' : 'Add' }} Medication</DrawerTitle>
+                    <DrawerDescription>
+                        Enter medication details and save the record.
+                    </DrawerDescription>
+                </DrawerHeader>
+                <GridForm />
+                <DrawerFooter class="pt-2">
+                    <DrawerClose as-child>
+                        <Button variant="outline">Cancel</Button>
+                    </DrawerClose>
+                </DrawerFooter>
+            </DrawerContent>
+        </Drawer>
+
+
+        <div class="overflow-x-auto mt-4 border rounded-lg">
+            <Table>
+                <TableHeader class="bg-green-100">
+                    <TableRow>
+                        <TableHead>Allergy</TableHead>
+                        <TableHead>Test Date & Time</TableHead>
+                        <TableHead>Description</TableHead>
+                        <TableHead>Image</TableHead>
+                        <TableHead>Actions</TableHead>
+                    </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                    <TableRow v-if="!patient.allergies || patient.allergies.length === 0">
+                        <TableCell colspan="5" class="text-center text-gray-500">
+                            No allergy records found.
+                        </TableCell>
+                    </TableRow>
+
+                    <TableRow v-for="record in patient.allergies" :key="record.id">
+                        <TableCell>{{ record.allergy }}</TableCell>
+                        <TableCell>{{ record.dateTime }}</TableCell>
+                        <TableCell>{{ record.description }}</TableCell>
+                        <TableCell>
+                            <div class="text-center">
+                                <button v-if="record.path" @click="openImageModal(record.path)"
+                                    class="text-blue-600 hover:underline">
+                                    👁️ View
+                                </button>
+                                <span v-else class="text-gray-500">No Image</span>
+                            </div>
+                        </TableCell>
+                        <TableCell class="text-center">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger as-child>
+                                    <Button variant="ghost" class="flex h-8 w-8 p-0 data-[state=open]:bg-muted">
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                        <span class="sr-only">Open menu</span>
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" class="w-[160px]">
+                                    <DropdownMenuItem @click="openEditModal(record)">
+                                        <i class="fa-solid fa-pen-to-square mr-2"></i> Edit
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem @click="deleteRecord(record.id)">
+                                        <i class="fa-solid fa-trash mr-2"></i> Delete
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
         </div>
+
+        <AlertDialog v-model:open="showDeleteDialog">
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        This action will permanently delete this medication record.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel @click="showDeleteDialog = false">Cancel</AlertDialogCancel>
+                    <AlertDialogAction class="bg-red-600 hover:bg-red-700" @click="handleDelete">
+                        Delete
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
 
         <!-- Error Modal -->
         <div v-if="errorMessage" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
@@ -96,15 +158,83 @@
 </template>
 
 <script setup>
-import { useForm } from "@inertiajs/vue3";
-import { ref } from "vue";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from '@/Components/ui/select'
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuTrigger,
+} from '@/Components/ui/dropdown-menu'
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/Components/ui/table'
+
+import { Input } from '@/Components/ui/input'
+import { Label } from '@/Components/ui/label'
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/Components/ui/alert-dialog'
+import { ref, onMounted } from 'vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { router, useForm, usePage } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
+
+import { Button } from '@/Components/ui/button'
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/Components/ui/dialog'
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from '@/Components/ui/drawer'
+import { createReusableTemplate, useMediaQuery } from '@vueuse/core'
+// Reuse `form` section
+const [UseTemplate, GridForm] = createReusableTemplate()
+const isDesktop = useMediaQuery('(min-width: 768px)')
+
+const isOpen = ref(false)
+import { Pill } from "lucide-vue-next";
 
 const props = defineProps({
     patient: Object
 });
 
-const isAddModalOpen = ref(false);
-const isEditModalOpen = ref(false);
+const isEditing = ref(false);
 const errorMessage = ref('');
 
 const form = useForm({
@@ -118,12 +248,19 @@ const editForm = useForm({
     medication: '',
 });
 
-const closeAddModal = () => {
-    isAddModalOpen.value = false;
+
+const openModal = () => {
+    form.reset(); // clear previous values
+    isEditing.value = false;
+    isOpen.value = true;
 };
 
-const closeEditModal = () => {
-    isEditModalOpen.value = false;
+const openEditModal = (record) => {
+    form.id = record.id;
+    form.date = record.date;
+    form.medication = record.medication;
+    isEditing.value = true;
+    isOpen.value = true;
 };
 
 const saveMedication = () => {
@@ -134,36 +271,41 @@ const saveMedication = () => {
             }
         },
         onSuccess: () => {
-            closeAddModal();
+            isOpen.value = false;
             errorMessage.value = '';
         }
     });
 };
 
-const openEditModal = (record) => {
-    editForm.id = record.id;
-    editForm.date = record.date;
-    editForm.medication = record.medication;
-    isEditModalOpen.value = true;
-};
-
 const updateMedication = () => {
-    editForm.put(route('medication.update', editForm.id), {
+    form.put(route('medication.update', form.id), {
         onError: (errors) => {
             if (errors.medication) {
                 errorMessage.value = errors.medication;
             }
         },
         onSuccess: () => {
-            closeEditModal();
+            isOpen.value = false;
             errorMessage.value = '';
         }
     });
 };
-const deleteform = useForm({})
-const deleteRecord = (id) =>{
-    if(confirm('Are you sure you want to delete this record?')){
-        deleteform.delete(route('medication.destroy', id))
-    }
+
+const showDeleteDialog = ref(false)
+const recordToDeleteId = ref(null)
+
+const deleteRecord = (id) => {
+    recordToDeleteId.value = id
+    showDeleteDialog.value = true
+}
+
+const handleDelete = () => {
+    deleteform.delete(route('medication.destroy', recordToDeleteId.value), {
+        preserveScroll: true,
+        onSuccess: () => {
+            showDeleteDialog.value = false
+            recordToDeleteId.value = null
+        }
+    })
 }
 </script>

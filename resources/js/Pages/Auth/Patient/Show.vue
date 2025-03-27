@@ -1,7 +1,7 @@
 <template>
     <AuthenticatedLayout>
         <div class="mt-10"></div>
-        <div class="p-10 bg-white shadow rounded">
+       
             <h2 class="text-xl font-semibold">Patient Details</h2>
             <p><strong>ID:</strong> {{ patient.id }}</p>
             <p><strong>Name:</strong> {{ patient.full_name }}</p>
@@ -29,7 +29,6 @@
                 <Medication v-if="selectedTab === 'medication'" :patient="patient" />
             </div>
 
-        </div>
 
 
 
