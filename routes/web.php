@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/Patient-Management', [PatientController::class, 'index'])->name('patient.index');
+    Route::get('/Patient-Management/{id}', [PatientController::class, 'show'])->name('patient.show');
     Route::post('/Store-patient', [PatientController::class, 'store'])->name('patient.store');
     Route::put('/update-patient/{id}', [PatientController::class, 'update'])->name('patient.update');
     Route::delete('/delete-patient/{id}', [PatientController::class, 'destroy'])->name('patient.destroy');
