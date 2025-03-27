@@ -17,7 +17,8 @@
                         <div class="mb-4">
                             <input type="text" placeholder="Search by name..." v-model="searchform.name"
                                 class="w-full p-2 border rounded-lg focus:ring focus:ring-indigo-300" />
-                            <select class="w-full p-2 mb-2 my-2 border rounded-lg focus:ring focus:ring-indigo-300" v-model="searchform.station" >
+                            <select class="w-full p-2 mb-2 my-2 border rounded-lg focus:ring focus:ring-indigo-300"
+                                v-model="searchform.station">
                                 <option value="">Select Station</option>
                                 <option value="ICU - 502">ICU - 502</option>
                                 <option value="CCU - 609">CCU - 609</option>
@@ -31,7 +32,8 @@
                                 <option value="General Medical Ward - Bed No. 6">General Medical Ward - Bed No. 6
                                 </option>
                             </select>
-                            <button @click="searchPatients" class="px-4 py-2 my-4  text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">
+                            <button @click="searchPatients"
+                                class="px-4 py-2 my-4  text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">
                                 Search
                             </button>
                         </div>
@@ -79,10 +81,12 @@
                                         <td class="px-4 py-2 border">{{ patient.status }}</td>
                                         <td class="px-4 py-2 border">{{ patient.condition }}</td>
                                         <td class="px-4 py-2 border">
+                                            <Link :href="route('patient.show', patient.id)">
                                             <button
                                                 class="px-2 py-1 text-white bg-green-500 rounded hover:bg-green-600">
                                                 View
-                                            </button>
+                                            </button></Link>
+
                                         </td>
                                         <td class="px-4 py-2 border">
                                             <button @click="openModal(patient)"
@@ -180,6 +184,7 @@ import { ref, onMounted } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { router, useForm, usePage } from '@inertiajs/vue3';
 import Button from '@/Components/ui/button/Button.vue';
+import {Link} from '@inertiajs/vue3';
 
 const props = defineProps({
     patients: Array,
@@ -216,8 +221,8 @@ const closeModal = () => {
 };
 
 const searchform = useForm({
-name:'',
-station:'',
+    name: '',
+    station: '',
 })
 
 const page = usePage();
@@ -230,8 +235,8 @@ onMounted(() => {
 
 const searchPatients = () => {
     router.get(route('patient.index'), {
-        name:searchform.name,
-        station:searchform.station
+        name: searchform.name,
+        station: searchform.station
     })
 }
 
