@@ -1,6 +1,7 @@
 <template>
     <AuthenticatedLayout>
-        <div class="p-4 bg-white shadow rounded">
+        <div class="mt-10"></div>
+        <div class="p-10 bg-white shadow rounded">
             <h2 class="text-xl font-semibold">Patient Details</h2>
             <p><strong>ID:</strong> {{ patient.id }}</p>
             <p><strong>Name:</strong> {{ patient.full_name }}</p>
@@ -8,23 +9,30 @@
             <p><strong>Age:</strong> {{ patient.age }}</p>
             <p><strong>Gender:</strong> {{ patient.gender }}</p>
 
-            <div class="mt-4">
-                <button @click="selectedTab = 'medical_record'"
-                    :class="{ 'bg-blue-700': selectedTab === 'medical_record' }"
-                    class="px-2 py-1 mx-2 text-white bg-blue-500 rounded hover:bg-blue-600">
-                    Medical Record
-                </button>
-                <button @click="selectedTab = 'medication'" :class="{ 'bg-blue-700': selectedTab === 'medication' }"
-                    class="px-2 py-1 mx-2 text-white bg-blue-500 rounded hover:bg-blue-600">
-                    Medication
-                </button>
+            <div class="mt-10">
+
+                <Tabs default-value="medical_record" class="w-full">
+                <TabsList class="grid w-80 grid-cols-2">
+                    <TabsTrigger value="medical_record" @click="selectedTab = 'medical_record'">
+                        Medical Record
+                    </TabsTrigger>
+                    <TabsTrigger value="medication" @click="selectedTab = 'medication'">
+                        Medication
+                    </TabsTrigger>
+                </TabsList>
+            </Tabs>
+    
             </div>
 
             <div class="mt-4">
                 <MedicalRecord v-if="selectedTab === 'medical_record'" :patient="patient" />
                 <Medication v-if="selectedTab === 'medication'" :patient="patient" />
             </div>
+
         </div>
+
+
+
     </AuthenticatedLayout>
 </template>
 
@@ -33,7 +41,8 @@ import { ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import MedicalRecord from '@/Layouts/tabs/MedicalRecord.vue';
 import Medication from '@/Layouts/tabs/Medication.vue';
-import Button from '@/Components/ui/button/Button.vue';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const props = defineProps({
     patient: Object
