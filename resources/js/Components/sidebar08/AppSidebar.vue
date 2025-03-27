@@ -52,44 +52,17 @@ const data = {
             title: 'Account Management',
             url: route('patient.index'),
             icon: BookOpen,
-           
+
         },
         {
             title: 'Settings',
-            url:  route('config.index'),
+            url: route('config.index'),
             icon: Settings2,
-    
+
         },
     ],
-    navSecondary: [
-        {
-            title: 'Support',
-            url: '#',
-            icon: LifeBuoy,
-        },
-        {
-            title: 'Feedback',
-            url: '#',
-            icon: Send,
-        },
-    ],
-    projects: [
-        {
-            name: 'Design Engineering',
-            url: '#',
-            icon: Frame,
-        },
-        {
-            name: 'Sales & Marketing',
-            url: '#',
-            icon: PieChart,
-        },
-        {
-            name: 'Travel',
-            url: '#',
-            icon: Map,
-        },
-    ],
+
+
 }
 </script>
 <template>
@@ -99,13 +72,10 @@ const data = {
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
                         <a href="#">
-                            <div
-                                class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                                <Command class="size-4" />
-                            </div>
+                            <img src="../../Images/LOGO 1.png.png" alt="Logo" class=" object-contain" />
+
                             <div class="grid flex-1 text-left text-sm leading-tight">
-                                <span class="truncate font-semibold">Acme Inc</span>
-                                <span class="truncate text-xs">Enterprise</span>
+                                
                             </div>
                         </a>
                     </SidebarMenuButton>
@@ -114,8 +84,6 @@ const data = {
         </SidebarHeader>
         <SidebarContent>
             <NavMain :items="data.navMain" />
-            <NavProjects :projects="data.projects" />
-            <NavSecondary :items="data.navSecondary" class="mt-auto" />
         </SidebarContent>
         <SidebarFooter>
             <NavUser :user="data.user" />
