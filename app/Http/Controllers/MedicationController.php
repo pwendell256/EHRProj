@@ -10,6 +10,7 @@ class MedicationController extends Controller
 {
     public function store(Request $request, string $id)
     {
+
         // Validate input
         $validated = $request->validate([
             'date' => 'required|date',
@@ -26,10 +27,11 @@ class MedicationController extends Controller
 
         // If validation passes, proceed with saving the medication
         Medication::create([
-            'patient_id' => $id,
+            'patient_Id' => $id,
             'date' => $validated['date'],
             'medication' => $validated['medication'],
         ]);
+    
 
         return back()->with('success', 'Medication added successfully.');
     }
@@ -42,7 +44,7 @@ class MedicationController extends Controller
         ]);
 
         // Retrieve patient's allergies
-        $allergies = Allergy::where('patient_id', $id->patient_Id)->pluck('allergy')->map(fn($allergy) => strtolower($allergy));
+        $allergies = Allergy::where('patient_Id', $id->patient_Id)->pluck('allergy')->map(fn($allergy) => strtolower($allergy));
 
         if ($allergies->contains(strtolower($validated['medication']))) {
             return back()->withErrors(['medication' => 'This medication is not allowed due to allergy restrictions.']);

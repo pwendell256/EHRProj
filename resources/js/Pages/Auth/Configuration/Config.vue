@@ -4,45 +4,66 @@
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="overflow-x-auto">
-                        <table class="min-w-full border border-gray-300 divide-y divide-gray-200">
-                            <thead class="bg-gray-100">
-                                <tr>
-                                    <th class="px-4 py-2 text-left text-gray-600">Medical Record</th>
-                                    <th class="px-4 py-2 text-left text-gray-600">Duration Limit (Days)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-4 py-2 border">Imaging Reports</td>
-                                    <td class="px-4 py-2 border"><input type="Number" placeholder="Please Input in Days" v-model="form.imaging"
-                                            class="w-full p-2 border rounded-lg focus:ring focus:ring-indigo-300"></td>
-                                </tr>
-                                <tr class=" hover:bg-gray-50">
-                                    <td class="px-4 py-2 border">Laboratory Reports</td>
-                                    <td class="px-4 py-2 border"><input type="Number" placeholder="Please Input in Days" v-model="form.laboratory"
-                                            class="w-full p-2 border rounded-lg focus:ring focus:ring-indigo-300"></td>
-                                </tr>
-                                <tr class=" hover:bg-gray-50">
-                                    <td class="px-4 py-2 border">Histopath Reports</td>
-                                    <td class="px-4 py-2 border"><input type="Number" placeholder="Please Input in Days"v-model="form.histopath"
-                                            class="w-full p-2 border rounded-lg focus:ring focus:ring-indigo-300"></td>
-                                </tr>
-                                <tr class=" hover:bg-gray-50">
-                                    <td class="px-4 py-2 border">Microbiology Reports</td>
-                                    <td class="px-4 py-2 border"><input type="Number" placeholder="Please Input in Days"v-model="form.microbiology"
-                                            class="w-full p-2 border rounded-lg focus:ring focus:ring-indigo-300"></td>
-                                </tr>
-                                <tr class=" hover:bg-gray-50">
-                                    <td class="px-4 py-2 border">Special Test Reports</td>
-                                    <td class="px-4 py-2 border"><input type="Number" placeholder="Please Input in Days"v-model="form.specialtest"
-                                            class="w-full p-2 border rounded-lg focus:ring focus:ring-indigo-300"></td>
-                                </tr>
-                            </tbody>
-                            <button @click="updateConfig()"
-                                class="px-4 py-2 my-4 mx-2  text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">
-                                Update
-                            </button>
-                        </table>
+                        <div class="overflow-x-auto mt-4 border rounded-lg">
+                            <Table>
+                                <TableHeader class="bg-green-100">
+                                    <TableRow>
+                                        <TableHead>Medical Record</TableHead>
+                                        <TableHead>Duration Limit (Days)</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell>Imaging Reports</TableCell>
+                                        <TableCell>
+                                            <Input type="number" placeholder="Please Input in Days"
+                                                v-model="form.imaging"
+                                                />
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Laboratory Reports</TableCell>
+                                        <TableCell>
+                                            <Input type="number" placeholder="Please Input in Days"
+                                                v-model="form.laboratory"
+                                                />
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Histopath Reports</TableCell>
+                                        <TableCell>
+                                            <Input type="number" placeholder="Please Input in Days"
+                                                v-model="form.histopath"
+                                                />
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Microbiology Reports</TableCell>
+                                        <TableCell>
+                                            <Input type="number" placeholder="Please Input in Days"
+                                                v-model="form.microbiology"
+                                                />
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Special Test Reports</TableCell>
+                                        <TableCell>
+                                            <Input type="number" placeholder="Please Input in Days"
+                                                v-model="form.specialtest"
+                                                />
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+
+                            <div class="flex justify-end mt-4 mb-4">
+                                <Button @click="updateConfig()" class="px-4 py-2 mx-2">
+                                    Update
+                                </Button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -54,20 +75,31 @@
 </template>
 
 <script setup>
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/Components/ui/table'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { route } from '../../../../../vendor/tightenco/ziggy/src/js';
 import { useForm } from '@inertiajs/vue3';
+import Button from '@/Components/ui/button/Button.vue';
+import Input from '@/Components/ui/input/Input.vue';
 
 const props = defineProps({
-    config:Object
+    config: Object
 })
 
 const form = useForm({
     imaging: props.config.imaging || '',
-    laboratory:props.config.laboratory || '',
-    histopath:props.config.histopath || '',
-    microbiology:props.config.microbiology || '',
-    specialtest:props.config.specialtest || '',
+    laboratory: props.config.laboratory || '',
+    histopath: props.config.histopath || '',
+    microbiology: props.config.microbiology || '',
+    specialtest: props.config.specialtest || '',
 })
 
 const updateConfig = () => {
