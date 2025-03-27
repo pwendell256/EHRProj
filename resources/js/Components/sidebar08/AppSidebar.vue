@@ -70,7 +70,7 @@ const data = {
         <SidebarHeader>
             <SidebarMenu>
                 <SidebarMenuItem>
-                    <SidebarMenuButton size="lg" as-child>
+                    <SidebarMenuButton class="cursor-default" size="lg" as-child>
                         <a href="#">
                             <img src="../../Images/LOGO.png" alt="Logo" class=" object-contain" />
 

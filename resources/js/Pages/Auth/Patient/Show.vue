@@ -33,6 +33,7 @@ import { ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import MedicalRecord from '@/Layouts/tabs/MedicalRecord.vue';
 import Medication from '@/Layouts/tabs/Medication.vue';
+import Button from '@/Components/ui/button/Button.vue';
 
 const props = defineProps({
     patient: Object

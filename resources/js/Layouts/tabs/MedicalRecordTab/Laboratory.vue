@@ -1,85 +1,149 @@
 <template>
   <div class="bg-gray-100 p-4 rounded-lg">
     <h3 class="text-lg font-semibold mb-2">Laboratory Records</h3>
-    <button @click="openModal" class="mb-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-      Add Data
-    </button>
-
-    <div class="overflow-x-auto">
-      <table class="w-full border-collapse border border-gray-300">
-        <thead>
-          <tr class="bg-gray-800 text-white">
-            <th class="p-2 border border-gray-300">Test Type</th>
-            <th class="p-2 border border-gray-300">Test Date & Time</th>
-            <th class="p-2 border border-gray-300">Result</th>
-            <th class="p-2 border border-gray-300">Image</th>
-            <th class="p-2 border border-gray-300">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="bg-white border border-gray-300" v-for="record in patient.laboratories" :key="record.id">
-            <td class="p-2 border border-gray-300">{{ record.testType }}</td>
-            <td class="p-2 border border-gray-300">{{ record.dateTime }}</td>
-            <td class="p-2 border border-gray-300">{{ record.result }}</td>
-            <td class="p-2 border border-gray-300 text-center">
-              <button v-if="record.path" @click="openImageModal(record.path)"
-                >
-                👁️ View
-              </button>
-              <span v-else>No Image</span>
-            </td>
-            <td class="p-2 border border-gray-300 space-x-2">
-              <button @click="openEditModal(record)"
-                class="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">Edit</button>
-              <button @click="deleteRecord(record.id)"
-                class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Add/Edit Modal -->
-    <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h3 class="text-lg font-semibold mb-4">{{ isEditing ? 'Edit' : 'Add' }} Laboratory Record</h3>
-        <form @submit.prevent="isEditing ? updateRecord() : addRecord()">
-          <div class="mb-2">
-            <label class="block text-sm font-medium">Test Type</label>
-            <input v-model="form.testType" class="w-full p-2 border rounded" required />
+    <UseTemplate>
+      <form @submit.prevent="isEditing ? updateRecord() : addRecord()" class="grid gap-4 px-4">
+        <!-- 2-column layout -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-2 col-span-2">
+            <Label for="testType">Test Type</Label>
+            <Input id="testType" v-model="form.testType" type="text" required />
             <p v-if="form.errors.testType" class="text-red-500 text-sm">{{ form.errors.testType }}</p>
           </div>
 
-          <div class="mb-2">
-            <label class="block text-sm font-medium">Test Date & Time</label>
-            <input type="datetime-local" v-model="form.dateTime" class="w-full p-2 border rounded" required />
+          <div class="flex flex-col gap-2 col-span-2">
+            <Label for="dateTime">Test Date & Time</Label>
+            <Input id="dateTime" v-model="form.dateTime" type="datetime-local" required />
             <p v-if="form.errors.dateTime" class="text-red-500 text-sm">{{ form.errors.dateTime }}</p>
           </div>
 
-          <div class="mb-2">
-            <label class="block text-sm font-medium">Result</label>
-            <input v-model="form.result" class="w-full p-2 border rounded" required />
+          <div class="flex flex-col gap-2 md:col-span-2">
+            <Label for="result">Result</Label>
+            <Input id="result" v-model="form.result" type="text" required />
             <p v-if="form.errors.result" class="text-red-500 text-sm">{{ form.errors.result }}</p>
           </div>
 
-          <div class="mb-4">
-            <label class="block text-sm font-medium">Upload Image</label>
-            <input type="file" @change="handleImageUpload" class="w-full p-2 border rounded" accept="image/*" />
+          <div class="flex flex-col gap-2 md:col-span-2">
+            <Label for="image">Upload Image</Label>
+            <input id="image" type="file" @change="handleImageUpload" accept="image/*"
+              class="w-full border rounded px-3 py-2" />
             <p v-if="form.errors.image" class="text-red-500 text-sm">{{ form.errors.image }}</p>
           </div>
+        </div>
 
-          <div class="flex justify-end space-x-2">
-            <button type="button" @click="closeModal"
-              class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-              Cancel
-            </button>
-            <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-              {{ isEditing ? 'Update' : 'Save' }}
-            </button>
-          </div>
-        </form>
-      </div>
+        <Button type="submit">{{ isEditing ? 'Update' : 'Save' }}</Button>
+
+      </form>
+    </UseTemplate>
+
+    <!-- Dialog/Drawer Integration -->
+    <Dialog v-if="isDesktop" v-model:open="isOpen">
+      <DialogTrigger as-child>
+        <Button @click="openModal()">+ Add Data</Button>
+      </DialogTrigger>
+      <DialogContent class="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>{{ isEditing ? 'Edit' : 'Add' }} Laboratory Record</DialogTitle>
+          <DialogDescription>
+            Fill out the lab test information and upload a result image.
+          </DialogDescription>
+        </DialogHeader>
+        <GridForm />
+      </DialogContent>
+    </Dialog>
+
+    <Drawer v-else v-model:open="isOpen">
+      <DrawerTrigger as-child>
+        <Button>+ Add Data</Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader class="text-left">
+          <DrawerTitle>{{ isEditing ? 'Edit' : 'Add' }} Laboratory Record</DrawerTitle>
+          <DrawerDescription>
+            Fill out the lab test information and upload a result image.
+          </DrawerDescription>
+        </DrawerHeader>
+        <GridForm />
+        <DrawerFooter class="pt-2">
+          <DrawerClose as-child>
+            <Button variant="outline">Cancel</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+
+    <div class="overflow-x-auto mt-4 border rounded-lg">
+      <Table>
+        <TableHeader class="bg-green-100">
+          <TableRow>
+            <TableHead>Test Type</TableHead>
+            <TableHead>Test Date & Time</TableHead>
+            <TableHead>Result</TableHead>
+            <TableHead>Image</TableHead>
+            <TableHead>Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+
+        <TableBody>
+          <TableRow v-if="!patient.laboratories || patient.laboratories.length === 0">
+            <TableCell colspan="5" class="text-center text-gray-500">
+              No laboratory records found.
+            </TableCell>
+          </TableRow>
+
+          <TableRow v-for="record in patient.laboratories" :key="record.id">
+            <TableCell>{{ record.testType }}</TableCell>
+            <TableCell>{{ record.dateTime }}</TableCell>
+            <TableCell>{{ record.result }}</TableCell>
+            <TableCell>
+              <div class="text-center">
+                <button v-if="record.path" @click="openImageModal(record.path)" class="text-blue-600 hover:underline">
+                  👁️ View
+                </button>
+                <span v-else class="text-gray-500">No Image</span>
+              </div>
+            </TableCell>
+            <TableCell class="text-center">
+              <DropdownMenu>
+                <DropdownMenuTrigger as-child>
+                  <Button variant="ghost" class="flex h-8 w-8 p-0 data-[state=open]:bg-muted">
+                    <i class="fa-solid fa-ellipsis"></i>
+                    <span class="sr-only">Open menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" class="w-[160px]">
+                  <DropdownMenuItem @click="openEditModal(record)">
+                    <i class="fa-solid fa-pen-to-square mr-2"></i> Edit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem @click="deleteRecord(record.id)">
+                    <i class="fa-solid fa-trash mr-2"></i> Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+
     </div>
+    <AlertDialog v-model:open="showDeleteDialog">
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. It will permanently delete this laboratory record.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel @click="showDeleteDialog = false">Cancel</AlertDialogCancel>
+          <AlertDialogAction class="bg-red-600 hover:bg-red-700" @click="handleDelete">
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+
+
 
     <!-- Image Preview Modal -->
     <div v-if="showImageModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
@@ -96,9 +160,76 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useForm } from '@inertiajs/vue3';
-import { router } from '@inertiajs/vue3';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/Components/ui/select'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from '@/Components/ui/dropdown-menu'
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/Components/ui/table'
+
+import { Input } from '@/Components/ui/input'
+import { Label } from '@/Components/ui/label'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/Components/ui/alert-dialog'
+import { ref, onMounted } from 'vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { router, useForm, usePage } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
+
+import { Button } from '@/Components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/Components/ui/dialog'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/Components/ui/drawer'
+import { createReusableTemplate, useMediaQuery } from '@vueuse/core'
+// Reuse `form` section
+const [UseTemplate, GridForm] = createReusableTemplate()
+const isDesktop = useMediaQuery('(min-width: 768px)')
+
+const isOpen = ref(false)
 
 const props = defineProps({
   patient: Object,
@@ -130,12 +261,12 @@ const openEditModal = (record) => {
   form.dateTime = record.dateTime;
   form.result = record.result;
   form.image = null; // Reset image to allow optional update
-  showModal.value = true;
+  isOpen.value = true
 };
 
 
 const closeModal = () => {
-  showModal.value = false;
+  isOpen.value = false
   form.reset();
 };
 
@@ -172,15 +303,23 @@ const updateRecord = () => {
 };
 
 
+const showDeleteDialog = ref(false)
+const recordToDeleteId = ref(null)
 
-// Delete Function
 const deleteRecord = (id) => {
-  if (confirm('Are you sure you want to delete this record?')) {
-    form.delete(route('lab.destroy', id), {
-      preserveScroll: true,
-    });
-  }
-};
+  recordToDeleteId.value = id
+  showDeleteDialog.value = true
+}
+
+const handleDelete = () => {
+  form.delete(route('lab.destroy', recordToDeleteId.value), {
+    preserveScroll: true,
+    onSuccess: () => {
+      showDeleteDialog.value = false
+      recordToDeleteId.value = null
+    },
+  })
+}
 
 // Open Image Modal
 const openImageModal = (imagePath) => {
