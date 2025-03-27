@@ -12,12 +12,15 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from '@/Components/ui/breadcrumb'
-import { Separator } from '@/components/ui/separator'
+import { Separator } from '@/Components/ui/separator'
 import {
     SidebarInset,
     SidebarProvider,
     SidebarTrigger,
 } from '@/Components/ui/sidebar'
+import { ArrowLeft } from 'lucide-vue-next'
+import { Link } from '@inertiajs/vue3'
+import { Button } from '@/Components/ui/button'
 </script>
 <template>
     <SidebarProvider>
@@ -42,6 +45,15 @@ import {
                     </Breadcrumb>
                 </div>
             </header>
+            <!-- 🔙 Back Button -->
+            <Button variant="outline" as-child
+                class="ml-4 p-4 w-fit text-muted-foreground hover:text-green-600 hover:bg-green-100">
+                <Link :href="route('dashboard')" class="flex items-center gap-2 text-sm">
+                <ArrowLeft class="size-4" />
+                Back
+                </Link>
+            </Button>
+
             <div class="flex flex-1 flex-col gap-4 p-4 pt-0">
                 <!-- Page Content -->
                 <main>

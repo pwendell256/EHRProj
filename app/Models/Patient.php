@@ -49,4 +49,8 @@ class Patient extends Model
         return $this->hasMany(Allergy::class, 'patient_Id', 'id');
  
     }
+    public function medications(){
+        return $this->hasMany(Medication::class, 'patient_Id', 'id');
+ 
+    }
     }
