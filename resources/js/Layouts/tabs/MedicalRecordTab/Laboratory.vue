@@ -47,19 +47,27 @@
           <div class="mb-2">
             <label class="block text-sm font-medium">Test Type</label>
             <input v-model="form.testType" class="w-full p-2 border rounded" required />
+            <p v-if="form.errors.testType" class="text-red-500 text-sm">{{ form.errors.testType }}</p>
           </div>
+
           <div class="mb-2">
             <label class="block text-sm font-medium">Test Date & Time</label>
             <input type="datetime-local" v-model="form.dateTime" class="w-full p-2 border rounded" required />
+            <p v-if="form.errors.dateTime" class="text-red-500 text-sm">{{ form.errors.dateTime }}</p>
           </div>
+
           <div class="mb-2">
             <label class="block text-sm font-medium">Result</label>
             <input v-model="form.result" class="w-full p-2 border rounded" required />
+            <p v-if="form.errors.result" class="text-red-500 text-sm">{{ form.errors.result }}</p>
           </div>
+
           <div class="mb-4">
             <label class="block text-sm font-medium">Upload Image</label>
             <input type="file" @change="handleImageUpload" class="w-full p-2 border rounded" accept="image/*" />
+            <p v-if="form.errors.image" class="text-red-500 text-sm">{{ form.errors.image }}</p>
           </div>
+
           <div class="flex justify-end space-x-2">
             <button type="button" @click="closeModal"
               class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
