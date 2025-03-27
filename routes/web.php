@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/Patient-Management', [PatientController::class, 'index'])->name('patient.index');
+    Route::post('/Store-patient', [PatientController::class, 'store'])->name('patient.store');
+    Route::put('/update-patient/{id}', [PatientController::class, 'update'])->name('patient.update');
+    Route::delete('/delete-patient/{id}', [PatientController::class, 'destroy'])->name('patient.destroy');
 });
 
 require __DIR__.'/auth.php';
