@@ -41,10 +41,10 @@
 
 
                         <!-- Add Patient Button -->
-                        <button @click="openModal()"
-                            class="px-4 py-2 my-4 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">
+                        <Button @click="openModal()"
+                            class="px-4 py-2 my-4 text-base ">
                             + Add Patient
-                        </button>
+                        </Button>
 
                         <!-- Table -->
                         <div class="overflow-x-auto">
@@ -183,6 +183,7 @@
 import { ref, onMounted } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { router, useForm, usePage } from '@inertiajs/vue3';
+import Button from '@/Components/ui/button/Button.vue';
 import {Link} from '@inertiajs/vue3';
 
 const props = defineProps({
