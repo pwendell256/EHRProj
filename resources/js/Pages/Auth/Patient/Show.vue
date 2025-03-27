@@ -22,7 +22,7 @@
 
             <div class="mt-4">
                 <MedicalRecord v-if="selectedTab === 'medical_record'" :patient="patient" />
-                <Medication v-if="selectedTab === 'medication'" />
+                <Medication v-if="selectedTab === 'medication'" :patient="patient" />
             </div>
         </div>
     </AuthenticatedLayout>

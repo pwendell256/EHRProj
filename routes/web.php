@@ -7,6 +7,7 @@ use App\Http\Controllers\MedicalRecord\ImagingController;
 use App\Http\Controllers\MedicalRecord\LaboratoryController;
 use App\Http\Controllers\MedicalRecord\MicrobiologyController;
 use App\Http\Controllers\MedicalRecord\SpecialTestController;
+use App\Http\Controllers\MedicationController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use App\Models\MedicalRecord\Laboratory;
@@ -64,6 +65,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/Configuration', [ConfigurationController::class, 'index'])->name('config.index');
     Route::put('/Configuration-update/{id}', [ConfigurationController::class, 'update'])->name('config.update');
+
+
+    Route::post('/Medication-Store/{id}', [MedicationController::class, 'store'])->name('medication.store');
+    Route::put('/Medication-update/{id}', [MedicationController::class, 'update'])->name('medication.update');
+    Route::delete('/Medication-delete/{id}', [MedicationController::class, 'destroy'])->name('medication.destroy');
 });
 
 require __DIR__.'/auth.php';

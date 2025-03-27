@@ -310,7 +310,7 @@ import {
     TableRow,
 } from '@/Components/ui/table'
 
-import { Input } from '@/Components/ui/input'
+import { Input } from '@/components/ui/input'
 import { Label } from '@/Components/ui/label'
 import {
     AlertDialog,
