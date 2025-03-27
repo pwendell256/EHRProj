@@ -14,7 +14,7 @@
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
-        
+
 
 
                     <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
@@ -128,12 +128,10 @@
 
                                 </div>
 
-                                <!-- Buttons -->
-                                <div class="flex justify-end pt-2">
                                     <Button type="submit">
                                         Save changes
                                     </Button>
-                                </div>
+                    
                             </form>
                         </UseTemplate>
 
@@ -141,7 +139,7 @@
                         <div class="flex-shrink-0">
                             <Dialog v-if="isDesktop" v-model:open="isOpen">
                                 <DialogTrigger as-child>
-                                    <Button >
+                                    <Button @click="openModal()">
                                         + Add Patient
                                     </Button>
                                 </DialogTrigger>
@@ -149,7 +147,7 @@
                                     <DialogHeader>
                                         <DialogTitle>{{ isEditing ? 'Edit Patient' : 'Add New Patient' }}</DialogTitle>
                                         <DialogDescription>
-                                            Make changes to your profile here. Click save when you're done.
+                                            Add patient data to the database. Click save when you're done.
                                         </DialogDescription>
                                     </DialogHeader>
                                     <GridForm />
@@ -158,15 +156,15 @@
 
                             <Drawer v-else v-model:open="isOpen">
                                 <DrawerTrigger as-child>
-                                    <Button class="hover:bg-gray-100" variant="outline">
+                                    <Button class="hover:bg-gray-100" >
                                         + Add Patient
                                     </Button>
                                 </DrawerTrigger>
                                 <DrawerContent>
                                     <DrawerHeader class="text-left">
-                                        <DrawerTitle>Edit profile</DrawerTitle>
+                                        <DrawerTitle>+ Add Patient</DrawerTitle>
                                         <DrawerDescription>
-                                            Make changes to your profile here. Click save when you're done.
+                                            Add patient data to the database. Click save when you're done.
                                         </DrawerDescription>
                                     </DrawerHeader>
                                     <GridForm />
@@ -181,7 +179,7 @@
                     </div>
 
 
-                
+
 
 
                     <!-- Table -->
@@ -245,8 +243,8 @@
                                                     <i class="fa-solid fa-pen-to-square mr-2"></i> Edit
                                                 </DropdownMenuItem>
 
-                                                <DropdownMenuItem @click.prevent="deletePatient(patient.id)">
-                                                    <i class="fa-solid fa-trash text-red-500 mr-2"></i> Delete
+                                                <DropdownMenuItem @click="confirmDelete(patient)">
+                                                    <i class="fa-solid fa-trash mr-2"></i> Delete
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
@@ -254,6 +252,23 @@
                                 </TableRow>
                             </TableBody>
                         </Table>
+
+                        <AlertDialog v-model:open="showDeleteDialog">
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This will permanently delete the selected patient from the system.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction class="bg-red-600" @click="handleDelete">
+                                        Delete
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
 
                     </div>
 
@@ -298,15 +313,16 @@ import {
 import { Input } from '@/Components/ui/input'
 import { Label } from '@/Components/ui/label'
 import {
-    Sheet,
-    SheetClose,
-    SheetContent,
-    SheetDescription,
-    SheetFooter,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from '@/Components/ui/sheet'
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/Components/ui/alert-dialog'
 import { ref, onMounted } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { router, useForm, usePage } from '@inertiajs/vue3';
@@ -347,25 +363,26 @@ const isEditing = ref(false);
 const selectedPatient = ref(null);
 
 const openModal = (patient = null) => {
-    isEditing.value = !!patient;
-    selectedPatient.value = patient;
+    isEditing.value = !!patient
+    selectedPatient.value = patient
 
     if (patient) {
-        form.full_name = patient.full_name;
-        form.birth_date = patient.birth_date;
-        form.gender = patient.gender;
-        form.admission_no = patient.admission_no;
-        form.admission_datetime = patient.admission_datetime;
-        form.room_no = patient.room_no;
-        form.station = patient.station;
-        form.status = patient.status;
-        form.condition = patient.condition;
+        form.full_name = patient.full_name
+        form.birth_date = patient.birth_date
+        form.gender = patient.gender
+        form.admission_no = patient.admission_no
+        form.admission_datetime = patient.admission_datetime
+        form.room_no = patient.room_no
+        form.station = patient.station
+        form.status = patient.status
+        form.condition = patient.condition
     } else {
-        form.reset();
+        form.reset()
+        selectedPatient.value = null
     }
 
-    showModal.value = true;
-};
+    isOpen.value = true // This opens the Dialog or Drawer based on screen size
+}
 
 
 const closeModal = () => {
@@ -426,10 +443,24 @@ const submit = () => {
     }
 };
 
+
 const deleteform = useForm({})
-const deletePatient = (id) => {
-    if (confirm("Are you sure you want to delete this Patient?")) {
-        deleteform.delete(route('patient.destroy', id))
+const patientToDelete = ref(null)
+const showDeleteDialog = ref(false)
+
+const confirmDelete = (patient) => {
+    patientToDelete.value = patient
+    showDeleteDialog.value = true
+}
+
+const handleDelete = () => {
+    if (patientToDelete.value?.id) {
+        deleteform.delete(route('patient.destroy', patientToDelete.value.id), {
+            onSuccess: () => {
+                showDeleteDialog.value = false
+                patientToDelete.value = null
+            }
+        })
     }
 }
 </script>
