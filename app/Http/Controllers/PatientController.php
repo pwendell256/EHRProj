@@ -83,7 +83,9 @@ class PatientController extends Controller
     }
 
     public function show(Patient $id){
-        dd($id->toArray());
+
+        $patient = $id->with('imagings','laboratories', 'histopaths', 'microbiologies', 'specialtests','allergies')->first();
+        return Inertia::render('Auth/Patient/Show', ['patient' => $patient]);
     }
 
     public function destroy(Patient $id)

@@ -10,7 +10,7 @@
         </template>
 
         <div class="py-12">
-            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+    
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <!-- Search Input -->
@@ -41,10 +41,10 @@
 
 
                         <!-- Add Patient Button -->
-                        <button @click="openModal()"
-                            class="px-4 py-2 my-4 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">
+                        <Button @click="openModal()"
+                            class="px-4 py-2 my-4 text-base ">
                             + Add Patient
-                        </button>
+                        </Button>
 
                         <!-- Table -->
                         <div class="overflow-x-auto">
@@ -107,7 +107,7 @@
 
                     </div>
                 </div>
-            </div>
+     
         </div>
     </AuthenticatedLayout>
 
@@ -183,6 +183,7 @@
 import { ref, onMounted } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { router, useForm, usePage } from '@inertiajs/vue3';
+import Button from '@/Components/ui/button/Button.vue';
 import {Link} from '@inertiajs/vue3';
 
 const props = defineProps({
