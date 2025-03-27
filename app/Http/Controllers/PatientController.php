@@ -82,6 +82,10 @@ class PatientController extends Controller
         return redirect()->route('patient.index')->with('success', 'Patient updated successfully.');
     }
 
+    public function show(Patient $id){
+        dd($id->toArray());
+    }
+
     public function destroy(Patient $id)
     {
         $id->delete();
