@@ -82,6 +82,12 @@ class PatientController extends Controller
         return redirect()->route('patient.index')->with('success', 'Patient updated successfully.');
     }
 
+    public function show(Patient $id){
+
+        $patient = $id->with('imagings','laboratories', 'histopaths', 'microbiologies', 'specialtests','allergies')->first();
+        return Inertia::render('Auth/Patient/Show', ['patient' => $patient]);
+    }
+
     public function destroy(Patient $id)
     {
         $id->delete();
