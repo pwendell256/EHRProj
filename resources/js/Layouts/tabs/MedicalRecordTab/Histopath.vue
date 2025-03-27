@@ -23,7 +23,7 @@
               <td class="p-2 border border-gray-300">{{ record.result }}</td>
               <td class="p-2 border border-gray-300 text-center">
                 <button v-if="record.path" @click="openImageModal(record.path)" 
-                        class="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                        >
                   👁️ View
                 </button>
                 <span v-else>No Image</span>
