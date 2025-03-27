@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Link } from '@inertiajs/vue3'
 import {
   Avatar,
   AvatarFallback,
@@ -37,9 +38,9 @@ const props = defineProps<{
 const { isMobile } = useSidebar()
 </script>
 <template>
-  <SidebarMenu>
+  <SidebarMenu class="rounded-md transition-colors hover:bg-green-100 hover:text-green-600">
     <SidebarMenuItem>
-      <DropdownMenu>
+      <DropdownMenu >
         <DropdownMenuTrigger as-child>
           <SidebarMenuButton
             size="lg"
@@ -59,7 +60,7 @@ const { isMobile } = useSidebar()
           </SidebarMenuButton>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          class="w-[--reka-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+          class="w-[--reka-dropdown-menu-trigger-width] min-w-56 rounded-lg "
           :side="isMobile ? 'bottom' : 'right'"
           align="end"
           :side-offset="4"
@@ -79,31 +80,25 @@ const { isMobile } = useSidebar()
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem>
+          <DropdownMenuGroup  >
+            <DropdownMenuItem >
               <Sparkles />
               Upgrade to Pro
             </DropdownMenuItem>
           </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <BadgeCheck />
-              Account
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <CreditCard />
-              Billing
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Bell />
-              Notifications
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <LogOut />
-            Log out
+
+        
+          <DropdownMenuSeparator  />
+          <DropdownMenuItem >
+            <Link
+              :href="route('logout')"
+              method="post"
+              as="button"
+              class="flex w-full items-center gap-2 text-sm"
+            >
+              <LogOut class="size-4" />
+              Log out
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

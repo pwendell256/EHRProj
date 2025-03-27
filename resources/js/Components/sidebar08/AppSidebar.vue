@@ -72,7 +72,7 @@ const data = {
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
                         <a href="#">
-                            <img src="../../Images/LOGO 1.png.png" alt="Logo" class=" object-contain" />
+                            <img src="../../Images/LOGO.png" alt="Logo" class=" object-contain" />
 
                             <div class="grid flex-1 text-left text-sm leading-tight">
                                 
