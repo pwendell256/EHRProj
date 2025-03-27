@@ -30,7 +30,7 @@ defineProps<{
 </script>
 <template>
   <SidebarGroup>
-    <SidebarGroupLabel>Platform</SidebarGroupLabel>
+    <SidebarGroupLabel>Electronic Health Record</SidebarGroupLabel>
     <SidebarMenu>
       <Collapsible
         v-for="item in items"

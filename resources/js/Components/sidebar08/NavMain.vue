@@ -32,14 +32,15 @@ defineProps<{
 </script>
 <template>
   <SidebarGroup>
-    <SidebarGroupLabel>Platform</SidebarGroupLabel>
+    <SidebarGroupLabel>Electronic Health Record</SidebarGroupLabel>
     <SidebarMenu>
       <Collapsible v-for="item in items" :key="item.title" as-child :default-open="item.isActive">
         <SidebarMenuItem>
           <SidebarMenuButton as-child :tooltip="item.title">
-            <Link :href="item.url">
-              <component :is="item.icon" />
-              <span>{{ item.title }}</span>
+            <Link :href="item.url"
+              class="flex items-center gap-2 px-3 py-2 rounded-md transition-colors hover:bg-green-100 hover:text-green-600">
+            <component :is="item.icon" class="size-4" />
+            <span>{{ item.title }}</span>
             </Link>
           </SidebarMenuButton>
           <template v-if="item.items?.length">
@@ -53,8 +54,10 @@ defineProps<{
               <SidebarMenuSub>
                 <SidebarMenuSubItem v-for="subItem in item.items" :key="subItem.title">
                   <SidebarMenuSubButton as-child>
-                    <Link :href="subItem.url">
-                      <span>{{ subItem.title }}</span>
+            
+                    <Link :href="subItem.url"
+                      class="flex items-center gap-2 px-3 py-2 rounded-md transition-colors hover:bg-green-100 hover:text-green-600">
+                    <span>{{ subItem.title }}</span>
                     </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
