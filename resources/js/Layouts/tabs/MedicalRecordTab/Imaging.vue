@@ -4,7 +4,7 @@
     <button @click="openModal" class="mb-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
       Add Data
     </button>
-    
+
     <div class="overflow-x-auto">
       <table class="w-full border-collapse border border-gray-300">
         <thead>
@@ -28,8 +28,10 @@
               <span v-else>No Image</span>
             </td>
             <td class="p-2 border border-gray-300 space-x-2">
-              <button @click="openEditModal(record)" class="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">Edit</button>
-              <button @click="deleteRecord(record.id)" class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600">Delete</button>
+              <button @click="openEditModal(record)"
+                class="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">Edit</button>
+              <button @click="deleteRecord(record.id)"
+                class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600">Delete</button>
             </td>
           </tr>
         </tbody>
@@ -44,21 +46,30 @@
           <div class="mb-2">
             <label class="block text-sm font-medium">Test Type</label>
             <input v-model="form.testType" class="w-full p-2 border rounded" required />
+            <p v-if="form.errors.testType" class="text-red-500 text-sm">{{ form.errors.testType }}</p>
           </div>
+
           <div class="mb-2">
             <label class="block text-sm font-medium">Test Date & Time</label>
             <input type="datetime-local" v-model="form.dateTime" class="w-full p-2 border rounded" required />
+            <p v-if="form.errors.dateTime" class="text-red-500 text-sm">{{ form.errors.dateTime }}</p>
           </div>
+
           <div class="mb-2">
             <label class="block text-sm font-medium">Result</label>
             <input v-model="form.result" class="w-full p-2 border rounded" required />
+            <p v-if="form.errors.result" class="text-red-500 text-sm">{{ form.errors.result }}</p>
           </div>
+
           <div class="mb-4">
             <label class="block text-sm font-medium">Upload Image</label>
             <input type="file" @change="handleImageUpload" class="w-full p-2 border rounded" accept="image/*" />
+            <p v-if="form.errors.image" class="text-red-500 text-sm">{{ form.errors.image }}</p>
           </div>
+
           <div class="flex justify-end space-x-2">
-            <button type="button" @click="closeModal" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+            <button type="button" @click="closeModal"
+              class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
               Cancel
             </button>
             <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
@@ -66,16 +77,18 @@
             </button>
           </div>
         </form>
+
       </div>
     </div>
 
     <!-- Image Preview Modal -->
     <div v-if="showImageModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
       <div class="relative bg-white p-4 rounded-lg shadow-lg">
-        <button @click="closeImageModal" class="absolute top-2 right-2 px-3 py-1 bg-red-600 text-white rounded-full hover:bg-red-700">
+        <button @click="closeImageModal"
+          class="absolute top-2 right-2 px-3 py-1 bg-red-600 text-white rounded-full hover:bg-red-700">
           &times;
         </button>
-        <img :src="`/storage/`+selectedImage" alt="Expanded Image" class="max-w-full max-h-screen rounded-lg">
+        <img :src="`/storage/` + selectedImage" alt="Expanded Image" class="max-w-full max-h-screen rounded-lg">
       </div>
     </div>
 
@@ -123,6 +136,7 @@ const openEditModal = (record) => {
 const closeModal = () => {
   showModal.value = false;
   form.reset();
+  form.clearErrors()
 };
 
 const handleImageUpload = (event) => {
@@ -165,12 +179,12 @@ const openImageModal = (imagePath) => {
 };
 
 const deleteRecord = (id) => {
-    if (confirm('Are you sure you want to delete this record?')) {
-      form.delete(route('imaging.destroy', id), {
-        preserveScroll: true,
-      });
-    }
-  };
+  if (confirm('Are you sure you want to delete this record?')) {
+    form.delete(route('imaging.destroy', id), {
+      preserveScroll: true,
+    });
+  }
+};
 // Close Image Modal
 const closeImageModal = () => {
   showImageModal.value = false;

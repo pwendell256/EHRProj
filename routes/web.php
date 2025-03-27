@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\MedicalRecord\AllergyController;
 use App\Http\Controllers\MedicalRecord\HistopathController;
 use App\Http\Controllers\MedicalRecord\ImagingController;
@@ -60,6 +61,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/allergy-Store/{id}', [AllergyController::class, 'store'])->name('allergy.store');
     Route::post('/allergy-Update/{id}', [AllergyController::class, 'update'])->name('allergy.update');
     Route::delete('/allergy-Update/{id}', [AllergyController::class, 'destroy'])->name('allergy.destroy');
+
+    Route::get('/Configuration', [ConfigurationController::class, 'index'])->name('config.index');
+    Route::put('/Configuration-update/{id}', [ConfigurationController::class, 'update'])->name('config.update');
 });
 
 require __DIR__.'/auth.php';
