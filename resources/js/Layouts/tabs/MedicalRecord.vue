@@ -3,7 +3,7 @@
         <!-- Header -->
         <h2 class="text-2xl font-bold flex items-center gap-2 mb-1">
             <span class="bg-gray-700 text-white px-2 py-1 rounded">📑</span>
-            Medical Records of
+            Medical Records 
         </h2>
         <p class="text-gray-500 mb-4">Manage patient test records.</p>
 
@@ -11,30 +11,16 @@
 
         <!-- Tabs -->
         <div class="mt-4">
-            <button @click="selectedTab = 'imaging'" :class="{ 'bg-blue-700': selectedTab === 'imaging' }"
-                class="px-2 py-1 mx-2 text-white bg-blue-500 rounded hover:bg-blue-600">
-                Imaging
-            </button>
-            <button @click="selectedTab = 'laboratory'" :class="{ 'bg-blue-700': selectedTab === 'laboratory' }"
-                class="px-2 py-1 mx-2 text-white bg-blue-500 rounded hover:bg-blue-600">
-                Laboratory
-            </button>
-            <button @click="selectedTab = 'histopath'" :class="{ 'bg-blue-700': selectedTab === 'histopath' }"
-                class="px-2 py-1 mx-2 text-white bg-blue-500 rounded hover:bg-blue-600">
-                Histopath
-            </button>
-            <button @click="selectedTab = 'microbiology'" :class="{ 'bg-blue-700': selectedTab === 'microbiology' }"
-                class="px-2 py-1 mx-2 text-white bg-blue-500 rounded hover:bg-blue-600">
-                Microbiology
-            </button>
-            <button @click="selectedTab = 'specialtest'" :class="{ 'bg-blue-700': selectedTab === 'specialtest' }"
-                class="px-2 py-1 mx-2 text-white bg-blue-500 rounded hover:bg-blue-600">
-                Special Test
-            </button>
-            <button @click="selectedTab = 'allergy'" :class="{ 'bg-blue-700': selectedTab === 'allergy' }"
-                class="px-2 py-1 mx-2 text-white bg-blue-500 rounded hover:bg-blue-600">
-                Allergy
-            </button>
+            <Tabs default-value="imaging" class="w-full">
+                <TabsList class="grid grid-cols-6 w-90">
+                    <TabsTrigger value="imaging" @click="selectedTab = 'imaging'">Imaging</TabsTrigger>
+                    <TabsTrigger value="laboratory" @click="selectedTab = 'laboratory'">Laboratory</TabsTrigger>
+                    <TabsTrigger value="histopath" @click="selectedTab = 'histopath'">Histopath</TabsTrigger>
+                    <TabsTrigger value="microbiology" @click="selectedTab = 'microbiology'">Microbiology</TabsTrigger>
+                    <TabsTrigger value="specialtest" @click="selectedTab = 'specialtest'">Special Test</TabsTrigger>
+                    <TabsTrigger value="allergy" @click="selectedTab = 'allergy'">Allergy</TabsTrigger>
+                </TabsList>
+            </Tabs>
         </div>
 
         <!-- Content -->
@@ -58,6 +44,7 @@ import Histopath from './MedicalRecordTab/Histopath.vue';
 import Microbiology from './MedicalRecordTab/Microbiology.vue';
 import Specialtest from './MedicalRecordTab/Specialtest.vue';
 import Allergy from './MedicalRecordTab/Allergy.vue';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const selectedTab = ref('imaging'); // Default selected tab
 const props = defineProps({
