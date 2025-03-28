@@ -74,34 +74,22 @@
             <Table>
                 <TableHeader class="bg-green-100">
                     <TableRow>
-                        <TableHead>Allergy</TableHead>
-                        <TableHead>Test Date & Time</TableHead>
-                        <TableHead>Description</TableHead>
-                        <TableHead>Image</TableHead>
+                        <TableHead>Medication</TableHead>
+                        <TableHead>Date & Time</TableHead>
                         <TableHead>Actions</TableHead>
                     </TableRow>
                 </TableHeader>
 
                 <TableBody>
-                    <TableRow v-if="!patient.allergies || patient.allergies.length === 0">
+                    <TableRow v-if="!patient.medications || patient.medications.length === 0">
                         <TableCell colspan="5" class="text-center text-gray-500">
                             No allergy records found.
                         </TableCell>
                     </TableRow>
 
-                    <TableRow v-for="record in patient.allergies" :key="record.id">
-                        <TableCell>{{ record.allergy }}</TableCell>
-                        <TableCell>{{ record.dateTime }}</TableCell>
-                        <TableCell>{{ record.description }}</TableCell>
-                        <TableCell>
-                            <div class="text-center">
-                                <button v-if="record.path" @click="openImageModal(record.path)"
-                                    class="text-blue-600 hover:underline">
-                                    👁️ View
-                                </button>
-                                <span v-else class="text-gray-500">No Image</span>
-                            </div>
-                        </TableCell>
+                    <TableRow v-for="record in patient.medications" :key="record.id">
+                        <TableCell>{{ record.medication }}</TableCell>
+                        <TableCell>{{ record.date }}</TableCell>
                         <TableCell class="text-center">
                             <DropdownMenu>
                                 <DropdownMenuTrigger as-child>
@@ -203,7 +191,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { router, useForm, usePage } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
 
-import { Button } from '@/Components/ui/button'
+import { Button } from '@/components/ui/button'
 import {
     Dialog,
     DialogContent,
