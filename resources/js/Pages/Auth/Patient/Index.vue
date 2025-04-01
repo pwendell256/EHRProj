@@ -125,6 +125,10 @@
                                         <Label for="condition">Condition</Label>
                                         <Input id="condition" v-model="form.condition" type="text" />
                                     </div>
+                                    <div class="flex flex-col gap-2">
+                                        <Label for="condition">Chief Complaint</Label>
+                                        <Input id="condition" v-model="form.chiefComplaint" type="text" />
+                                    </div>
 
                                 </div>
 
@@ -198,6 +202,7 @@
                                     <TableHead class="hidden md:table-cell">Station</TableHead>
                                     <TableHead class="hidden md:table-cell">Status</TableHead>
                                     <TableHead class="hidden md:table-cell">Condition</TableHead>
+                                    <TableHead class="hidden md:table-cell">Chief Complaint</TableHead>
                                     <TableHead class="">Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -222,6 +227,7 @@
                                     <TableCell class="hidden md:table-cell">{{ patient.station }}</TableCell>
                                     <TableCell class="hidden md:table-cell">{{ patient.status }}</TableCell>
                                     <TableCell class="hidden md:table-cell">{{ patient.condition }}</TableCell>
+                                    <TableCell class="hidden md:table-cell">{{ patient.chiefComplaint }}</TableCell>
 
                                     <TableCell class="text-center">
                                         <DropdownMenu>
@@ -310,7 +316,7 @@ import {
     TableRow,
 } from '@/Components/ui/table'
 
-import { Input } from '@/components/ui/input'
+import { Input } from '@/Components/ui/input'
 import { Label } from '@/Components/ui/label'
 import {
     AlertDialog,
@@ -328,7 +334,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { router, useForm, usePage } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
 
-import { Button } from '@/Components/ui/button'
+import { Button } from '@/components/ui/button'
 import {
     Dialog,
     DialogContent,
@@ -376,6 +382,7 @@ const openModal = (patient = null) => {
         form.station = patient.station
         form.status = patient.status
         form.condition = patient.condition
+        form.chiefComplaint = patient.chiefComplaint
     } else {
         form.reset()
         selectedPatient.value = null
@@ -422,6 +429,8 @@ const form = useForm({
     station: '',
     status: '',
     condition: '',
+    chiefComplaint: '',
+
 });
 
 const submit = () => {

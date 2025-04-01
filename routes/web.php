@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountManagementController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\MedicalRecord\AllergyController;
 use App\Http\Controllers\MedicalRecord\HistopathController;
@@ -8,9 +9,12 @@ use App\Http\Controllers\MedicalRecord\LaboratoryController;
 use App\Http\Controllers\MedicalRecord\MicrobiologyController;
 use App\Http\Controllers\MedicalRecord\SpecialTestController;
 use App\Http\Controllers\MedicationController;
+use App\Http\Controllers\new\DoctororderController;
+use App\Http\Controllers\new\RegistrationController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use App\Models\MedicalRecord\Laboratory;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,7 +29,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $usercount = User::all()->count();
+    return Inertia::render('Dashboard', ['user' => $usercount]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -38,6 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/Store-patient', [PatientController::class, 'store'])->name('patient.store');
     Route::put('/update-patient/{id}', [PatientController::class, 'update'])->name('patient.update');
     Route::delete('/delete-patient/{id}', [PatientController::class, 'destroy'])->name('patient.destroy');
+    Route::post('/patients/{id}/upload', [PatientController::class, 'upload'])->name('patients.upload');
+
 
     Route::post('/Imaging-Store/{id}', [ImagingController::class, 'store'])->name('imaging.store');
     Route::post('/Imaging-Update/{id}', [ImagingController::class, 'update'])->name('imaging.update');
@@ -70,6 +77,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/Medication-Store/{id}', [MedicationController::class, 'store'])->name('medication.store');
     Route::put('/Medication-update/{id}', [MedicationController::class, 'update'])->name('medication.update');
     Route::delete('/Medication-delete/{id}', [MedicationController::class, 'destroy'])->name('medication.destroy');
+
+    Route::get('Account-Management', [AccountManagementController::class, 'index'])->name('account.index');
+    Route::post('/accounts', [AccountManagementController::class, 'store'])->name('accounts.store');
+    Route::put('/accounts/{id}', [AccountManagementController::class, 'update'])->name('accounts.update');
+    Route::delete('/delete-accounts/{id}', [AccountManagementController::class, 'destroy'])->name('accounts.delete');
+
+
+    Route::put('Registration-update/{id}', [RegistrationController::class, 'update'])->name('registration.update');
+
+    Route::post('Doctor-Order-store/{id}', [DoctororderController::class, 'store'])->name('doctor.store');
+    Route::put('/patient/{patientId}/doctor/{id}', [DoctororderController::class, 'update'])->name('doctor.update');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

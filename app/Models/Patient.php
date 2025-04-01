@@ -24,6 +24,8 @@ class Patient extends Model
         'station',
         'status',
         'condition',
+        'chiefComplaint',
+        'image',
     ];
 
     public function imagings(){
@@ -52,5 +54,13 @@ class Patient extends Model
     public function medications(){
         return $this->hasMany(Medication::class, 'patient_Id', 'id');
  
+    }
+
+    public function patientinfo(){
+        return $this->hasOne(PatientInfo::class, 'patient_Id', 'id');
+    }
+    
+    public function doctororders(){
+        return $this->hasMany(Doctororder::class, 'patient_Id', 'id');
     }
     }

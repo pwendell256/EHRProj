@@ -58,9 +58,9 @@ const submit = () => {
                         
                         <div class="text-center text-sm">
                             Don&apos;t have an account?
-                            <a href="#" class="underline underline-offset-4">
+                            <Link :href="route('register')" class="underline underline-offset-4">
                                 Sign up
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </form>
