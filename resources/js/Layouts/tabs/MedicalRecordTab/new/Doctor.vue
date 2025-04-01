@@ -35,20 +35,27 @@
                         <button @click="openEditModal(data)" class="text-green-500 hover:text-green-700 mr-2">
                             <i class="fas fa-edit"></i> Edit
                         </button>
+                        <button @click="deleteData(data.id)" class="text-red-500 hover:text-red-700 mr-2">
+                            <i class="fas fa-edit"></i> Delete
+                        </button>
                     </td>
+
+
                 </tr>
             </tbody>
         </table>
 
         <!-- Modal to view signature image -->
-        <div v-if="isSignatureModalOpen" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+        <div v-if="isSignatureModalOpen"
+            class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
             <div class="bg-white p-6 rounded-lg w-96">
                 <h3 class="text-lg font-semibold mb-4">Signature Image</h3>
                 <div class="flex justify-center mb-4">
                     <img :src="`/storage/` + signatureImage" alt="Signature" class="w-full h-auto" />
                 </div>
                 <div class="text-right">
-                    <button @click="closeSignatureModal" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                    <button @click="closeSignatureModal"
+                        class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
                         Close
                     </button>
                 </div>
@@ -56,7 +63,8 @@
         </div>
 
         <!-- Modal for Adding Doctor's Order -->
-        <div v-if="isAddModalOpen" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+        <div v-if="isAddModalOpen"
+            class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
             <div class="bg-white p-6 rounded-lg w-96">
                 <h3 class="text-lg font-semibold mb-4">Add Doctor's Order</h3>
                 <!-- Add Form Content -->
@@ -102,7 +110,8 @@
         </div>
 
         <!-- Modal for Editing Doctor's Order -->
-        <div v-if="isEditModalOpen" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+        <div v-if="isEditModalOpen"
+            class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
             <div class="bg-white p-6 rounded-lg w-96">
                 <h3 class="text-lg font-semibold mb-4">Edit Doctor's Order</h3>
                 <!-- Edit Form Content -->
@@ -204,16 +213,16 @@ const closeAddModal = () => {
 const openEditModal = (order) => {
     // Set current order ID
     currentOrderId.value = order.id;
-    
+
     // Populate form with existing data
     editForm.day_number = order.day_number;
     editForm.date_time = order.date_time;
     editForm.orders = order.order;
     editForm.rationale = order.rationale;
-    
+
     // Track current signature image
     currentSignature.value = order.signature;
-    
+
     // Open modal
     isEditModalOpen.value = true;
 };
@@ -255,7 +264,7 @@ const submitAddForm = () => {
 
 const submitEditForm = () => {
     // Submit to the update route with the order ID
-    editForm.post(route('doctor.update', [props.patient.id, currentOrderId.value]), {
+    editForm.post(route('doctor.update', [currentOrderId.value]), {
         onSuccess: () => {
             closeEditModal();
         },
@@ -264,6 +273,15 @@ const submitEditForm = () => {
         },
     });
 };
+
+const deleteForm = useForm([
+
+])
+const deleteData = (id) => {
+    if(confirm('Are you sure you want to delete this data')){
+        deleteForm.delete(route('doctor.destroy', id))
+    }
+}
 </script>
 
 <style scoped>

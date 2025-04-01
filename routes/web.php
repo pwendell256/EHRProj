@@ -87,7 +87,9 @@ Route::middleware('auth')->group(function () {
     Route::put('Registration-update/{id}', [RegistrationController::class, 'update'])->name('registration.update');
 
     Route::post('Doctor-Order-store/{id}', [DoctororderController::class, 'store'])->name('doctor.store');
-    Route::put('/patient/{patientId}/doctor/{id}', [DoctororderController::class, 'update'])->name('doctor.update');
+    Route::put('/patient/doctor/{id}', [DoctororderController::class, 'update'])->name('doctor.update');
+    Route::delete('Doctor-Order-delete/{id}', [DoctororderController::class, 'destroy'])->name('doctor.destroy');
+
 });
 
 require __DIR__ . '/auth.php';
