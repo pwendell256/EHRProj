@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use DateTime;
 use Inertia\Inertia;
 use App\Models\Patient;
+use App\Models\PatientInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PatientController extends Controller
 {
@@ -46,6 +48,7 @@ class PatientController extends Controller
             'station' => 'required|string|max:50',
             'status' => 'required|string|max:50',
             'condition' => 'required|string|max:255',
+            'chiefComplaint' => 'required|string|max:255',
         ]);
 
         // Calculate age from birth_date
@@ -57,7 +60,10 @@ class PatientController extends Controller
         $validatedData['age'] = $age;
 
         // Create the patient record
-        Patient::create($validatedData);
+        $patient = Patient::create($validatedData);
+        $patientinfo = new PatientInfo();
+        $patientinfo->patient_Id = $patient->id;
+        $patientinfo->save();
 
         return redirect()->route('patient.index')->with('success', 'Patient added successfully.');
     }
@@ -75,6 +81,8 @@ class PatientController extends Controller
             'station' => 'required|string|max:50',
             'status' => 'required|string|max:50',
             'condition' => 'required|string|max:255',
+            'chiefComplaint' => 'required|string|max:255',
+
         ]);
 
         $id->update($request->all());
@@ -85,7 +93,7 @@ class PatientController extends Controller
     public function show(Patient $id)
     {
 
-        $patient = $id->with('imagings', 'laboratories', 'histopaths', 'microbiologies', 'specialtests', 'allergies', 'medications')->where('id', $id->id)->first();
+        $patient = $id->with('imagings', 'patientinfo', 'doctororders' ,  'laboratories', 'histopaths', 'microbiologies', 'specialtests', 'allergies', 'medications')->where('id', $id->id)->first();
         return Inertia::render('Auth/Patient/Show', ['patient' => $patient]);
     }
 
@@ -94,4 +102,29 @@ class PatientController extends Controller
         $id->delete();
         return redirect()->route('patient.index')->with('success', 'Patient deleted successfully.');
     }
+
+    public function upload(Request $request, $id)
+{
+    $request->validate([
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+    ]);
+
+    $patient = Patient::findOrFail($id);
+
+    if ($request->hasFile('image')) {
+
+        if ($patient->image) {
+            Storage::disk('public')->delete($patient->image);
+        }
+
+        $path = $request->file('image')->store('Patient/Profile', 'public'); // Corrected the second argument
+        $patient->image = $path; 
+        $patient->save();
+
+        return back()->with('success', 'Profile picture updated successfully.');
+    }
+
+    return back()->with('error', 'No file was uploaded.');
+}
+
 }

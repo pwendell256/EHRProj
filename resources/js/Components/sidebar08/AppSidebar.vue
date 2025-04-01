@@ -43,21 +43,15 @@ const data = {
             isActive: true,
         },
         {
-            title: 'Patient Management',
+            title: 'Pedia Ward',
             url: route('patient.index'),
             icon: Bot,
 
         },
         {
-            title: 'Account Management',
-            url: route('patient.index'),
+            title: 'Accounts Management',
+            url: route('account.index'),
             icon: BookOpen,
-
-        },
-        {
-            title: 'Settings',
-            url: route('config.index'),
-            icon: Settings2,
 
         },
     ],
