@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assessment;
+use App\Models\Diagnosis;
+use App\Models\History;
+use App\Models\Labdiagnosis;
 use DateTime;
 use Inertia\Inertia;
 use App\Models\Patient;
 use App\Models\PatientInfo;
+use App\Models\Treatment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -65,6 +70,28 @@ class PatientController extends Controller
         $patientinfo->patient_Id = $patient->id;
         $patientinfo->save();
 
+        $diagnosis = new Diagnosis();
+        $diagnosis->patient_Id = $patient->id;
+        $diagnosis->save();
+        
+        $labDiagnosis = new Labdiagnosis();
+        $labDiagnosis->patient_Id = $patient->id;
+        $labDiagnosis->save();
+
+        $assessment = new Assessment();
+        $assessment->patient_Id = $patient->id;
+        $assessment->save();
+
+        $treatment = new Treatment();
+        $treatment->patient_Id = $patient->id;
+        $treatment->save();
+
+        $history = new History();
+        $history->patient_Id = $patient->id;
+        $history->save();
+
+
+
         return redirect()->route('patient.index')->with('success', 'Patient added successfully.');
     }
 
@@ -93,7 +120,7 @@ class PatientController extends Controller
     public function show(Patient $id)
     {
 
-        $patient = $id->with('imagings', 'patientinfo', 'doctororders' ,  'laboratories', 'histopaths', 'microbiologies', 'specialtests', 'allergies', 'medications')->where('id', $id->id)->first();
+        $patient = $id->with('imagings', 'patientinfo', 'doctororders','history', 'treatment', 'mar.martimes' , 'assessment' ,  'diagnosis', 'labdiagnosis' ,  'nursenotes' ,  'laboratories', 'histopaths', 'microbiologies', 'specialtests', 'allergies', 'medications')->where('id', $id->id)->first();
         return Inertia::render('Auth/Patient/Show', ['patient' => $patient]);
     }
 
