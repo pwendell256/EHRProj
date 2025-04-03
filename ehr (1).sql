@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 03, 2025 at 06:20 AM
+-- Generation Time: Apr 03, 2025 at 09:50 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -473,8 +473,8 @@ CREATE TABLE `mar` (
 --
 
 INSERT INTO `mar` (`id`, `patient_Id`, `med`, `dosage`, `route`, `time`, `note`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Peripheral ', 'D5 NSS 500 mL at 50 mL/hr', 'IV', '5 days', 'every 4 hours', NULL, NULL),
-(2, 1, 'Azithromycin ', '10 mg/kg', 'P/O', 'Once Daily', NULL, NULL, NULL);
+(2, 1, 'Azithromycin ', '10 mg/kg', 'P/O', 'Once Daily', NULL, NULL, NULL),
+(21, 1, 'Paracetamol', '10 mg/kg', 'PO', 'Q6H, PRN if fever > 38° C', 'test', '2025-04-02 21:32:26', '2025-04-02 21:32:26');
 
 -- --------------------------------------------------------
 
@@ -498,11 +498,9 @@ CREATE TABLE `mar_time` (
 --
 
 INSERT INTO `mar_time` (`id`, `mar_Id`, `date`, `time`, `adm`, `path`, `created_at`, `updated_at`) VALUES
-(1, 1, '2025-03-26', '08:00:00', 'test', NULL, NULL, NULL),
-(2, 1, '2025-03-27', '12:00:00', 'tes', NULL, NULL, NULL),
-(3, 1, '2025-03-26', '16:00:00', 'test', NULL, NULL, NULL),
-(4, 2, '2025-03-26', '08:00:00', 'test', NULL, NULL, NULL),
-(5, 2, '2025-03-26', '16:00:00', '31', NULL, NULL, NULL);
+(16, 2, '2025-04-03', '15:39:00', 'test', 'mar/signatures/pCsYL8wyQNJS8W64hCKu3Kv3YfrVgkPJ9mE0H4Kn.jpg', '2025-04-02 23:40:04', '2025-04-02 23:44:46'),
+(18, 2, '2025-04-03', '18:42:00', 'test', 'mar/signatures/JBJdzHdasMviGEokJQSLKa0fMGO6RrZ73jNwYbAG.jpg', '2025-04-02 23:42:38', '2025-04-02 23:44:39'),
+(19, 2, '2025-04-02', '15:45:00', '312', NULL, '2025-04-02 23:45:32', '2025-04-02 23:45:32');
 
 -- --------------------------------------------------------
 
@@ -710,7 +708,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('YSjcFw0dLNYQ0OC6u2IiPrxRgNgkkjuQ1eqbgBl7', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiSjFoSWdXU1p0enZIUllYdUUzSmJVNlE3aHh3elFQRjBBMVpBRzhJWCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9QYXRpZW50LU1hbmFnZW1lbnQvMSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1743650741);
+('Gh7TzSXhcL3naprGyFM4rVxSEdHXFZm2o5rVuCPK', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiN0FCN1IycHNIbkpnNjVHdDIwQldsaE5UeHFMSnlMejJLMmgzbUlxUiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9QYXRpZW50LU1hbmFnZW1lbnQvMSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1743666521);
 
 -- --------------------------------------------------------
 
@@ -1063,13 +1061,13 @@ ALTER TABLE `lab_diagnosis`
 -- AUTO_INCREMENT for table `mar`
 --
 ALTER TABLE `mar`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `mar_time`
 --
 ALTER TABLE `mar_time`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `medication`
