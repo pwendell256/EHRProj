@@ -14,6 +14,7 @@ use App\Http\Controllers\new\DiagnosisController;
 use App\Http\Controllers\new\DoctororderController;
 use App\Http\Controllers\new\HistoryController;
 use App\Http\Controllers\new\LabDiagnosisController;
+use App\Http\Controllers\new\MarController;
 use App\Http\Controllers\new\NursenoteController;
 use App\Http\Controllers\new\RegistrationController;
 use App\Http\Controllers\new\TreatmentController;
@@ -108,7 +109,12 @@ Route::middleware('auth')->group(function () {
     Route::put('treatment/{id}', [TreatmentController::class, 'update'])->name('treatment.update');
     Route::put('history/{id}', [HistoryController::class, 'update'])->name('history.update');
 
-
+    Route::post('mar/{id}', [MarController::class, 'store'])->name('mar.store');
+    Route::post('martime/{id}', [MarController::class, 'martimestore'])->name('martime.store');
+    Route::put('mar-update/{id}', [MarController::class, 'update'])->name('mar.update');
+    Route::match(['put', 'post'], 'martime-update/{id}', [MarController::class, 'martimeupdate'])->name('martime.update');
+    Route::delete('mar-delete/{id}', [MarController::class, 'destroy'])->name('mar.delete');
+    Route::delete('martime-delete/{id}', [MarController::class, 'martimedestroy'])->name('martime.delete');
 });
 
 require __DIR__ . '/auth.php';
