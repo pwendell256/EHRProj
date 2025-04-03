@@ -44,16 +44,18 @@ class PatientController extends Controller
     {
         // Validate the incoming request data
         $validatedData = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'birth_date' => 'required|date',
-            'gender' => 'required|string|max:10',
-            'admission_no' => 'required|string|max:50',
-            'admission_datetime' => 'required|date',
-            'room_no' => 'required|string|max:10',
-            'station' => 'required|string|max:50',
-            'status' => 'required|string|max:50',
-            'condition' => 'required|string|max:255',
-            'chiefComplaint' => 'required|string|max:255',
+            'full_name' => 'nullable|string|max:255',
+            'birth_date' => 'nullable|date',
+            'birth_place' => 'nullable|string',
+            'gender' => 'nullable|string|max:10',
+            'admission_no' => 'nullable|string|max:50',
+            'admission_datetime' => 'nullable|date',
+            'room_no' => 'nullable|string|max:10',
+            'station' => 'nullable|string|max:50',
+            'status' => 'nullable|string|max:50',
+            'condition' => 'nullable|string|max:255',
+            'chiefComplaint' => 'nullable|string|max:255',
+            'education' => 'nullable|string|max:255',
         ]);
 
         // Calculate age from birth_date
@@ -73,7 +75,7 @@ class PatientController extends Controller
         $diagnosis = new Diagnosis();
         $diagnosis->patient_Id = $patient->id;
         $diagnosis->save();
-        
+
         $labDiagnosis = new Labdiagnosis();
         $labDiagnosis->patient_Id = $patient->id;
         $labDiagnosis->save();
@@ -99,16 +101,18 @@ class PatientController extends Controller
     {
 
         $request->validate([
-            'full_name' => 'required|string|max:255',
-            'birth_date' => 'required|date',
-            'gender' => 'required|string|max:10',
-            'admission_no' => 'required|string|max:50',
-            'admission_datetime' => 'required|date',
-            'room_no' => 'required|string|max:10',
-            'station' => 'required|string|max:50',
-            'status' => 'required|string|max:50',
-            'condition' => 'required|string|max:255',
-            'chiefComplaint' => 'required|string|max:255',
+            'full_name' => 'nullable|string|max:255',
+            'birth_date' => 'nullable|date',
+            'birth_place' => 'nullable|string',
+            'gender' => 'nullable|string|max:10',
+            'admission_no' => 'nullable|string|max:50',
+            'admission_datetime' => 'nullable|date',
+            'room_no' => 'nullable|string|max:10',
+            'station' => 'nullable|string|max:50',
+            'status' => 'nullable|string|max:50',
+            'condition' => 'nullable|string|max:255',
+            'chiefComplaint' => 'nullable|string|max:255',
+            'education' => 'nullable|string|max:255',
 
         ]);
 
@@ -120,7 +124,7 @@ class PatientController extends Controller
     public function show(Patient $id)
     {
 
-        $patient = $id->with('imagings', 'patientinfo', 'doctororders','history', 'treatment', 'mar.martimes' , 'assessment' ,  'diagnosis', 'labdiagnosis' ,  'nursenotes' ,  'laboratories', 'histopaths', 'microbiologies', 'specialtests', 'allergies', 'medications')->where('id', $id->id)->first();
+        $patient = $id->with('imagings', 'patientinfo', 'doctororders', 'history', 'treatment', 'mar.martimes', 'assessment',  'diagnosis', 'labdiagnosis',  'nursenotes',  'laboratories', 'histopaths', 'microbiologies', 'specialtests', 'allergies', 'medications')->where('id', $id->id)->first();
         return Inertia::render('Auth/Patient/Show', ['patient' => $patient]);
     }
 
@@ -131,27 +135,26 @@ class PatientController extends Controller
     }
 
     public function upload(Request $request, $id)
-{
-    $request->validate([
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
-    ]);
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
 
-    $patient = Patient::findOrFail($id);
+        $patient = Patient::findOrFail($id);
 
-    if ($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
 
-        if ($patient->image) {
-            Storage::disk('public')->delete($patient->image);
+            if ($patient->image) {
+                Storage::disk('public')->delete($patient->image);
+            }
+
+            $path = $request->file('image')->store('Patient/Profile', 'public'); // Corrected the second argument
+            $patient->image = $path;
+            $patient->save();
+
+            return back()->with('success', 'Profile picture updated successfully.');
         }
 
-        $path = $request->file('image')->store('Patient/Profile', 'public'); // Corrected the second argument
-        $patient->image = $path; 
-        $patient->save();
-
-        return back()->with('success', 'Profile picture updated successfully.');
+        return back()->with('error', 'No file was uploaded.');
     }
-
-    return back()->with('error', 'No file was uploaded.');
-}
-
 }
