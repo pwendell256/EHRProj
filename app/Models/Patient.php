@@ -16,6 +16,7 @@ class Patient extends Model
     protected $fillable = [
         'full_name',
         'birth_date',
+        'birth_place',
         'gender',
         'age',
         'admission_no',
@@ -25,6 +26,7 @@ class Patient extends Model
         'status',
         'condition',
         'chiefComplaint',
+        'education',
         'image',
     ];
 
