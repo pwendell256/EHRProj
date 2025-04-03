@@ -22,20 +22,15 @@
                 <!-- Patient Info -->
                 <div>
                     <h2 class="text-xl font-semibold">{{ patient.full_name }}</h2>
-                    <p class="text-gray-600"><strong>Address</strong> {{ patient?.patientinfo?.address }}</p>
-                    <p class="text-gray-600"><strong>Age:</strong> {{ patient.age }}</p>
-                    <p class="text-gray-600"><strong>Birthdate:</strong> {{ patient.birth_date }}</p>
-                    <p class="text-gray-600"><strong>Birthplace:</strong> </p>
-                    <p class="text-gray-600"><strong>Gender:</strong> {{ patient.gender }}</p>
-                    <p class="text-gray-600"><strong>Religion:</strong> {{ patient?.patientinfo?.religion }}</p>
-                    <p class="text-gray-600"><strong>Educational Attainment:</strong></p>
+                    <p class="text-gray-600"><strong>Address </strong> {{ patient?.patientinfo?.address }}</p>
+                    <p class="text-gray-600"><strong>Age: </strong> {{ patient.age }}</p>
+                    <p class="text-gray-600"><strong>Birthdate: </strong> {{ patient.birth_date }}</p>
+                    <p class="text-gray-600"><strong>Birthplace: </strong> {{ patient.birth_place }} </p>
+                    <p class="text-gray-600"><strong>Gender: </strong> {{ patient.gender }}</p>
+                    <p class="text-gray-600"><strong>Religion: </strong> {{ patient?.patientinfo?.religion }}</p>
+                    <p class="text-gray-600"><strong>Educational Attainment: </strong> {{ patient.education }}</p>
+                    <p class="text-gray-600"><strong>Chief Complaint: </strong>{{ patient.chiefComplaint }}</p>
                 </div>
-            </div>
-
-            <!-- Patient Additional Information -->
-            <div class="mt-6">
-                <p><strong>Birthdate:</strong> {{ patient.birth_date }}</p>
-                <p><strong>Chief Complaint:</strong> {{ patient.chiefComplaint }}</p>
             </div>
 
             <!-- Tabs Section -->

@@ -68,6 +68,10 @@
                                         <Label for="birth_date">Birthdate</Label>
                                         <Input id="birth_date" v-model="form.birth_date" type="date" />
                                     </div>
+                                    <div class="flex flex-col gap-2">
+                                        <Label for="birth_date">Birthplace</Label>
+                                        <Input id="birth_date" v-model="form.birth_place" type="text" />
+                                    </div>
 
                                     <div class="flex flex-col gap-2">
                                         <Label for="gender">Gender</Label>
@@ -124,6 +128,10 @@
                                     <div class="flex flex-col gap-2">
                                         <Label for="condition">Condition</Label>
                                         <Input id="condition" v-model="form.condition" type="text" />
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <Label for="condition">Educational Attainment</Label>
+                                        <Input id="condition" v-model="form.education" type="text" />
                                     </div>
                                     <div class="flex flex-col gap-2">
                                         <Label for="condition">Chief Complaint</Label>
@@ -375,6 +383,7 @@ const openModal = (patient = null) => {
     if (patient) {
         form.full_name = patient.full_name
         form.birth_date = patient.birth_date
+        form.birth_place = patient.birth_place
         form.gender = patient.gender
         form.admission_no = patient.admission_no
         form.admission_datetime = patient.admission_datetime
@@ -383,6 +392,7 @@ const openModal = (patient = null) => {
         form.status = patient.status
         form.condition = patient.condition
         form.chiefComplaint = patient.chiefComplaint
+        form.education = patient.education
     } else {
         form.reset()
         selectedPatient.value = null
@@ -422,6 +432,7 @@ const searchPatients = () => {
 const form = useForm({
     full_name: '',
     birth_date: '',
+    birth_place: '',
     gender: '',
     admission_no: '',
     admission_datetime: '',
@@ -430,6 +441,7 @@ const form = useForm({
     status: '',
     condition: '',
     chiefComplaint: '',
+    education: '',
 
 });
 

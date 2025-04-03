@@ -9,8 +9,14 @@ use App\Http\Controllers\MedicalRecord\LaboratoryController;
 use App\Http\Controllers\MedicalRecord\MicrobiologyController;
 use App\Http\Controllers\MedicalRecord\SpecialTestController;
 use App\Http\Controllers\MedicationController;
+use App\Http\Controllers\new\AssessmentController;
+use App\Http\Controllers\new\DiagnosisController;
 use App\Http\Controllers\new\DoctororderController;
+use App\Http\Controllers\new\HistoryController;
+use App\Http\Controllers\new\LabDiagnosisController;
+use App\Http\Controllers\new\NursenoteController;
 use App\Http\Controllers\new\RegistrationController;
+use App\Http\Controllers\new\TreatmentController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use App\Models\MedicalRecord\Laboratory;
@@ -89,6 +95,19 @@ Route::middleware('auth')->group(function () {
     Route::post('Doctor-Order-store/{id}', [DoctororderController::class, 'store'])->name('doctor.store');
     Route::put('/patient/doctor/{id}', [DoctororderController::class, 'update'])->name('doctor.update');
     Route::delete('Doctor-Order-delete/{id}', [DoctororderController::class, 'destroy'])->name('doctor.destroy');
+
+
+    Route::post('Nurse-note-store/{id}', [NursenoteController::class, 'store'])->name('nurse.store');
+    Route::put('Nurse-note-update/{id}', [NursenoteController::class, 'update'])->name('nurse.update');
+    Route::delete('Nurse-note-delete/{id}', [NursenoteController::class, 'destroy'])->name('nurse.destroy');
+
+
+    Route::put('diagnosis/{id}', [DiagnosisController::class, 'update'])->name('diagnosis.update');
+    Route::put('lab-diagnosis/{id}', [LabDiagnosisController::class, 'update'])->name('labdiagnosis.update');
+    Route::put('assessment/{id}', [AssessmentController::class, 'update'])->name('assessment.update');
+    Route::put('treatment/{id}', [TreatmentController::class, 'update'])->name('treatment.update');
+    Route::put('history/{id}', [HistoryController::class, 'update'])->name('history.update');
+
 
 });
 

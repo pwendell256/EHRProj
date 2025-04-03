@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2025 at 06:44 PM
+-- Generation Time: Apr 03, 2025 at 06:20 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -45,6 +45,101 @@ CREATE TABLE `allergy` (
 INSERT INTO `allergy` (`id`, `patient_Id`, `dateTime`, `allergy`, `description`, `path`, `created_at`, `updated_at`) VALUES
 (3, 1, '2025-03-27 14:28:00', 'Paracetamol', 'description', 'MedicalRecords/Allergy/YEbnnijnrVHvLbtT0gLid83h9WedDuK7XfTEghRT.jpg', '2025-03-26 22:28:47', '2025-03-27 06:38:16'),
 (4, 1, '2025-03-27 22:38:00', 'iboprufen', 'test', NULL, '2025-03-27 06:38:32', '2025-03-27 06:38:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assessments`
+--
+
+CREATE TABLE `assessments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `patient_Id` bigint(20) UNSIGNED NOT NULL,
+  `conductor` varchar(255) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `time` varchar(255) DEFAULT NULL,
+  `orientation_level` varchar(255) DEFAULT 'Alert',
+  `person` varchar(255) DEFAULT NULL,
+  `place` varchar(255) DEFAULT NULL,
+  `situation` varchar(255) DEFAULT NULL,
+  `temperature` varchar(255) DEFAULT 'Warm',
+  `blood_pressure` varchar(255) DEFAULT NULL,
+  `respiratory_rate` varchar(255) DEFAULT NULL,
+  `pulse_rate` varchar(255) DEFAULT NULL,
+  `oxygen_saturation` varchar(255) DEFAULT NULL,
+  `hair` varchar(255) DEFAULT NULL,
+  `eyes` varchar(255) DEFAULT NULL,
+  `perrla` tinyint(1) DEFAULT 0,
+  `nose` varchar(255) DEFAULT NULL,
+  `ears` varchar(255) DEFAULT NULL,
+  `mouth` varchar(255) DEFAULT NULL,
+  `midline_tongue` tinyint(1) DEFAULT 0,
+  `moist` tinyint(1) DEFAULT 0,
+  `lesions` tinyint(1) DEFAULT 0,
+  `dentition` tinyint(1) DEFAULT 0,
+  `carotid_pulse` tinyint(1) DEFAULT 0,
+  `jugular_vein_distention` tinyint(1) DEFAULT 0,
+  `trachea_midline` tinyint(1) DEFAULT 0,
+  `muffled` tinyint(1) DEFAULT 0,
+  `arrhythmia` tinyint(1) DEFAULT 0,
+  `anterior` tinyint(1) DEFAULT 0,
+  `posterior` tinyint(1) DEFAULT 0,
+  `lateral` tinyint(1) DEFAULT 0,
+  `chest_symmetry` tinyint(1) DEFAULT 0,
+  `skin_turgor` tinyint(1) DEFAULT 0,
+  `inspection` varchar(255) DEFAULT NULL,
+  `palpation` varchar(255) DEFAULT NULL,
+  `auscultation` varchar(255) DEFAULT NULL,
+  `luq` varchar(255) DEFAULT 'Active',
+  `ruq` varchar(255) DEFAULT 'Active',
+  `llq` varchar(255) DEFAULT 'Active',
+  `rlq` varchar(255) DEFAULT 'Active',
+  `radial_pulses` varchar(255) DEFAULT NULL,
+  `radial_other` varchar(255) DEFAULT NULL,
+  `temperaturetrunk` varchar(255) DEFAULT NULL,
+  `grip` varchar(255) DEFAULT NULL,
+  `capillary_refill` varchar(255) DEFAULT NULL,
+  `hair_present` tinyint(1) DEFAULT 0,
+  `edema` varchar(255) DEFAULT NULL,
+  `foot_strength` varchar(255) DEFAULT NULL,
+  `yellowed` tinyint(1) DEFAULT 0,
+  `thickened` tinyint(1) DEFAULT 0,
+  `ingrown` tinyint(1) DEFAULT 0,
+  `upper_r1` varchar(255) DEFAULT NULL,
+  `upper_r2` varchar(255) DEFAULT NULL,
+  `upper_l1` varchar(255) DEFAULT NULL,
+  `upper_l2` varchar(255) DEFAULT NULL,
+  `lower_r1` varchar(255) DEFAULT NULL,
+  `lower_r2` varchar(255) DEFAULT NULL,
+  `lower_l1` varchar(255) DEFAULT NULL,
+  `lower_l2` varchar(255) DEFAULT NULL,
+  `sensation` varchar(255) DEFAULT NULL,
+  `weight` decimal(8,2) DEFAULT NULL,
+  `height` decimal(8,2) DEFAULT NULL,
+  `bmi` decimal(8,2) DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL,
+  `intensity` int(11) DEFAULT 1,
+  `location` varchar(255) DEFAULT NULL,
+  `duration` varchar(255) DEFAULT NULL,
+  `characteristics` varchar(255) DEFAULT NULL,
+  `precipitation` varchar(255) DEFAULT NULL,
+  `frequency` varchar(255) DEFAULT NULL,
+  `nonverbals` varchar(255) DEFAULT NULL,
+  `relief_factors` varchar(255) DEFAULT NULL,
+  `sleep` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `assessments`
+--
+
+INSERT INTO `assessments` (`id`, `patient_Id`, `conductor`, `date`, `time`, `orientation_level`, `person`, `place`, `situation`, `temperature`, `blood_pressure`, `respiratory_rate`, `pulse_rate`, `oxygen_saturation`, `hair`, `eyes`, `perrla`, `nose`, `ears`, `mouth`, `midline_tongue`, `moist`, `lesions`, `dentition`, `carotid_pulse`, `jugular_vein_distention`, `trachea_midline`, `muffled`, `arrhythmia`, `anterior`, `posterior`, `lateral`, `chest_symmetry`, `skin_turgor`, `inspection`, `palpation`, `auscultation`, `luq`, `ruq`, `llq`, `rlq`, `radial_pulses`, `radial_other`, `temperaturetrunk`, `grip`, `capillary_refill`, `hair_present`, `edema`, `foot_strength`, `yellowed`, `thickened`, `ingrown`, `upper_r1`, `upper_r2`, `upper_l1`, `upper_l2`, `lower_r1`, `lower_r2`, `lower_l1`, `lower_l2`, `sensation`, `weight`, `height`, `bmi`, `type`, `intensity`, `location`, `duration`, `characteristics`, `precipitation`, `frequency`, `nonverbals`, `relief_factors`, `sleep`, `description`, `created_at`, `updated_at`) VALUES
+(1, 1, '11', '2025-04-02', '01:11', 'Alert', '1312', '1', '1', '1', '1', '1', '1', '1', '1', '1', 0, '1', '1', '1', 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, '1', '1', '1', 'Active', 'Active', 'Active', 'Active', '1', '1', 'Warm', '1', '1', 1, '1', '1', 1, 0, 0, '1', '1', '1', '1', '1', '1', '1', NULL, '1', 1.00, 1.00, 1.00, NULL, 1, '1', '1', '1', '1', '1', '1', NULL, '1', '1', NULL, '2025-04-02 06:23:35'),
+(2, 9, NULL, NULL, NULL, 'Alert', NULL, NULL, NULL, 'Warm', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 'Active', 'Active', 'Active', 'Active', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-02 06:19:47', '2025-04-02 06:19:47'),
+(3, 10, NULL, NULL, NULL, 'Alert', NULL, NULL, NULL, 'Warm', NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, 'Active', 'Active', 'Active', 'Active', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-02 19:24:52', '2025-04-02 19:24:52');
 
 -- --------------------------------------------------------
 
@@ -97,6 +192,33 @@ INSERT INTO `config` (`id`, `imaging`, `laboratory`, `histopath`, `microbiology`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `diagnosis`
+--
+
+CREATE TABLE `diagnosis` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `patient_Id` bigint(20) UNSIGNED NOT NULL,
+  `initial` text DEFAULT NULL,
+  `tc` text DEFAULT NULL,
+  `ro` text DEFAULT NULL,
+  `final` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `diagnosis`
+--
+
+INSERT INTO `diagnosis` (`id`, `patient_Id`, `initial`, `tc`, `ro`, `final`, `created_at`, `updated_at`) VALUES
+(1, 1, '312', '32', '131', '2312', NULL, '2025-04-01 23:43:53'),
+(2, 8, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 9, NULL, NULL, NULL, NULL, '2025-04-02 06:19:47', '2025-04-02 06:19:47'),
+(4, 10, NULL, NULL, NULL, NULL, '2025-04-02 19:24:52', '2025-04-02 19:24:52');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `doctor_order`
 --
 
@@ -117,9 +239,7 @@ CREATE TABLE `doctor_order` (
 --
 
 INSERT INTO `doctor_order` (`id`, `patient_Id`, `day_number`, `date_time`, `order`, `rationale`, `signature`, `created_at`, `updated_at`) VALUES
-(1, 1, 312312, '2025-04-22 00:13:00', '31231', '312', 'signatures/cCNXdTEyF7VxJlBisT0P69H7DJmItmIFEwcdhUtd.jpg', '2025-04-01 08:10:47', '2025-04-01 08:44:04'),
-(2, 1, 312312, '2025-04-22 00:13:00', NULL, '312', NULL, '2025-04-01 08:13:24', '2025-04-01 08:13:24'),
-(3, 1, 312312, '2025-04-22 00:13:00', '312', '312', 'signatures/d49eByS3NTejstTIkERav2QAY1MWndPXNkuPKz1i.jpg', '2025-04-01 08:13:41', '2025-04-01 08:36:02');
+(7, 1, 1, '2025-04-03 11:15:00', '31', '321', 'signatures/UEoAaPJT5DxNqGnQmcDCXeS7MSJXQuHtXS9VWTCv.png', '2025-04-02 19:15:36', '2025-04-02 19:15:36');
 
 -- --------------------------------------------------------
 
@@ -160,6 +280,36 @@ CREATE TABLE `histopath` (
 
 INSERT INTO `histopath` (`id`, `patient_Id`, `dateTime`, `testType`, `result`, `path`, `created_at`, `updated_at`) VALUES
 (1, 1, '2025-03-20 13:39:00', '312', 'histopathdas312', 'MedicalRecords/Histopath/VIVJohlETQdvTwhsJ2ut84zHCg7KQfyAfOxNaKhF.jpg', '2025-03-26 21:40:05', '2025-03-26 21:43:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `history`
+--
+
+CREATE TABLE `history` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `patient_Id` bigint(20) UNSIGNED NOT NULL,
+  `history` longtext DEFAULT NULL,
+  `past` longtext DEFAULT NULL,
+  `family` longtext DEFAULT NULL,
+  `birth` longtext DEFAULT NULL,
+  `environment` longtext DEFAULT NULL,
+  `dietary` longtext DEFAULT NULL,
+  `review` longtext DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `history`
+--
+
+INSERT INTO `history` (`id`, `patient_Id`, `history`, `past`, `family`, `birth`, `environment`, `dietary`, `review`, `created_at`, `updated_at`) VALUES
+(1, 1, 'No known chronic illnesses (e.g., asthma, diabetes, congenital heart disease)\nNo history of previous hospitalizations\nNo known history of recurrent ear infections\nNo history of allergies aside from Amoxicillin\nComplete childhood immunizations received', 'No family history of hearing loss, recurrent ear infections, or chronic illnesses (e.g., asthma, hypertension, diabetes)\nNo known genetic disorders', 'Full-term baby, delivered via normal spontaneous vaginal delivery\nNo complications during pregnancy or delivery\nAchieved developmental milestones appropriately for age', 'Lives with parents and siblings in a well-ventilated home\nNo known exposure to secondhand smoke or environmental pollutants\nNo recent travel history\nNo exposure to sick contacts with similar symptoms', 'Lives with parents and siblings in a well-ventilated home\nNo known exposure to secondhand smoke or environmental pollutants\nNo recent travel history\nNo exposure to sick contacts with similar symptoms', 'Balanced diet, no known food allergies\nAdequate fluid intake', 'General: Mild fever, occasional irritability\nENT: Left ear pain, muffled hearing, no discharge\nRespiratory: No cough, no shortness of breath\nGastrointestinal: No vomiting, no diarrhea, normal appetite\nNeurological: No headache, no dizziness, no loss of consciousness', NULL, '2025-04-02 06:20:48'),
+(2, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-02 06:19:47', '2025-04-02 06:19:47'),
+(4, 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-02 19:24:52', '2025-04-02 19:24:52');
 
 -- --------------------------------------------------------
 
@@ -248,6 +398,115 @@ INSERT INTO `laboratory` (`id`, `patient_Id`, `dateTime`, `testType`, `result`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `lab_diagnosis`
+--
+
+CREATE TABLE `lab_diagnosis` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `patient_Id` bigint(20) UNSIGNED NOT NULL,
+  `wbc` varchar(255) DEFAULT NULL,
+  `rbc` varchar(255) DEFAULT NULL,
+  `hemoglobin` varchar(255) DEFAULT NULL,
+  `hematocrit` varchar(255) DEFAULT NULL,
+  `mcv` varchar(255) DEFAULT NULL,
+  `mch` varchar(255) DEFAULT NULL,
+  `mchc` varchar(255) DEFAULT NULL,
+  `rbc_width` varchar(255) DEFAULT NULL,
+  `platelet_count` varchar(255) DEFAULT NULL,
+  `neutrophils` varchar(255) DEFAULT NULL,
+  `lymphocytes` varchar(255) DEFAULT NULL,
+  `monocytes` varchar(255) DEFAULT NULL,
+  `eosinophils` varchar(255) DEFAULT NULL,
+  `basophils` varchar(255) DEFAULT NULL,
+  `chest_pa` text DEFAULT NULL,
+  `impression` text DEFAULT NULL,
+  `advice` text DEFAULT NULL,
+  `advice_path` varchar(255) DEFAULT NULL,
+  `uri_date` date DEFAULT NULL,
+  `uri_time` time DEFAULT NULL,
+  `transparency` varchar(255) DEFAULT NULL,
+  `color` varchar(255) DEFAULT NULL,
+  `sp_gravity` varchar(255) DEFAULT NULL,
+  `ph` varchar(255) DEFAULT NULL,
+  `protein` varchar(255) DEFAULT NULL,
+  `glucose` varchar(255) DEFAULT NULL,
+  `bilirubin` varchar(255) DEFAULT NULL,
+  `ery_hb` varchar(255) DEFAULT NULL,
+  `leukocytes` varchar(255) DEFAULT NULL,
+  `nitrite` varchar(255) DEFAULT NULL,
+  `urobilinogen` varchar(255) DEFAULT NULL,
+  `ketone` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `lab_diagnosis`
+--
+
+INSERT INTO `lab_diagnosis` (`id`, `patient_Id`, `wbc`, `rbc`, `hemoglobin`, `hematocrit`, `mcv`, `mch`, `mchc`, `rbc_width`, `platelet_count`, `neutrophils`, `lymphocytes`, `monocytes`, `eosinophils`, `basophils`, `chest_pa`, `impression`, `advice`, `advice_path`, `uri_date`, `uri_time`, `transparency`, `color`, `sp_gravity`, `ph`, `protein`, `glucose`, `bilirubin`, `ery_hb`, `leukocytes`, `nitrite`, `urobilinogen`, `ketone`, `created_at`, `updated_at`) VALUES
+(1, 1, NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-02', '14:11:00', 'test', 'test', '1.010', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-01 22:12:04'),
+(2, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-02 06:19:47', '2025-04-02 06:19:47'),
+(4, 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-02 19:24:52', '2025-04-02 19:24:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mar`
+--
+
+CREATE TABLE `mar` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `patient_Id` bigint(20) UNSIGNED NOT NULL,
+  `med` varchar(255) DEFAULT NULL,
+  `dosage` varchar(255) DEFAULT NULL,
+  `route` varchar(255) DEFAULT NULL,
+  `time` varchar(255) DEFAULT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `mar`
+--
+
+INSERT INTO `mar` (`id`, `patient_Id`, `med`, `dosage`, `route`, `time`, `note`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Peripheral ', 'D5 NSS 500 mL at 50 mL/hr', 'IV', '5 days', 'every 4 hours', NULL, NULL),
+(2, 1, 'Azithromycin ', '10 mg/kg', 'P/O', 'Once Daily', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mar_time`
+--
+
+CREATE TABLE `mar_time` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `mar_Id` bigint(20) UNSIGNED NOT NULL,
+  `date` date DEFAULT NULL,
+  `time` time DEFAULT NULL,
+  `adm` varchar(255) DEFAULT NULL,
+  `path` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `mar_time`
+--
+
+INSERT INTO `mar_time` (`id`, `mar_Id`, `date`, `time`, `adm`, `path`, `created_at`, `updated_at`) VALUES
+(1, 1, '2025-03-26', '08:00:00', 'test', NULL, NULL, NULL),
+(2, 1, '2025-03-27', '12:00:00', 'tes', NULL, NULL, NULL),
+(3, 1, '2025-03-26', '16:00:00', 'test', NULL, NULL, NULL),
+(4, 2, '2025-03-26', '08:00:00', 'test', NULL, NULL, NULL),
+(5, 2, '2025-03-26', '16:00:00', '31', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `medication`
 --
 
@@ -322,7 +581,31 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (15, '2025_03_27_065622_create_config_table', 8),
 (16, '2025_03_27_142123_create_medication_table', 9),
 (21, '2025_04_01_151505_create_patient_info_table', 10),
-(22, '2025_04_01_160019_create_doctor_order_table', 11);
+(22, '2025_04_01_160019_create_doctor_order_table', 11),
+(37, '2025_04_02_011103_create_nurse_order_table', 12),
+(38, '2025_04_02_021214_create_diagnosis_table', 12),
+(39, '2025_04_02_023210_create_lab_diagnosis_table', 12),
+(43, '2025_04_02_064505_create_assessment_table', 13),
+(44, '2025_04_02_073215_create_treatment_table', 14),
+(45, '2025_04_02_133823_create_mar_table', 15),
+(47, '2025_04_02_133944_create_mar_time_table', 16),
+(48, '2025_04_02_140830_create_history_table', 17);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nurse_note`
+--
+
+CREATE TABLE `nurse_note` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `patient_Id` bigint(20) UNSIGNED NOT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  `observation` longtext DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -346,6 +629,7 @@ CREATE TABLE `patients` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `full_name` varchar(255) NOT NULL,
   `birth_date` date NOT NULL,
+  `birth_place` varchar(255) DEFAULT NULL,
   `gender` varchar(255) NOT NULL,
   `age` int(11) NOT NULL,
   `admission_no` varchar(255) NOT NULL,
@@ -355,6 +639,7 @@ CREATE TABLE `patients` (
   `status` varchar(255) NOT NULL,
   `condition` varchar(255) NOT NULL,
   `chiefComplaint` varchar(255) DEFAULT NULL,
+  `education` varchar(255) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -364,10 +649,11 @@ CREATE TABLE `patients` (
 -- Dumping data for table `patients`
 --
 
-INSERT INTO `patients` (`id`, `full_name`, `birth_date`, `gender`, `age`, `admission_no`, `admission_datetime`, `room_no`, `station`, `status`, `condition`, `chiefComplaint`, `image`, `created_at`, `updated_at`) VALUES
-(1, 'John Renz Natividad', '2003-05-02', 'Male', 21, '32189', '2025-03-27 09:33:00', '313312', 'General Medical Ward - Bed No. 6', 'Healthy', 'None', 'nausea', 'Patient/Profile/Rl3Yj5eHiPtYgBgvwAcajFQAPYLEC2UE1ZNd62pN.jpg', '2025-03-26 17:34:03', '2025-04-01 07:46:51'),
-(4, 'jose', '2002-02-02', '321', 23, '321', '2025-03-27 10:14:00', '231', 'General Medical Ward - Bed No. 6', '321', '231', NULL, NULL, '2025-03-26 18:14:47', '2025-04-01 00:28:19'),
-(7, 'test', '2025-04-08', '312', 0, '312', '2025-04-19 23:25:00', '312', 'ICU - 502', '312', '312', '231', NULL, '2025-04-01 07:25:58', '2025-04-01 07:25:58');
+INSERT INTO `patients` (`id`, `full_name`, `birth_date`, `birth_place`, `gender`, `age`, `admission_no`, `admission_datetime`, `room_no`, `station`, `status`, `condition`, `chiefComplaint`, `education`, `image`, `created_at`, `updated_at`) VALUES
+(1, 'John Renz Natividad', '2003-05-02', 'Marikina', 'Male', 21, '32189', '2025-03-27 09:33:00', '313312', 'General Medical Ward - Bed No. 6', 'Healthy', 'None', 'nausea', 'College', 'Patient/Profile/Rl3Yj5eHiPtYgBgvwAcajFQAPYLEC2UE1ZNd62pN.jpg', '2025-03-26 17:34:03', '2025-04-02 19:24:26'),
+(8, '312', '2025-04-02', NULL, '312', 0, '312', '2025-04-02 10:15:00', '312', 'ICU - 502', '31', '312', '312', NULL, NULL, '2025-04-01 18:16:08', '2025-04-01 18:16:08'),
+(9, '321', '2025-04-02', NULL, '312', 0, '312', '2025-04-02 22:19:00', '31', 'ICU - 502', '312', '312', '3122', NULL, NULL, '2025-04-02 06:19:47', '2025-04-02 06:19:47'),
+(10, 'Mark', '2005-05-05', 'Davao', 'Male', 19, '312', '2025-04-03 11:24:00', '312', 'ICU - 502', '312', '313', '321', '31', NULL, '2025-04-02 19:24:52', '2025-04-02 19:24:52');
 
 -- --------------------------------------------------------
 
@@ -399,9 +685,10 @@ CREATE TABLE `patient_info` (
 --
 
 INSERT INTO `patient_info` (`id`, `patient_Id`, `registration_no`, `religion`, `address`, `admission_date`, `diagnosis`, `other_diagnoses`, `allergies`, `reaction`, `emergency_name`, `emergency_relationship`, `emergency_address`, `emergency_phone`, `created_at`, `updated_at`) VALUES
-(1, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-01 07:25:58', '2025-04-01 07:25:58'),
-(2, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 1, '1231', '1', '1', '2025-04-09', '1', '1312', '1', '1', '1', '1', '1', '1', NULL, '2025-04-01 07:46:45');
+(3, 1, '1231', '1', '1', '2025-04-09', '1', '1312', '1', '1', '1', '1', '1', '1', NULL, '2025-04-01 07:46:45'),
+(4, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-01 18:16:08', '2025-04-01 18:16:08'),
+(5, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-02 06:19:47', '2025-04-02 06:19:47'),
+(6, 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-04-02 19:24:52', '2025-04-02 19:24:52');
 
 -- --------------------------------------------------------
 
@@ -423,7 +710,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('l0TQ9XYRoA6J7on1Nbx0W1rowpg6pBoxw1jK1MQD', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiVFBtb0MzQzZHaTZjS0RhVUJxZTZmQXlqUHRoYmxPajEyd05TN1JpNiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czo0MjoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL1BhdGllbnQtTWFuYWdlbWVudC8xIjt9fQ==', 1743525844);
+('YSjcFw0dLNYQ0OC6u2IiPrxRgNgkkjuQ1eqbgBl7', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiSjFoSWdXU1p0enZIUllYdUUzSmJVNlE3aHh3elFQRjBBMVpBRzhJWCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9QYXRpZW50LU1hbmFnZW1lbnQvMSI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1743650741);
 
 -- --------------------------------------------------------
 
@@ -448,6 +735,33 @@ CREATE TABLE `specialtest` (
 
 INSERT INTO `specialtest` (`id`, `patient_Id`, `dateTime`, `testType`, `result`, `path`, `created_at`, `updated_at`) VALUES
 (2, 1, '2025-03-27 15:28:00', '321', '312', NULL, '2025-03-26 23:28:50', '2025-03-26 23:28:50');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `treatment`
+--
+
+CREATE TABLE `treatment` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `patient_Id` bigint(20) UNSIGNED NOT NULL,
+  `short_term` text DEFAULT NULL,
+  `long_term` text DEFAULT NULL,
+  `medication` text DEFAULT NULL,
+  `intervention` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `treatment`
+--
+
+INSERT INTO `treatment` (`id`, `patient_Id`, `short_term`, `long_term`, `medication`, `intervention`, `created_at`, `updated_at`) VALUES
+(1, 1, '321\n312321', '312', '321', '321', NULL, '2025-04-01 23:49:22'),
+(2, 8, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 9, NULL, NULL, NULL, NULL, '2025-04-02 06:19:47', '2025-04-02 06:19:47'),
+(4, 10, NULL, NULL, NULL, NULL, '2025-04-02 19:24:52', '2025-04-02 19:24:52');
 
 -- --------------------------------------------------------
 
@@ -487,6 +801,13 @@ ALTER TABLE `allergy`
   ADD KEY `allergy_patient_id_foreign` (`patient_Id`);
 
 --
+-- Indexes for table `assessments`
+--
+ALTER TABLE `assessments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `assessments_patient_id_foreign` (`patient_Id`);
+
+--
 -- Indexes for table `cache`
 --
 ALTER TABLE `cache`
@@ -503,6 +824,13 @@ ALTER TABLE `cache_locks`
 --
 ALTER TABLE `config`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `diagnosis`
+--
+ALTER TABLE `diagnosis`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `diagnosis_patient_id_foreign` (`patient_Id`);
 
 --
 -- Indexes for table `doctor_order`
@@ -524,6 +852,13 @@ ALTER TABLE `failed_jobs`
 ALTER TABLE `histopath`
   ADD PRIMARY KEY (`id`),
   ADD KEY `histopath_patient_id_foreign` (`patient_Id`);
+
+--
+-- Indexes for table `history`
+--
+ALTER TABLE `history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `history_patient_id_foreign` (`patient_Id`);
 
 --
 -- Indexes for table `imaging`
@@ -553,6 +888,27 @@ ALTER TABLE `laboratory`
   ADD KEY `laboratory_patient_id_foreign` (`patient_Id`);
 
 --
+-- Indexes for table `lab_diagnosis`
+--
+ALTER TABLE `lab_diagnosis`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `lab_diagnosis_patient_id_foreign` (`patient_Id`);
+
+--
+-- Indexes for table `mar`
+--
+ALTER TABLE `mar`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `mar_patient_id_foreign` (`patient_Id`);
+
+--
+-- Indexes for table `mar_time`
+--
+ALTER TABLE `mar_time`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `mar_time_mar_id_foreign` (`mar_Id`);
+
+--
 -- Indexes for table `medication`
 --
 ALTER TABLE `medication`
@@ -571,6 +927,13 @@ ALTER TABLE `microbiology`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `nurse_note`
+--
+ALTER TABLE `nurse_note`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `nurse_note_patient_id_foreign` (`patient_Id`);
 
 --
 -- Indexes for table `password_reset_tokens`
@@ -607,6 +970,13 @@ ALTER TABLE `specialtest`
   ADD KEY `specialtest_patient_id_foreign` (`patient_Id`);
 
 --
+-- Indexes for table `treatment`
+--
+ALTER TABLE `treatment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `treatment_patient_id_foreign` (`patient_Id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -624,16 +994,28 @@ ALTER TABLE `allergy`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `assessments`
+--
+ALTER TABLE `assessments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `config`
 --
 ALTER TABLE `config`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `diagnosis`
+--
+ALTER TABLE `diagnosis`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `doctor_order`
 --
 ALTER TABLE `doctor_order`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -646,6 +1028,12 @@ ALTER TABLE `failed_jobs`
 --
 ALTER TABLE `histopath`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `history`
+--
+ALTER TABLE `history`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `imaging`
@@ -666,6 +1054,24 @@ ALTER TABLE `laboratory`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `lab_diagnosis`
+--
+ALTER TABLE `lab_diagnosis`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `mar`
+--
+ALTER TABLE `mar`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `mar_time`
+--
+ALTER TABLE `mar_time`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `medication`
 --
 ALTER TABLE `medication`
@@ -681,25 +1087,37 @@ ALTER TABLE `microbiology`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+
+--
+-- AUTO_INCREMENT for table `nurse_note`
+--
+ALTER TABLE `nurse_note`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `patients`
 --
 ALTER TABLE `patients`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `patient_info`
 --
 ALTER TABLE `patient_info`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `specialtest`
 --
 ALTER TABLE `specialtest`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `treatment`
+--
+ALTER TABLE `treatment`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -718,6 +1136,18 @@ ALTER TABLE `allergy`
   ADD CONSTRAINT `allergy_patient_id_foreign` FOREIGN KEY (`patient_Id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `assessments`
+--
+ALTER TABLE `assessments`
+  ADD CONSTRAINT `assessments_patient_id_foreign` FOREIGN KEY (`patient_Id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `diagnosis`
+--
+ALTER TABLE `diagnosis`
+  ADD CONSTRAINT `diagnosis_patient_id_foreign` FOREIGN KEY (`patient_Id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `doctor_order`
 --
 ALTER TABLE `doctor_order`
@@ -728,6 +1158,12 @@ ALTER TABLE `doctor_order`
 --
 ALTER TABLE `histopath`
   ADD CONSTRAINT `histopath_patient_id_foreign` FOREIGN KEY (`patient_Id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `history`
+--
+ALTER TABLE `history`
+  ADD CONSTRAINT `history_patient_id_foreign` FOREIGN KEY (`patient_Id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `imaging`
@@ -742,6 +1178,24 @@ ALTER TABLE `laboratory`
   ADD CONSTRAINT `laboratory_patient_id_foreign` FOREIGN KEY (`patient_Id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `lab_diagnosis`
+--
+ALTER TABLE `lab_diagnosis`
+  ADD CONSTRAINT `lab_diagnosis_patient_id_foreign` FOREIGN KEY (`patient_Id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `mar`
+--
+ALTER TABLE `mar`
+  ADD CONSTRAINT `mar_patient_id_foreign` FOREIGN KEY (`patient_Id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `mar_time`
+--
+ALTER TABLE `mar_time`
+  ADD CONSTRAINT `mar_time_mar_id_foreign` FOREIGN KEY (`mar_Id`) REFERENCES `mar` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `medication`
 --
 ALTER TABLE `medication`
@@ -754,6 +1208,12 @@ ALTER TABLE `microbiology`
   ADD CONSTRAINT `microbiology_patient_id_foreign` FOREIGN KEY (`patient_Id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `nurse_note`
+--
+ALTER TABLE `nurse_note`
+  ADD CONSTRAINT `nurse_note_patient_id_foreign` FOREIGN KEY (`patient_Id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `patient_info`
 --
 ALTER TABLE `patient_info`
@@ -764,6 +1224,12 @@ ALTER TABLE `patient_info`
 --
 ALTER TABLE `specialtest`
   ADD CONSTRAINT `specialtest_patient_id_foreign` FOREIGN KEY (`patient_Id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `treatment`
+--
+ALTER TABLE `treatment`
+  ADD CONSTRAINT `treatment_patient_id_foreign` FOREIGN KEY (`patient_Id`) REFERENCES `patients` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
