@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import NavMain from '@/Components/sidebar08/NavMain.vue'
+
 import NavProjects from '@/Components/sidebar08/NavProjects.vue'
 import NavSecondary from '@/Components/sidebar08/NavSecondary.vue'
 import NavUser from '@/Components/sidebar08/NavUser.vue'
@@ -25,29 +26,38 @@ import {
     Send,
     Settings2,
     SquareTerminal,
+    LayoutDashboard,
 } from 'lucide-vue-next'
 const props = withDefaults(defineProps<SidebarProps>(), {
     variant: 'inset',
 })
 const data = {
     user: {
-        name: 'shadcn',
-        email: 'm@example.com',
+        name: 'test',
+        email: 'test@gmail.com',
         avatar: '/avatars/shadcn.jpg',
     },
     navMain: [
         {
             title: 'Dashboard',
             url: route('dashboard'),
-            icon: SquareTerminal,
-            isActive: true,
+            icon: LayoutDashboard,
+          
         },
         {
-            title: 'Pedia Ward',
-            url: route('patient.index'),
-            icon: Bot,
-
+            title: 'Electronic Health Record',
+            url: route('dashboard'),
+            icon: SquareTerminal,
+            isActive: true,
+            items: [
+                {
+                    title: 'Pedia Ward',
+                    url: route('patient.index'),
+                },
+          
+            ],
         },
+
         {
             title: 'Accounts Management',
             url: route('account.index'),
@@ -64,12 +74,12 @@ const data = {
         <SidebarHeader>
             <SidebarMenu>
                 <SidebarMenuItem>
-                    <SidebarMenuButton class="cursor-default" size="lg" as-child>
+                    <SidebarMenuButton class="cursor-default h-99"  as-child>
                         <a href="#">
                             <img src="../../Images/LOGO.png" alt="Logo" class=" object-contain" />
 
                             <div class="grid flex-1 text-left text-sm leading-tight">
-                                
+
                             </div>
                         </a>
                     </SidebarMenuButton>

@@ -81,10 +81,7 @@ const { isMobile } = useSidebar()
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup  >
-            <DropdownMenuItem >
-              <Sparkles />
-              Upgrade to Pro
-            </DropdownMenuItem>
+      
           </DropdownMenuGroup>
 
         

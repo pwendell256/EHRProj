@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-100 p-4 rounded-lg">
+  <div class="bg-gray-50 p-4 rounded-lg">
     <h3 class="text-lg font-semibold mb-2">Allergy Records</h3>
     <UseTemplate>
       <form @submit.prevent="isEditing ? updateRecord() : addRecord()" class="grid gap-4 px-4">
@@ -145,7 +145,7 @@
 
 
     <!-- Image Preview Modal -->
-    <div v-if="showImageModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
+    <div v-if="showImageModal" class="fixed z-50 inset-0 flex items-center justify-center bg-black bg-opacity-75">
       <div class="relative bg-white p-4 rounded-lg shadow-lg">
         <button @click="closeImageModal"
           class="absolute top-2 right-2 px-3 py-1 bg-red-600 text-white rounded-full hover:bg-red-700">

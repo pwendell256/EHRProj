@@ -1,52 +1,77 @@
 <template>
-    <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-semibold mb-4">DIAGNOSIS</h1>
+    <div class="bg-gray-50 p-4 rounded-lg">
+        <h1 class="text-xl font-semibold mb-4">Diagnosis</h1>
 
-        <table class="min-w-full table-auto border-collapse">
-            <tbody>
-                <tr>
-                    <td class="px-4 py-2 border font-bold">Initial Diagnosis:</td>
-                    <td class="px-4 py-2 border">
-                        <textarea class="w-full border-gray-300 rounded px-2 py-1" rows="4" v-model="form.initial" ></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="px-4 py-2 border font-bold">T/C (To Consider):</td>
-                    <td class="px-4 py-2 border">
-                        <textarea class="w-full border-gray-300 rounded px-2 py-1" rows="4" v-model="form.tc" ></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="px-4 py-2 border font-bold">R/O (Rule Out)::</td>
-                    <td class="px-4 py-2 border">
-                        <textarea class="w-full border-gray-300 rounded px-2 py-1" rows="4" v-model="form.ro" ></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="px-4 py-2 border font-bold">Final Diagnosis:</td>
-                    <td class="px-4 py-2 border">
-                        <textarea class="w-full border-gray-300 rounded px-2 py-1" rows="4" v-model="form.final" ></textarea>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="overflow-x-auto mt-4 border rounded-lg">
+            <Table>
+                <TableBody>
+                    <TableRow>
+                        <TableCell class="w-1/4 font-bold align-top">Initial Diagnosis:</TableCell>
+                        <TableCell>
+                            <Textarea class="w-full border rounded px-2 py-1 focus:ring focus:ring-indigo-300" rows="4"
+                                v-model="form.initial"></Textarea>
+                        </TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                        <TableCell class="w-1/4 font-bold align-top">T/C (To Consider):</TableCell>
+                        <TableCell>
+                            <Textarea class="w-full border rounded px-2 py-1 focus:ring focus:ring-indigo-300" rows="4"
+                                v-model="form.tc"></Textarea>
+                        </TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                        <TableCell class="w-1/4 font-bold align-top">R/O (Rule Out):</TableCell>
+                        <TableCell>
+                            <Textarea class="w-full border rounded px-2 py-1 focus:ring focus:ring-indigo-300" rows="4"
+                                v-model="form.ro"></Textarea>
+                        </TableCell>
+                    </TableRow>
+
+                    <TableRow>
+                        <TableCell class="w-1/4 font-bold align-top">Final Diagnosis:</TableCell>
+                        <TableCell>
+                            <Textarea class="w-full border rounded px-2 py-1 focus:ring focus:ring-indigo-300" rows="4"
+                                v-model="form.final"></Textarea>
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </div>
+
 
     </div>
-    <div class="flex justify-end">
-        <button type="submit" @click.prevent="update()"
-            class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+
+    <!-- Submit Button -->
+    <div class="flex justify-end mt-4">
+        <Button @click.prevent="update()">
             Update
-        </button>
+        </Button>
     </div>
 </template>
 
 <script setup>
 import { useForm } from '@inertiajs/vue3';
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/Components/ui/table'
+import { Input } from '@/Components/ui/input'
+import { Label } from '@/Components/ui/label'
+import { Button } from '@/components/ui/button'
+import Textarea from '@/Components/ui/textarea/Textarea.vue';
 
 const props = defineProps({
-    patient : Object
+    patient: Object
 })
-const form = useForm ({
+const form = useForm({
     initial: props.patient?.diagnosis?.initial || '',
     tc: props.patient?.diagnosis?.tc || '',
     ro: props.patient?.diagnosis?.ro || '',

@@ -78,7 +78,7 @@
                                         <Input id="gender" v-model="form.gender" type="text" />
                                     </div>
 
-                                    <div class="flex flex-col gap-2">
+                                    <div class="flex flex-col gap-2 col-span-2">
                                         <Label for="admission_no">Admission No.</Label>
                                         <Input id="admission_no" v-model="form.admission_no" type="text" />
                                     </div>
@@ -324,8 +324,7 @@ import {
     TableRow,
 } from '@/Components/ui/table'
 
-import { Input } from '@/Components/ui/input'
-import { Label } from '@/Components/ui/label'
+
 import {
     AlertDialog,
     AlertDialogAction,
@@ -341,7 +340,8 @@ import { ref, onMounted } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { router, useForm, usePage } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
-
+import { Input } from '@/Components/ui/input'
+import { Label } from '@/Components/ui/label'
 import { Button } from '@/components/ui/button'
 import {
     Dialog,

@@ -2,7 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 const props = defineProps({
-    user : Number
+    user: Number
 })
 </script>
 
@@ -18,7 +18,45 @@ const props = defineProps({
         </template>
 
         <main class="flex-1 mt-8">
-            <div class="space-y-8">
+
+            <!-- Pediatric Header Section -->
+            <div
+                class="relative overflow-hidden rounded-lg border border-gray-200 bg-gradient-to-br from-green-100 to-blue-100 p-6 shadow-md">
+                <!-- Menu Icon (Optional, can be removed if already in layout) -->
+                <div class="absolute left-4 top-4">
+                    <i class="icon-menu h-6 w-6 text-gray-600"></i>
+                </div>
+
+                <!-- Logo -->
+                <div class="flex justify-center">
+                    <div class="h-40 w-40 rounded-full bg-white shadow-lg flex items-center justify-center">
+                        <img src="../Images/LOGO.png" alt="Hospital Logo" class="h-28 w-28 object-contain" />
+                    </div>
+                </div>
+
+                <!-- Hospital Name -->
+                <div class="mt-4 flex justify-center">
+                    <div
+                        class="rounded-md border border-gray-400 bg-white px-6 py-2 text-center text-xl font-semibold text-gray-800">
+                        FEU Fortis Medical Center
+                    </div>
+                </div>
+
+                <!-- Pedia Ward Text -->
+                <div class="mt-2 text-center text-lg font-medium text-purple-800">
+                    Pedia Ward
+                </div>
+
+                <!-- Scroll Down Hint -->
+                <div class="mt-4 flex justify-center">
+                    <div class="animate-bounce text-sm text-gray-500">
+                        ↓ scroll down
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="space-y-8 mt-4">
                 <!-- Static Greeting Section -->
                 <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
                     <div class="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
@@ -147,41 +185,60 @@ const props = defineProps({
                     </div>
                 </div>
 
-                <!-- Hospital Overview -->
-                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <!-- Mission, Vision, About Us Section -->
+                <section class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 ">
 
-                    <!-- Mission and Vision in separate containers -->
-                    <div class="grid grid-cols-1 gap-4 md:col-span-2 md:grid-cols-2">
+                    <!-- Left Column: Mission & Vision -->
+                    <div class="space-y-6">
                         <!-- Mission -->
-                        <div class="rounded-lg border border-green-800 bg-green-30 shadow-sm">
-                            <div class="p-4">
-                                <h3 class="text-lg font-medium text-gray-900">Mission</h3>
-                            </div>
-                            <div class="px-4 pb-4">
-                                <p class="text-sm text-gray-600">
-                                    FEU Fortis Medical Center is dedicated to providing compassionate, high-quality
-                                    healthcare
-                                    through innovation, excellence, and integrity. We strive to advance medical
-                                    practice,
-                                    research, and education to enhance community well-being.
-                                </p>
-                            </div>
+                        <div class="rounded-lg border border-green-600 bg-green-50 p-6 shadow-sm">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Mission</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">
+                                FEU Fortis Medical Center is dedicated to providing compassionate, high-quality
+                                healthcare
+                                through innovation, excellence, and integrity. We strive to advance medical practice,
+                                research, and education to enhance community well-being.
+                            </p>
                         </div>
 
                         <!-- Vision -->
-                        <div class="rounded-lg border border-yellow-800 bg-yellow-30 shadow-sm">
-                            <div class="p-4">
-                                <h3 class="text-lg font-medium text-gray-900">Vision</h3>
-                            </div>
-                            <div class="px-4 pb-4">
-                                <p class="text-sm text-gray-600">
-                                    To be a leading medical institution known for excellence in patient care, education,
-                                    and research, upholding fortitude, excellence, and uprightness in all we do.
-                                </p>
-                            </div>
+                        <div class="rounded-lg border border-yellow-600 bg-yellow-50 p-6 shadow-sm">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Vision</h3>
+                            <p class="text-sm text-gray-700 leading-relaxed">
+                                To be a leading medical institution known for excellence in patient care, education, and
+                                research,
+                                upholding fortitude, excellence, and uprightness in all we do.
+                            </p>
                         </div>
                     </div>
-                </div>
+
+                    <!-- Right Column: About Us -->
+                    <div class="rounded-lg border border-blue-600 bg-blue-50 p-6 shadow-sm">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">About Us</h3>
+                        <p class="text-sm text-gray-700 leading-relaxed mb-3">
+                            Our Pediatric Ward at FEU Fortis Medical Center offers specialized care for children in a
+                            safe,
+                            comforting, and nurturing environment. With child-focused facilities and a team of pediatric
+                            specialists,
+                            we aim to create a healing space for young patients.
+                        </p>
+                        <p class="text-sm text-gray-700 leading-relaxed mb-3">
+                            We are committed to family-centered care, making sure that parents are fully supported and
+                            involved
+                            every step of the way. Our mission extends beyond medical treatment—it’s about building
+                            trust,
+                            relieving anxiety, and promoting joy through every stage of recovery.
+                        </p>
+                        <p class="text-sm text-gray-700 leading-relaxed">
+                            With modern equipment and a heart for children, we provide care that’s not only effective
+                            but also
+                            deeply empathetic.
+                        </p>
+                    </div>
+                </section>
+
+
+
 
                 <!-- Monthly Patients Chart and Recent Activity - Side by Side -->
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -439,6 +496,84 @@ const props = defineProps({
                         </div>
                     </div>
                 </div>
+
+                <!-- Pediatric Footer -->
+                <footer
+                    class="relative mt-16 bg-gradient-to-r bg-gradient-to-br from-green-100 to-blue-100 px-6 py-12 text-gray-700">
+                    <!-- Wavy top SVG -->
+                    <div class="absolute top-0 left-0 w-full -translate-y-full">
+                        <svg viewBox="0 0 1440 320" class="w-full h-16" preserveAspectRatio="none">
+                            <path fill="#ffffff" fill-opacity="1"
+                                d="M0,64L60,74.7C120,85,240,107,360,117.3C480,128,600,128,720,117.3C840,107,960,85,1080,90.7C1200,96,1320,128,1380,144L1440,160L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z">
+                            </path>
+                        </svg>
+                    </div>
+
+                    <div class="relative z-10 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+                        <!-- Contact Info -->
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-900 mb-3">Contact Us</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex items-center gap-2">
+                                    <i class="icon-phone h-4 w-4 text-blue-600"></i>
+                                    <span>(02) 812-3456</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="icon-mail h-4 w-4 text-blue-600"></i>
+                                    <span>pediacare@feufortis.ph</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="icon-map-pin h-4 w-4 text-blue-600"></i>
+                                    <span>FEU Fortis, Las Piñas, Metro Manila</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Quick Links -->
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-900 mb-3">Quick Links</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li><a href="/about" class="hover:text-blue-700">About Us</a></li>
+                                <li><a href="/services" class="hover:text-blue-700">Our Services</a></li>
+                                <li><a href="/wards/pedia" class="hover:text-blue-700">Pedia Ward</a></li>
+                                <li><a href="/contact" class="hover:text-blue-700">Contact</a></li>
+                                <li><a href="/faqs" class="hover:text-blue-700">FAQs</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Social Media -->
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-900 mb-3">Follow Us</h4>
+                            <ul class="flex space-x-4 text-xl">
+                                <li>
+                                    <a href="https://facebook.com/feufortis" target="_blank"
+                                        class="hover:text-blue-700">
+                                        <i class="icon-facebook"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://instagram.com/feufortis" target="_blank"
+                                        class="hover:text-pink-500">
+                                        <i class="icon-instagram"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://twitter.com/feufortis" target="_blank" class="hover:text-sky-500">
+                                        <i class="icon-twitter"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Copyright -->
+                    <div class="mt-10 text-center text-xs text-gray-500">
+                        &copy; 2025 FEU Fortis Medical Center – Pedia Ward. All rights reserved.
+                    </div>
+                </footer>
+
+
+
             </div>
         </main>
 

@@ -13,20 +13,16 @@
         <!-- Tabs -->
         <div class="mt-4">
             <Tabs default-value="imaging" class="w-full">
-                <TabsList class="grid grid-cols-6 w-90">
-                    <TabsTrigger value="Registration" @click="selectedTab = 'Registration'">Registration Sheet</TabsTrigger>
-                    <TabsTrigger value="History" @click="selectedTab = 'History'">History</TabsTrigger>
-                    <TabsTrigger value="Assessment" @click="selectedTab = 'Assessment'">Assessment</TabsTrigger>
-                    <TabsTrigger value="laboratory" @click="selectedTab = 'laboratory'">Laboratory and Diagnosis</TabsTrigger>
-                    <TabsTrigger value="Diagnosis" @click="selectedTab = 'Diagnosis'">Diagnosis</TabsTrigger>
-                    <TabsTrigger value="Treatment" @click="selectedTab = 'Treatment'">Treatment</TabsTrigger>
-                    <TabsTrigger value="MAR" @click="selectedTab = 'MAR'">MAR</TabsTrigger>
-                    <TabsTrigger value="Nurses" @click="selectedTab = 'Nurses'">Nurses Notes</TabsTrigger>
-                    <TabsTrigger value="Doctor" @click="selectedTab = 'Doctor'">Doctor's Order</TabsTrigger>
-                    <TabsTrigger value="Allergy" @click="selectedTab = 'Allergy'">Allergy</TabsTrigger>
+                <TabsList class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1 bg-gray-50 p-1 rounded-md">
+                    <TabsTrigger v-for="tab in tabs" :key="tab.value" :value="tab.value"
+                        @click="selectedTab = tab.value"
+                        class="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-muted-foreground rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                        {{ tab.label }}
+                    </TabsTrigger>
                 </TabsList>
-            </Tabs> 
+            </Tabs>
         </div>
+
 
         <!-- Content -->
         <div class="mt-4">
@@ -59,8 +55,24 @@ import Nurses from './MedicalRecordTab/new/Nurses.vue';
 import Doctor from './MedicalRecordTab/new/Doctor.vue';
 import Registration from './MedicalRecordTab/new/Registration.vue';
 
-const selectedTab = ref('Registration'); 
+const selectedTab = ref('Registration');
 const props = defineProps({
     patient: Object
 });
+
+
+    const tabs = [
+    {value: 'Registration', label: 'Registration Sheet' },
+    {value: 'History', label: 'History' },
+    {value: 'Assessment', label: 'Assessment' },
+    {value: 'laboratory', label: 'Laboratory and Diagnosis' },
+    {value: 'Diagnosis', label: 'Diagnosis' },
+    {value: 'Treatment', label: 'Treatment' },
+    {value: 'MAR', label: 'MAR' },
+    {value: 'Nurses', label: 'Nurses Notes' },
+    {value: 'Doctor', label: "Doctor's Order" },
+    {value: 'Allergy', label: 'Allergy' },
+    ];
+
+
 </script>

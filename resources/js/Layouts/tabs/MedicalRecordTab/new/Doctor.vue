@@ -1,49 +1,128 @@
 <template>
-    <div class="container mx-auto p-4">
-        <h2 class="text-xl font-semibold mb-4">This is the Doctor's Order</h2>
-        <!-- Button to open modal -->
-        <div class="text-right mb-4">
-            <button @click="openAddModal"
-                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none">
-                Add order
-            </button>
+    <div class="bg-gray-50 p-4 rounded-lg">
+        <h3 class="text-lg font-semibold mb-2">MAR</h3>
+
+
+        <UseTemplate>
+            <form @submit.prevent="submitAddForm" class="grid gap-4 px-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-2 col-span-2">
+                        <Label for="day_number_add">Day Number</Label>
+                        <Input id="day_number_add" v-model="addForm.day_number" type="text" required />
+                    </div>
+
+                    <div class="flex flex-col gap-2 col-span-2">
+                        <Label for="date_time_add">Date and Time</Label>
+                        <Input id="date_time_add" v-model="addForm.date_time" type="datetime-local" required />
+                    </div>
+
+                    <div class="flex flex-col gap-2 col-span-2">
+                        <Label for="orders_add">Orders</Label>
+                        <textarea id="orders_add" v-model="addForm.orders" rows="3"
+                            class="w-full border rounded px-3 py-2" required></textarea>
+                    </div>
+
+                    <div class="flex flex-col gap-2 col-span-2">
+                        <Label for="rationale_add">Rationale</Label>
+                        <textarea id="rationale_add" v-model="addForm.rationale" rows="3"
+                            class="w-full border rounded px-3 py-2" required></textarea>
+                    </div>
+
+                    <div class="flex flex-col gap-2 col-span-2">
+                        <Label for="signature_add">Signature</Label>
+                        <input id="signature_add" type="file" @change="handleAddFileChange" accept="image/*"
+                            class="w-full border rounded px-3 py-2" />
+                    </div>
+                </div>
+
+                <div class="flex justify-end pt-2 gap-2">
+                    <Button type="button" variant="outline" @click="closeAddModal">Cancel</Button>
+                    <Button type="submit">Submit</Button>
+                </div>
+            </form>
+        </UseTemplate>
+
+        <Dialog v-if="isDesktop" v-model:open="isAddModalOpen">
+            <DialogTrigger as-child>
+                <Button @click="isAddModalOpen = true">+ Add Doctor’s Order</Button>
+            </DialogTrigger>
+            <DialogContent class="sm:max-w-[500px]">
+                <DialogHeader>
+                    <DialogTitle>Add Doctor’s Order</DialogTitle>
+                    <DialogDescription>Fill out the new doctor's order below.</DialogDescription>
+                </DialogHeader>
+                <GridForm />
+            </DialogContent>
+        </Dialog>
+
+        <Drawer v-else v-model:open="isAddModalOpen">
+            <DrawerTrigger as-child>
+                <Button variant="outline" @click="isAddModalOpen = true">+ Add Doctor’s Order</Button>
+            </DrawerTrigger>
+            <DrawerContent>
+                <DrawerHeader class="text-left">
+                    <DrawerTitle>Add Doctor’s Order</DrawerTitle>
+                    <DrawerDescription>Fill out the new doctor's order below.</DrawerDescription>
+                </DrawerHeader>
+                <GridForm />
+                <DrawerFooter class="pt-2">
+                    <DrawerClose as-child>
+                        <Button variant="outline">Cancel</Button>
+                    </DrawerClose>
+                </DrawerFooter>
+            </DrawerContent>
+        </Drawer>
+
+
+
+
+        <div class="overflow-x-auto mt-4 border rounded-lg">
+            <Table>
+                <TableHeader class="bg-green-100">
+                    <TableRow>
+                        <TableHead>Day Number</TableHead>
+                        <TableHead>Date and Time</TableHead>
+                        <TableHead>Orders</TableHead>
+                        <TableHead>Rationale</TableHead>
+                        <TableHead>Signature</TableHead>
+                        <TableHead>Actions</TableHead>
+                    </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                    <TableRow v-for="data in patient?.doctororders" :key="data.id">
+                        <TableCell>{{ data.day_number }}</TableCell>
+                        <TableCell>{{ data.date_time }}</TableCell>
+                        <TableCell>{{ data.order }}</TableCell>
+                        <TableCell>{{ data.rationale }}</TableCell>
+                        <TableCell>
+                            <button @click="openSignatureModal(data.signature)" class="text-blue-600 hover:underline">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                        </TableCell>
+                        <TableCell class="text-center">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger as-child>
+                                    <Button variant="ghost" class="flex h-8 w-8 p-0 data-[state=open]:bg-muted">
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                        <span class="sr-only">Open menu</span>
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" class="w-[160px]">
+                                    <DropdownMenuItem @click="openEditModal(data)">
+                                        <i class="fa-solid fa-pen-to-square mr-2"></i> Edit
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem @click="deleteData(data.id)">
+                                        <i class="fa-solid fa-trash mr-2"></i> Delete
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
         </div>
-        <!-- Table -->
-        <table class="min-w-full table-auto border-collapse mb-4">
-            <thead>
-                <tr>
-                    <th class="px-4 py-2 border border-gray-300 bg-gray-100 text-left">Day Number</th>
-                    <th class="px-4 py-2 border border-gray-300 bg-gray-100 text-left">Date and Time</th>
-                    <th class="px-4 py-2 border border-gray-300 bg-gray-100 text-left">Orders</th>
-                    <th class="px-4 py-2 border border-gray-300 bg-gray-100 text-left">Rationale</th>
-                    <th class="px-4 py-2 border border-gray-300 bg-gray-100 text-left">Signature</th>
-                    <th class="px-4 py-2 border border-gray-300 bg-gray-100 text-left">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="data in patient?.doctororders" :key="data.id">
-                    <td class="px-4 py-2 border border-gray-300">{{ data.day_number }}</td>
-                    <td class="px-4 py-2 border border-gray-300">{{ data.date_time }}</td>
-                    <td class="px-4 py-2 border border-gray-300">{{ data.order }}</td>
-                    <td class="px-4 py-2 border border-gray-300">{{ data.rationale }}</td>
-                    <td class="px-4 py-2 border border-gray-300">
-                        <button @click="openSignatureModal(data.signature)" class="text-blue-500 hover:text-blue-700">
-                            <i class="fas fa-eye"></i> View
-                        </button>
-                    </td>
-                    <td class="px-4 py-2 border border-gray-300">
-                        <button @click="openEditModal(data)" class="text-green-500 hover:text-green-700 mr-2">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <button @click="deleteData(data.id)" class="text-red-500 hover:text-red-700 mr-2">
-                            <i class="fas fa-edit"></i> Delete
-                        </button>
-                    </td>
 
-
-                </tr>
-            </tbody>
-        </table>
 
         <!-- Modal to view signature image -->
         <div v-if="isSignatureModalOpen"
@@ -62,110 +141,168 @@
             </div>
         </div>
 
-        <!-- Modal for Adding Doctor's Order -->
-        <div v-if="isAddModalOpen"
-            class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-            <div class="bg-white p-6 rounded-lg w-96">
-                <h3 class="text-lg font-semibold mb-4">Add Doctor's Order</h3>
-                <!-- Add Form Content -->
-                <form @submit.prevent="submitAddForm" class="space-y-4">
-                    <div>
-                        <label class="font-semibold">Day Number:</label>
-                        <input v-model="addForm.day_number" type="text"
-                            class="w-full px-4 py-2 border border-gray-300 rounded" placeholder="Enter day number" />
-                    </div>
-                    <div>
-                        <label class="font-semibold">Date and Time:</label>
-                        <input v-model="addForm.date_time" type="datetime-local"
-                            class="w-full px-4 py-2 border border-gray-300 rounded" />
-                    </div>
-                    <div>
-                        <label class="font-semibold">Orders:</label>
-                        <textarea v-model="addForm.orders" class="w-full px-4 py-2 border border-gray-300 rounded"
-                            placeholder="Enter orders"></textarea>
-                    </div>
-                    <div>
-                        <label class="font-semibold">Rationale:</label>
-                        <textarea v-model="addForm.rationale" class="w-full px-4 py-2 border border-gray-300 rounded"
-                            placeholder="Enter rationale"></textarea>
-                    </div>
-                    <div>
-                        <label class="font-semibold">Signature:</label>
-                        <input type="file" @change="handleAddFileChange" accept="image/*"
-                            class="w-full px-4 py-2 border border-gray-300 rounded" />
-                    </div>
-
-                    <div class="mt-4 text-right">
-                        <button type="submit"
-                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none">
-                            Submit
-                        </button>
-                        <button @click="closeAddModal"
-                            class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none ml-2">
-                            Close
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
 
         <!-- Modal for Editing Doctor's Order -->
-        <div v-if="isEditModalOpen"
-            class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-            <div class="bg-white p-6 rounded-lg w-96">
-                <h3 class="text-lg font-semibold mb-4">Edit Doctor's Order</h3>
-                <!-- Edit Form Content -->
-                <form @submit.prevent="submitEditForm" class="space-y-4">
-                    <div>
-                        <label class="font-semibold">Day Number:</label>
-                        <input v-model="editForm.day_number" type="text"
-                            class="w-full px-4 py-2 border border-gray-300 rounded" placeholder="Enter day number" />
-                    </div>
-                    <div>
-                        <label class="font-semibold">Date and Time:</label>
-                        <input v-model="editForm.date_time" type="datetime-local"
-                            class="w-full px-4 py-2 border border-gray-300 rounded" />
-                    </div>
-                    <div>
-                        <label class="font-semibold">Orders:</label>
-                        <textarea v-model="editForm.orders" class="w-full px-4 py-2 border border-gray-300 rounded"
-                            placeholder="Enter orders"></textarea>
-                    </div>
-                    <div>
-                        <label class="font-semibold">Rationale:</label>
-                        <textarea v-model="editForm.rationale" class="w-full px-4 py-2 border border-gray-300 rounded"
-                            placeholder="Enter rationale"></textarea>
-                    </div>
-                    <div>
-                        <label class="font-semibold">Signature:</label>
-                        <div v-if="currentSignature" class="mb-2">
-                            <img :src="`/storage/` + currentSignature" alt="Current Signature" class="w-32 h-auto" />
-                            <p class="text-sm text-gray-500">Current signature</p>
-                        </div>
-                        <input type="file" @change="handleEditFileChange" accept="image/*"
-                            class="w-full px-4 py-2 border border-gray-300 rounded" />
-                        <p class="text-sm text-gray-500">Leave empty to keep current signature</p>
+        <UseTemplate>
+            <form @submit.prevent="submitEditForm" class="grid gap-4 px-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-2 col-span-2">
+                        <Label for="day_number_edit">Day Number</Label>
+                        <Input id="day_number_edit" v-model="editForm.day_number" type="text" required />
                     </div>
 
-                    <div class="mt-4 text-right">
-                        <button type="submit"
-                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none">
-                            Update
-                        </button>
-                        <button @click="closeEditModal"
-                            class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none ml-2">
-                            Cancel
-                        </button>
+                    <div class="flex flex-col gap-2 col-span-2">
+                        <Label for="date_time_edit">Date and Time</Label>
+                        <Input id="date_time_edit" v-model="editForm.date_time" type="datetime-local" required />
                     </div>
-                </form>
-            </div>
-        </div>
+
+                    <div class="flex flex-col gap-2 col-span-2">
+                        <Label for="orders_edit">Orders</Label>
+                        <textarea id="orders_edit" v-model="editForm.orders" rows="3"
+                            class="w-full border rounded px-3 py-2" required></textarea>
+                    </div>
+
+                    <div class="flex flex-col gap-2 col-span-2">
+                        <Label for="rationale_edit">Rationale</Label>
+                        <textarea id="rationale_edit" v-model="editForm.rationale" rows="3"
+                            class="w-full border rounded px-3 py-2" required></textarea>
+                    </div>
+
+                    <div class="flex flex-col gap-2 col-span-2">
+                        <Label for="signature_edit">Signature</Label>
+                        <input id="signature_edit" type="file" @change="handleEditFileChange" accept="image/*"
+                            class="w-full border rounded px-3 py-2" />
+                        <div v-if="currentSignature" class="mt-1">
+                            <p class="text-sm text-gray-600 mb-1">Current signature:</p>
+                            <img :src="`/storage/${currentSignature}`" alt="Signature" class="h-12" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end pt-2 gap-2">
+                    <Button type="button" variant="outline" @click="closeEditModal">Cancel</Button>
+                    <Button type="submit">Update</Button>
+                </div>
+            </form>
+        </UseTemplate>
+
+        <Dialog v-if="isDesktop" v-model:open="isEditModalOpen">
+            <DialogContent class="sm:max-w-[500px]">
+                <DialogHeader>
+                    <DialogTitle>Edit Doctor’s Order</DialogTitle>
+                    <DialogDescription>Update the existing doctor’s order below.</DialogDescription>
+                </DialogHeader>
+                <GridForm />
+            </DialogContent>
+        </Dialog>
+
+        <Drawer v-else v-model:open="isEditModalOpen">
+            <DrawerContent>
+                <DrawerHeader class="text-left">
+                    <DrawerTitle>Edit Doctor’s Order</DrawerTitle>
+                    <DrawerDescription>Update the existing doctor’s order below.</DrawerDescription>
+                </DrawerHeader>
+                <GridForm />
+                <DrawerFooter class="pt-2">
+                    <DrawerClose as-child>
+                        <Button variant="outline">Cancel</Button>
+                    </DrawerClose>
+                </DrawerFooter>
+            </DrawerContent>
+        </Drawer>
+
+        <AlertDialog v-model:open="showDeleteDialog">
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        This action cannot be undone. It will permanently delete this doctor's order from the system.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel @click="showDeleteDialog = false">Cancel</AlertDialogCancel>
+                    <AlertDialogAction class="bg-red-600 hover:bg-red-700" @click="confirmDelete">
+                        Delete
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+
+
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from '@/Components/ui/select'
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuTrigger,
+} from '@/Components/ui/dropdown-menu'
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/Components/ui/table'
+
+import { Input } from '@/Components/ui/input'
+import { Label } from '@/Components/ui/label'
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/Components/ui/alert-dialog'
+import { ref, onMounted, computed } from 'vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { router, useForm, usePage } from '@inertiajs/vue3';
+import { Link, } from '@inertiajs/vue3';
+
+import { Button } from '@/Components/ui/button'
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/Components/ui/dialog'
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from '@/Components/ui/drawer'
+import { createReusableTemplate, useMediaQuery } from '@vueuse/core'
+// Reuse `form` section
+const [UseTemplate, GridForm] = createReusableTemplate()
+const isDesktop = useMediaQuery('(min-width: 768px)')
+
+const isOpen = ref(false)
 
 const props = defineProps({
     patient: Object,
@@ -277,11 +414,23 @@ const submitEditForm = () => {
 const deleteForm = useForm([
 
 ])
+const showDeleteDialog = ref(false);
+const orderToDeleteId = ref(null);
+
 const deleteData = (id) => {
-    if(confirm('Are you sure you want to delete this data')){
-        deleteForm.delete(route('doctor.destroy', id))
-    }
-}
+    orderToDeleteId.value = id;
+    showDeleteDialog.value = true;
+};
+
+const confirmDelete = () => {
+    if (!orderToDeleteId.value) return;
+    deleteForm.delete(route('doctor.destroy', orderToDeleteId.value), {
+        onSuccess: () => {
+            showDeleteDialog.value = false;
+            orderToDeleteId.value = null;
+        }
+    });
+};
 </script>
 
 <style scoped>
