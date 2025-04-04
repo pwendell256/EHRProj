@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Button } from '@/Components/ui/button'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/Components/ui/card'
-import { Input } from '@/components/ui/input'
+import { Input } from '@/Components/ui/input'
 import { Label } from '@/Components/ui/label'
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
@@ -31,7 +31,7 @@ const submit = () => {
                                 Welcome back
                             </h1>
                             <p class="text-balance text-muted-foreground">
-                                Login to your Acme Inc account
+                                Login to your EHR account
                             </p>
                         </div>
                         <div class="grid gap-2">
@@ -44,9 +44,7 @@ const submit = () => {
                         <div class="grid gap-2">
                             <div class="flex items-center">
                                 <Label for="password">Password</Label>
-                                <a href="#" class="ml-auto text-sm underline-offset-2 hover:underline">
-                                    Forgot your password?
-                                </a>
+                           
                             </div>
                             <Input id="password" type="password" class="mt-1 block w-full" v-model="form.password"
                                 required autocomplete="current-password" />
@@ -56,16 +54,11 @@ const submit = () => {
                             Login
                         </Button>
                         
-                        <div class="text-center text-sm">
-                            Don&apos;t have an account?
-                            <Link :href="route('register')" class="underline underline-offset-4">
-                                Sign up
-                            </Link>
-                        </div>
+                      
                     </div>
                 </form>
-                <div class="relative hidden bg-muted md:block">
-                    <img src="/placeholder.svg" alt="Image"
+                <div class="relative hidden bg-gray-50 md:block">
+                    <img src="../../Images/LOGO.png" alt="Image"
                         class="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale">
                 </div>
             </CardContent>

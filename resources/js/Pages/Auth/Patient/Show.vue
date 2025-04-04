@@ -1,37 +1,51 @@
 <template>
     <AuthenticatedLayout>
-        <div class="mt-10 p-6 bg-white rounded-lg shadow-md">
+        <div class="mt-10 p-6 bg-white rounded-lg">
             <!-- Patient Profile Section -->
-            <div class="flex items-center space-x-4">
-                <!-- Patient Profile Picture -->
-                <div class="relative">
-                    <img 
-                        :src="`/storage/` + patient.image || defaultImage" 
-                        alt="Patient Photo" 
-                        class="w-24 h-24 object-cover rounded-full border" 
-                    />
-                    <!-- Add/Edit Profile Picture Button -->
-                    <label class="absolute bottom-0 right-0 bg-blue-500 text-white p-2 rounded-full cursor-pointer hover:bg-blue-600">
-                        <input type="file" class="hidden" @change="uploadPicture" accept="image/*" />
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
-                    </label>
-                </div>
 
-                <!-- Patient Info -->
-                <div>
-                    <h2 class="text-xl font-semibold">{{ patient.full_name }}</h2>
-                    <p class="text-gray-600"><strong>Address </strong> {{ patient?.patientinfo?.address }}</p>
-                    <p class="text-gray-600"><strong>Age: </strong> {{ patient.age }}</p>
-                    <p class="text-gray-600"><strong>Birthdate: </strong> {{ patient.birth_date }}</p>
-                    <p class="text-gray-600"><strong>Birthplace: </strong> {{ patient.birth_place }} </p>
-                    <p class="text-gray-600"><strong>Gender: </strong> {{ patient.gender }}</p>
-                    <p class="text-gray-600"><strong>Religion: </strong> {{ patient?.patientinfo?.religion }}</p>
-                    <p class="text-gray-600"><strong>Educational Attainment: </strong> {{ patient.education }}</p>
-                    <p class="text-gray-600"><strong>Chief Complaint: </strong>{{ patient.chiefComplaint }}</p>
+
+            <div class="w-full bg-card text-card-foreground rounded-xl shadow-md p-6">
+                <div class="grid grid-cols-1 md:grid-cols-[auto,1fr] gap-6 items-start">
+
+                    <!-- Profile Picture -->
+                    <div class="relative w-24 h-24 mx-auto md:mx-0">
+                        <img :src="patient.image ? `/storage/${patient.image}` : defaultImage" alt="Patient Photo"
+                            class="w-full h-full object-cover object-center rounded-full border border-border" />
+                        <!-- Upload Button -->
+                        <label
+                            class="absolute bottom-0 right-0 bg-primary hover:bg-primary/90 text-primary-foreground p-1.5 rounded-full cursor-pointer shadow-md"
+                            title="Change photo">
+                            <input type="file" class="hidden" @change="uploadPicture" accept="image/*" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </label>
+                    </div>
+
+                    <!-- Patient Information -->
+                    <div class="space-y-1">
+                        <h2 class="text-2xl font-bold mb-3">{{ patient.full_name }}</h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm text-muted-foreground">
+                            <p><strong class="text-card-foreground">Address:</strong> {{ patient?.patientinfo?.address
+                                }}</p>
+                            <p><strong class="text-card-foreground">Age:</strong> {{ patient.age }}</p>
+                            <p><strong class="text-card-foreground">Birthdate:</strong> {{ patient.birth_date }}</p>
+                            <p><strong class="text-card-foreground">Birthplace:</strong> {{ patient.birth_place }}</p>
+                            <p><strong class="text-card-foreground">Gender:</strong> {{ patient.gender }}</p>
+                            <p><strong class="text-card-foreground">Religion:</strong> {{ patient?.patientinfo?.religion
+                                }}</p>
+                            <p><strong class="text-card-foreground">Educational Attainment:</strong> {{
+                                patient.education }}</p>
+                            <p><strong class="text-card-foreground">Chief Complaint:</strong> {{ patient.chiefComplaint
+                                }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+
+
 
             <!-- Tabs Section -->
             <div class="mt-4">
@@ -78,4 +92,3 @@ const uploadPicture = (event) => {
     }
 };
 </script>
-
