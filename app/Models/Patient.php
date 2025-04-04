@@ -16,6 +16,7 @@ class Patient extends Model
     protected $fillable = [
         'full_name',
         'birth_date',
+        'birth_place',
         'gender',
         'age',
         'admission_no',
@@ -24,6 +25,9 @@ class Patient extends Model
         'station',
         'status',
         'condition',
+        'chiefComplaint',
+        'education',
+        'image',
     ];
 
     public function imagings(){
@@ -52,5 +56,35 @@ class Patient extends Model
     public function medications(){
         return $this->hasMany(Medication::class, 'patient_Id', 'id');
  
+    }
+
+    public function patientinfo(){
+        return $this->hasOne(PatientInfo::class, 'patient_Id', 'id');
+    }
+    
+    public function doctororders(){
+        return $this->hasMany(Doctororder::class, 'patient_Id', 'id');
+    }
+    public function nursenotes(){
+        return $this->hasMany(Nurse::class, 'patient_Id', 'id');
+    }
+    public function diagnosis(){
+        return $this->hasOne(Diagnosis::class, 'patient_Id', 'id');
+    }
+
+    public function labdiagnosis(){
+        return $this->hasOne(Labdiagnosis::class, 'patient_Id', 'id');
+    }
+    public function assessment(){
+        return $this->hasOne(Assessment::class, 'patient_Id', 'id');
+    }
+    public function treatment(){
+        return $this->hasOne(Treatment::class, 'patient_Id', 'id');
+    }
+    public function mar(){
+        return $this->hasMany(MAR::class, 'patient_Id', 'id');
+    }
+    public function history(){
+        return $this->hasOne(History::class, 'patient_Id', 'id');
     }
     }

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+const props = defineProps({
+    user : Number
+})
 </script>
 
 <template>
@@ -33,7 +36,7 @@ import { Head } from '@inertiajs/vue3';
                     <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                         <div class="rounded-md bg-blue-50 p-3">
                             <p class="text-sm font-medium text-gray-700">Today's Patients</p>
-                            <p class="text-xl font-bold text-blue-700">24</p>
+                            <p class="text-xl font-bold text-blue-700">{{ user }}</p>
                         </div>
                         <div class="rounded-md bg-green-50 p-3">
                             <p class="text-sm font-medium text-gray-700">Scheduled Surgeries</p>

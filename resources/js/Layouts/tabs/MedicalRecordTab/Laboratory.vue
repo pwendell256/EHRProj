@@ -1,335 +1,506 @@
 <template>
-  <div class="bg-gray-100 p-4 rounded-lg">
-    <h3 class="text-lg font-semibold mb-2">Laboratory Records</h3>
-    <UseTemplate>
-      <form @submit.prevent="isEditing ? updateRecord() : addRecord()" class="grid gap-4 px-4">
-        <!-- 2-column layout -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="flex flex-col gap-2 col-span-2">
-            <Label for="testType">Test Type</Label>
-            <Input id="testType" v-model="form.testType" type="text" required />
-            <p v-if="form.errors.testType" class="text-red-500 text-sm">{{ form.errors.testType }}</p>
-          </div>
+  <div class="container mx-auto p-4">
+    <h1 class="text-2xl font-semibold mb-4">HEMATOLOGY</h1>
+    <h2 class="text-xl font-medium mb-6">Complete Blood Count</h2>
 
-          <div class="flex flex-col gap-2 col-span-2">
-            <Label for="dateTime">Test Date & Time</Label>
-            <Input id="dateTime" v-model="form.dateTime" type="datetime-local" required />
-            <p v-if="form.errors.dateTime" class="text-red-500 text-sm">{{ form.errors.dateTime }}</p>
-          </div>
+    <table class="min-w-full table-auto border-collapse">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="px-4 py-2 border">Test</th>
+          <th class="px-4 py-2 border">Result</th>
+          <th class="px-4 py-2 border">Reference</th>
+          <th class="px-4 py-2 border">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="px-4 py-2 border">White Blood Cells</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.wbc" @input="checkStatus('wbc', 4.5, 14.5)" /></td>
+          <td class="px-4 py-2 border">4.5-14.5 x 10^3/µL</td>
+          <td class="px-4 py-2 border" :class="statusClass.wbc">{{ status.wbc }}</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Red Blood Cell Count</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.rbc" @input="checkStatus('rbc', 4.00, 5.20)" /></td>
+          <td class="px-4 py-2 border">4.00-5.20 x 10^6/µL</td>
+          <td class="px-4 py-2 border" :class="statusClass.rbc">{{ status.rbc }}</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Hemoglobin</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.hemoglobin" @input="checkStatus('hemoglobin', 11.5, 15.5)" /></td>
+          <td class="px-4 py-2 border">11.5-15.5 g/dL</td>
+          <td class="px-4 py-2 border" :class="statusClass.hemoglobin">{{ status.hemoglobin }}</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Hematocrit</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.hematocrit" @input="checkStatus('hematocrit', 35, 45)" /></td>
+          <td class="px-4 py-2 border">35-45%</td>
+          <td class="px-4 py-2 border" :class="statusClass.hematocrit">{{ status.hematocrit }}</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Mean Corpuscular Volume</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.mcv" @input="checkStatus('mcv', 77, 95)" /></td>
+          <td class="px-4 py-2 border">77-95 fL</td>
+          <td class="px-4 py-2 border" :class="statusClass.mcv">{{ status.mcv }}</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Mean Corpuscular Hb</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.mch" @input="checkStatus('mch', 25, 33)" /></td>
+          <td class="px-4 py-2 border">25-33 pg</td>
+          <td class="px-4 py-2 border" :class="statusClass.mch">{{ status.mch }}</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Mean Corpuscular Hb Conc.</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.mchc" @input="checkStatus('mchc', 32, 36)" /></td>
+          <td class="px-4 py-2 border">32-36 g/dL</td>
+          <td class="px-4 py-2 border" :class="statusClass.mchc">{{ status.mchc }}</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">RBC Distribution Width</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.rbc_width" @input="checkStatus('rbc_width', 11.5, 15.0)" /></td>
+          <td class="px-4 py-2 border">11.5-15.0 %</td>
+          <td class="px-4 py-2 border" :class="statusClass.rbc_width">{{ status.rbc_width }}</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Platelet Count</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.platelet_count" @input="checkStatus('platelet_count', 150, 450)" /></td>
+          <td class="px-4 py-2 border">150-450 x 10^3/µL</td>
+          <td class="px-4 py-2 border" :class="statusClass.platelet_count">{{ status.platelet_count }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-          <div class="flex flex-col gap-2 md:col-span-2">
-            <Label for="result">Result</Label>
-            <Input id="result" v-model="form.result" type="text" required />
-            <p v-if="form.errors.result" class="text-red-500 text-sm">{{ form.errors.result }}</p>
-          </div>
+  <div class="container mx-auto p-4">
+    <h2 class="text-xl font-medium mb-6">Differential Count</h2>
 
-          <div class="flex flex-col gap-2 md:col-span-2">
-            <Label for="image">Upload Image</Label>
-            <input id="image" type="file" @change="handleImageUpload" accept="image/*"
-              class="w-full border rounded px-3 py-2" />
-            <p v-if="form.errors.image" class="text-red-500 text-sm">{{ form.errors.image }}</p>
-          </div>
-        </div>
+    <table class="min-w-full table-auto border-collapse">
+      <tbody>
+        <tr>
+          <td class="px-4 py-2 border">Neutrophils</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.neutrophils" @input="checkStatus('neutrophils', 1.0, 8.0)" /></td>
+          <td class="px-4 py-2 border">1.0-8.0 x 10^9/L</td>
+          <td class="px-4 py-2 border" :class="statusClass.neutrophils">{{ status.neutrophils }}</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Lymphocytes</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.lymphocytes" @input="checkStatus('lymphocytes', 1.5, 7.0)" /></td>
+          <td class="px-4 py-2 border">1.5-7.0 x 10^9/L</td>
+          <td class="px-4 py-2 border" :class="statusClass.lymphocytes">{{ status.lymphocytes }}</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Monocyte</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.monocytes" @input="checkStatus('monocytes', 0.2, 1.0)" /></td>
+          <td class="px-4 py-2 border">0.2-1.0 x 10^9/L</td>
+          <td class="px-4 py-2 border" :class="statusClass.monocytes">{{ status.monocytes }}</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Eosinophil</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.eosinophils" @input="checkStatus('eosinophils', 0, 0.81, true)" /></td>
+          <td class="px-4 py-2 border">&lt;0.81 x 10^9/L</td>
+          <td class="px-4 py-2 border" :class="statusClass.eosinophils">{{ status.eosinophils }}</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Basophil</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.basophils" @input="checkStatus('basophils', 0, 0.21, true)" /></td>
+          <td class="px-4 py-2 border">&lt;0.21 x 10^9/L</td>
+          <td class="px-4 py-2 border" :class="statusClass.basophils">{{ status.basophils }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-        <Button type="submit">{{ isEditing ? 'Update' : 'Save' }}</Button>
+  <div class="container mx-auto p-4">
+    <h2 class="text-xl font-medium mb-6">Radiology</h2>
 
-      </form>
-    </UseTemplate>
+    <table class="min-w-full table-auto border-collapse">
+      <tbody>
+        <tr>
+          <td class="px-4 py-2 border">Chest PA</td>
+          <td class="px-4 py-2 border">
+            <textarea class="w-full border-gray-300 rounded px-2 py-1" rows="4" v-model="form.chest_pa"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Impression</td>
+          <td class="px-4 py-2 border">
+            <textarea class="w-full border-gray-300 rounded px-2 py-1" rows="4" v-model="form.impression"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border">Advice</td>
+          <td class="px-4 py-2 border">
+            <textarea class="w-full border-gray-300 rounded px-2 py-1" rows="4" v-model="form.advice"></textarea>
+            <div class="mt-2">
+              <label for="image-upload" class="block text-sm font-medium text-gray-700">Upload Image</label>
+              <input type="file" id="image-upload" class="w-full border-gray-300 rounded px-2 py-1 mt-1"
+                accept="image/*" @change="handleFileUpload" ref="fileInput" />
 
-    <!-- Dialog/Drawer Integration -->
-    <Dialog v-if="isDesktop" v-model:open="isOpen">
-      <DialogTrigger as-child>
-        <Button @click="openModal()">+ Add Data</Button>
-      </DialogTrigger>
-      <DialogContent class="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>{{ isEditing ? 'Edit' : 'Add' }} Laboratory Record</DialogTitle>
-          <DialogDescription>
-            Fill out the lab test information and upload a result image.
-          </DialogDescription>
-        </DialogHeader>
-        <GridForm />
-      </DialogContent>
-    </Dialog>
-
-    <Drawer v-else v-model:open="isOpen">
-      <DrawerTrigger as-child>
-        <Button>+ Add Data</Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader class="text-left">
-          <DrawerTitle>{{ isEditing ? 'Edit' : 'Add' }} Laboratory Record</DrawerTitle>
-          <DrawerDescription>
-            Fill out the lab test information and upload a result image.
-          </DrawerDescription>
-        </DrawerHeader>
-        <GridForm />
-        <DrawerFooter class="pt-2">
-          <DrawerClose as-child>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
-
-    <div class="overflow-x-auto mt-4 border rounded-lg">
-      <Table>
-        <TableHeader class="bg-green-100">
-          <TableRow>
-            <TableHead>Test Type</TableHead>
-            <TableHead>Test Date & Time</TableHead>
-            <TableHead>Result</TableHead>
-            <TableHead>Image</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-          <TableRow v-if="!patient.laboratories || patient.laboratories.length === 0">
-            <TableCell colspan="5" class="text-center text-gray-500">
-              No laboratory records found.
-            </TableCell>
-          </TableRow>
-
-          <TableRow v-for="record in patient.laboratories" :key="record.id">
-            <TableCell>{{ record.testType }}</TableCell>
-            <TableCell>{{ record.dateTime }}</TableCell>
-            <TableCell>{{ record.result }}</TableCell>
-            <TableCell>
-              <div class="text-center">
-                <button v-if="record.path" @click="openImageModal(record.path)" class="text-blue-600 hover:underline">
-                  👁️ View
+              <!-- Show image preview if a new file is selected -->
+              <div v-if="imagePreview" class="mt-2">
+                <img :src="imagePreview" alt="Preview" class="max-w-xs rounded border border-gray-300" />
+                <button @click="removeImage" type="button"
+                  class="mt-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                  Remove Image
                 </button>
-                <span v-else class="text-gray-500">No Image</span>
               </div>
-            </TableCell>
-            <TableCell class="text-center">
-              <DropdownMenu>
-                <DropdownMenuTrigger as-child>
-                  <Button variant="ghost" class="flex h-8 w-8 p-0 data-[state=open]:bg-muted">
-                    <i class="fa-solid fa-ellipsis"></i>
-                    <span class="sr-only">Open menu</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" class="w-[160px]">
-                  <DropdownMenuItem @click="openEditModal(record)">
-                    <i class="fa-solid fa-pen-to-square mr-2"></i> Edit
-                  </DropdownMenuItem>
-                  <DropdownMenuItem @click="deleteRecord(record.id)">
-                    <i class="fa-solid fa-trash mr-2"></i> Delete
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
 
+              <!-- Show existing image if no new file is selected but we have a saved image -->
+              <div v-else-if="form.advice_path && !imagePreview" class="mt-2">
+                <img :src="`/storage/${form.advice_path}`" alt="Uploaded image"
+                  class="max-w-xs rounded border border-gray-300" />
+                <button @click="removeImage" type="button"
+                  class="mt-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                  Remove Image
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="container mx-auto p-4">
+    <h1 class="text-2xl font-semibold mb-4">CLINICAL MICROSCOPY</h1>
+    <h2 class="text-xl font-medium mb-6">Urinalysis</h2>
+
+    <div class="mb-4">
+      <label class="block mb-1 text-sm font-medium text-gray-700">Date of Collection</label>
+      <input type="date" class="w-full border-gray-300 rounded px-2 py-1" v-model="form.uri_date" />
     </div>
-    <AlertDialog v-model:open="showDeleteDialog">
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. It will permanently delete this laboratory record.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel @click="showDeleteDialog = false">Cancel</AlertDialogCancel>
-          <AlertDialogAction class="bg-red-600 hover:bg-red-700" @click="handleDelete">
-            Delete
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-
-
-
-    <!-- Image Preview Modal -->
-    <div v-if="showImageModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
-      <div class="relative bg-white p-4 rounded-lg shadow-lg">
-        <button @click="closeImageModal"
-          class="absolute top-2 right-2 px-3 py-1 bg-red-600 text-white rounded-full hover:bg-red-700">
-          &times;
-        </button>
-        <img :src="`/storage/` + selectedImage" alt="Expanded Image" class="max-w-full max-h-screen rounded-lg">
-      </div>
+    <div class="mb-4">
+      <label class="block mb-1 text-sm font-medium text-gray-700">Time of Collection</label>
+      <input type="time" class="w-full border-gray-300 rounded px-2 py-1" v-model="form.uri_time" />
     </div>
 
+    <h3 class="text-lg font-medium mb-4">Physical/Macroscopic</h3>
+    <div class="mb-4">
+      <label class="block mb-1 text-sm font-medium text-gray-700">Transparency</label>
+      <input type="text" class="w-full border-gray-300 rounded px-2 py-1" v-model="form.transparency" />
+    </div>
+    <div class="mb-4">
+      <label class="block mb-1 text-sm font-medium text-gray-700">Color</label>
+      <input type="text" class="w-full border-gray-300 rounded px-2 py-1" v-model="form.color" />
+    </div>
+
+    <h3 class="text-lg font-medium mb-4">Urine Chemical</h3>
+
+    <table class="min-w-full table-auto border-collapse">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="px-4 py-2 border">Test</th>
+          <th class="px-4 py-2 border">Result</th>
+          <th class="px-4 py-2 border">Reference</th>
+          <th class="px-4 py-2 border">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Sp. Gravity -->
+        <tr>
+          <td class="px-4 py-2 border">Sp. Gravity</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.sp_gravity" @input="checkStatus('sp_gravity', 1.005, 1.030)" /></td>
+          <td class="px-4 py-2 border">1.005-1.030</td>
+          <td class="px-4 py-2 border" :class="statusClass.sp_gravity">{{ status.sp_gravity }}</td>
+        </tr>
+        <!-- pH -->
+        <tr>
+          <td class="px-4 py-2 border">pH</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.ph" @input="checkStatus('ph', 4.6, 8.0)" /></td>
+          <td class="px-4 py-2 border">4.6-8.0</td>
+          <td class="px-4 py-2 border" :class="statusClass.ph">{{ status.ph }}</td>
+        </tr>
+        <!-- Protein -->
+        <tr>
+          <td class="px-4 py-2 border">Protein</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.protein" @input="checkNegativeStatus('protein')" /></td>
+          <td class="px-4 py-2 border">NEGATIVE</td>
+          <td class="px-4 py-2 border" :class="statusClass.protein">{{ status.protein }}</td>
+        </tr>
+        <!-- Glucose -->
+        <tr>
+          <td class="px-4 py-2 border">Glucose</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.glucose" @input="checkNegativeStatus('glucose')" /></td>
+          <td class="px-4 py-2 border">NEGATIVE</td>
+          <td class="px-4 py-2 border" :class="statusClass.glucose">{{ status.glucose }}</td>
+        </tr>
+        <!-- Bilirubin -->
+        <tr>
+          <td class="px-4 py-2 border">Bilirubin</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.bilirubin" @input="checkNegativeStatus('bilirubin')" /></td>
+          <td class="px-4 py-2 border">NEGATIVE</td>
+          <td class="px-4 py-2 border" :class="statusClass.bilirubin">{{ status.bilirubin }}</td>
+        </tr>
+        <!-- Blood (ERY/Hb) -->
+        <tr>
+          <td class="px-4 py-2 border">Blood (ERY/Hb)</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.ery_hb" @input="checkNegativeStatus('ery_hb')" /></td>
+          <td class="px-4 py-2 border">NEGATIVE</td>
+          <td class="px-4 py-2 border" :class="statusClass.ery_hb">{{ status.ery_hb }}</td>
+        </tr>
+        <!-- Leukocytes -->
+        <tr>
+          <td class="px-4 py-2 border">Leukocytes</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.leukocytes" @input="checkNegativeStatus('leukocytes')" /></td>
+          <td class="px-4 py-2 border">NEGATIVE</td>
+          <td class="px-4 py-2 border" :class="statusClass.leukocytes">{{ status.leukocytes }}</td>
+        </tr>
+        <!-- Nitrite -->
+        <tr>
+          <td class="px-4 py-2 border">Nitrite</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.nitrite" @input="checkNegativeStatus('nitrite')" /></td>
+          <td class="px-4 py-2 border">NEGATIVE</td>
+          <td class="px-4 py-2 border" :class="statusClass.nitrite">{{ status.nitrite }}</td>
+        </tr>
+        <!-- Urobilinogen -->
+        <tr>
+          <td class="px-4 py-2 border">Urobilinogen</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.urobilinogen" @input="checkNegativeStatus('urobilinogen')" /></td>
+          <td class="px-4 py-2 border">NEGATIVE</td>
+          <td class="px-4 py-2 border" :class="statusClass.urobilinogen">{{ status.urobilinogen }}</td>
+        </tr>
+        <!-- Ketone -->
+        <tr>
+          <td class="px-4 py-2 border">Ketone</td>
+          <td class="px-4 py-2 border"><input type="text" class="w-full border-gray-300 rounded px-2 py-1"
+              v-model="form.ketone" @input="checkNegativeStatus('ketone')" /></td>
+          <td class="px-4 py-2 border">NEGATIVE</td>
+          <td class="px-4 py-2 border" :class="statusClass.ketone">{{ status.ketone }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="container mx-auto p-4">
+    <button type="button" @click="submitForm"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      Save Lab Results
+    </button>
   </div>
 </template>
 
 <script setup>
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/Components/ui/select'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from '@/Components/ui/dropdown-menu'
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/Components/ui/table'
-
-import { Input } from '@/Components/ui/input'
-import { Label } from '@/Components/ui/label'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/Components/ui/alert-dialog'
-import { ref, onMounted } from 'vue';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { router, useForm, usePage } from '@inertiajs/vue3';
-import { Link } from '@inertiajs/vue3';
-
-import { Button } from '@/Components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/Components/ui/dialog'
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/Components/ui/drawer'
-import { createReusableTemplate, useMediaQuery } from '@vueuse/core'
-// Reuse `form` section
-const [UseTemplate, GridForm] = createReusableTemplate()
-const isDesktop = useMediaQuery('(min-width: 768px)')
-
-const isOpen = ref(false)
+import { ref, onMounted, reactive } from 'vue';
+import { useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
-  patient: Object,
+  patient: Object
 });
 
-const showModal = ref(false);
-const isEditing = ref(false);
-const selectedRecordId = ref(null);
-const showImageModal = ref(false);
-const selectedImage = ref(null);
+const fileInput = ref(null);
+const imagePreview = ref(null);
 
 const form = useForm({
-  testType: '',
-  dateTime: '',
-  result: '',
-  image: null,
+  wbc: props.patient?.labdiagnosis?.wbc || '',
+  rbc: props.patient?.labdiagnosis?.rbc || '',
+  hemoglobin: props.patient?.labdiagnosis?.hemoglobin || '',
+  hematocrit: props.patient?.labdiagnosis?.hematocrit || '',
+  mcv: props.patient?.labdiagnosis?.mcv || '',
+  mch: props.patient?.labdiagnosis?.mch || '',
+  mchc: props.patient?.labdiagnosis?.mchc || '',
+  rbc_width: props.patient?.labdiagnosis?.rbc_width || '',
+  platelet_count: props.patient?.labdiagnosis?.platelet_count || '',
+  neutrophils: props.patient?.labdiagnosis?.neutrophils || '',
+  lymphocytes: props.patient?.labdiagnosis?.lymphocytes || '',
+  monocytes: props.patient?.labdiagnosis?.monocytes || '',
+  eosinophils: props.patient?.labdiagnosis?.eosinophils || '',
+  basophils: props.patient?.labdiagnosis?.basophils || '',
+  chest_pa: props.patient?.labdiagnosis?.chest_pa || '',
+  impression: props.patient?.labdiagnosis?.impression || '',
+  advice: props.patient?.labdiagnosis?.advice || '',
+  advice_path: props.patient?.labdiagnosis?.advice_path || null,
+  uri_date: props.patient?.labdiagnosis?.uri_date || '',
+  uri_time: props.patient?.labdiagnosis?.uri_time || '',
+  transparency: props.patient?.labdiagnosis?.transparency || '',
+  color: props.patient?.labdiagnosis?.color || '',
+  sp_gravity: props.patient?.labdiagnosis?.sp_gravity || '',
+  ph: props.patient?.labdiagnosis?.ph || '',
+  protein: props.patient?.labdiagnosis?.protein || '',
+  glucose: props.patient?.labdiagnosis?.glucose || '',
+  bilirubin: props.patient?.labdiagnosis?.bilirubin || '',
+  ery_hb: props.patient?.labdiagnosis?.ery_hb || '',
+  leukocytes: props.patient?.labdiagnosis?.leukocytes || '',
+  nitrite: props.patient?.labdiagnosis?.nitrite || '',
+  urobilinogen: props.patient?.labdiagnosis?.urobilinogen || '',
+  ketone: props.patient?.labdiagnosis?.ketone || '',
+  _method: 'PUT',
 });
 
-const openModal = () => {
-  isEditing.value = false;
-  form.reset();
-  showModal.value = true;
-};
+// Status objects to track normal/abnormal values
+const status = reactive({});
+const statusClass = reactive({});
 
-const openEditModal = (record) => {
-  isEditing.value = true;
-  selectedRecordId.value = record.id;
-  form.testType = record.testType;
-  form.dateTime = record.dateTime;
-  form.result = record.result;
-  form.image = null; // Reset image to allow optional update
-  isOpen.value = true
-};
-
-
-const closeModal = () => {
-  isOpen.value = false
-  form.reset();
-};
-
-const handleImageUpload = (event) => {
-  form.image = event.target.files[0];
-};
-
-const addRecord = () => {
-  form.post(route('lab.store', props.patient.id), {
-    preserveScroll: true,
-    onSuccess: () => {
-      closeModal();
-    },
+// Initialize status for all fields
+const initializeStatus = () => {
+  const fields = [
+    'wbc', 'rbc', 'hemoglobin', 'hematocrit', 'mcv', 'mch', 
+    'mchc', 'rbc_width', 'platelet_count', 'neutrophils', 
+    'lymphocytes', 'monocytes', 'eosinophils', 'basophils',
+    'sp_gravity', 'ph', 'protein', 'glucose', 'bilirubin',
+    'ery_hb', 'leukocytes', 'nitrite', 'urobilinogen', 'ketone'
+  ];
+  
+  fields.forEach(field => {
+    status[field] = '';
+    statusClass[field] = '';
   });
-};
-
-const updateRecord = () => {
-  const formData = new FormData();
-  formData.append('testType', form.testType);
-  formData.append('dateTime', form.dateTime);
-  formData.append('result', form.result);
-
-  // Only append image if a new file is selected
-  if (form.image && form.image instanceof File) {
-    formData.append('image', form.image);
+  
+  // Check initial values if data exists
+  if (props.patient?.labdiagnosis) {
+    checkAllValues();
   }
+};
 
-  router.post(route('lab.update', { id: selectedRecordId.value }), formData, {
+// Function to check numeric values against reference ranges
+const checkStatus = (field, min, max, lessThanOnly = false) => {
+  const value = parseFloat(form[field]);
+  
+  if (!form[field] || isNaN(value)) {
+    status[field] = '';
+    statusClass[field] = '';
+    return;
+  }
+  
+  if (lessThanOnly) {
+    if (value <= max) {
+      status[field] = 'NORMAL';
+      statusClass[field] = 'text-green-500 font-medium';
+    } else {
+      status[field] = 'HIGH';
+      statusClass[field] = 'text-red-500 font-medium';
+    }
+    return;
+  }
+  
+  if (value >= min && value <= max) {
+    status[field] = 'NORMAL';
+    statusClass[field] = 'text-green-500 font-medium';
+  } else if (value < min) {
+    status[field] = 'LOW';
+    statusClass[field] = 'text-red-500 font-medium';
+  } else {
+    status[field] = 'HIGH';
+    statusClass[field] = 'text-red-500 font-medium';
+  }
+};
+
+// Function to check negative/positive values
+const checkNegativeStatus = (field) => {
+  const value = form[field].toString().trim().toUpperCase();
+  
+  if (!value) {
+    status[field] = '';
+    statusClass[field] = '';
+    return;
+  }
+  
+  if (value === 'NEGATIVE' || value === '-' || value === 'NEG') {
+    status[field] = 'NORMAL';
+    statusClass[field] = 'text-green-500 font-medium';
+  } else {
+    status[field] = 'ABNORMAL';
+    statusClass[field] = 'text-red-500 font-medium';
+  }
+};
+
+// Check all values (useful on initial load)
+const checkAllValues = () => {
+  // CBC
+  checkStatus('wbc', 4.5, 14.5);
+  checkStatus('rbc', 4.00, 5.20);
+  checkStatus('hemoglobin', 11.5, 15.5);
+  checkStatus('hematocrit', 35, 45);
+  checkStatus('mcv', 77, 95);
+  checkStatus('mch', 25, 33);
+  checkStatus('mchc', 32, 36);
+  checkStatus('rbc_width', 11.5, 15.0);
+  checkStatus('platelet_count', 150, 450);
+  
+  // Differential count
+  checkStatus('neutrophils', 1.0, 8.0);
+  checkStatus('lymphocytes', 1.5, 7.0);
+  checkStatus('monocytes', 0.2, 1.0);
+  checkStatus('eosinophils', 0, 0.81, true);
+  checkStatus('basophils', 0, 0.21, true);
+  
+  // Urine
+  checkStatus('sp_gravity', 1.005, 1.030);
+  checkStatus('ph', 4.6, 8.0);
+  
+  // Negative tests
+  checkNegativeStatus('protein');
+  checkNegativeStatus('glucose');
+  checkNegativeStatus('bilirubin');
+  checkNegativeStatus('ery_hb');
+  checkNegativeStatus('leukocytes');
+  checkNegativeStatus('nitrite');
+  checkNegativeStatus('urobilinogen');
+  checkNegativeStatus('ketone');
+};
+
+// Load existing image if available and initialize statuses
+onMounted(() => {
+  if (props.patient?.labdiagnosis?.advice_path) {
+    form.advice_path = props.patient.labdiagnosis.advice_path;
+  }
+  
+  initializeStatus();
+});
+
+const handleFileUpload = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    form.advice_path = file;
+    // Create a preview for the image
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imagePreview.value = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+const removeImage = () => {
+  form.advice_path = null;
+  imagePreview.value = null;
+  if (fileInput.value) {
+    fileInput.value.value = '';
+  }
+};
+
+const submitForm = () => {
+  form.post(route('labdiagnosis.update', props.patient.labdiagnosis.id), {
+    forceFormData: true,
     preserveScroll: true,
     onSuccess: () => {
-      closeModal();
+      alert('Lab results saved successfully!');
     },
+    onError: (errors) => {
+      console.error(errors);
+    }
   });
-};
-
-
-const showDeleteDialog = ref(false)
-const recordToDeleteId = ref(null)
-
-const deleteRecord = (id) => {
-  recordToDeleteId.value = id
-  showDeleteDialog.value = true
-}
-
-const handleDelete = () => {
-  form.delete(route('lab.destroy', recordToDeleteId.value), {
-    preserveScroll: true,
-    onSuccess: () => {
-      showDeleteDialog.value = false
-      recordToDeleteId.value = null
-    },
-  })
-}
-
-// Open Image Modal
-const openImageModal = (imagePath) => {
-  selectedImage.value = imagePath;
-  showImageModal.value = true;
-};
-
-// Close Image Modal
-const closeImageModal = () => {
-  showImageModal.value = false;
-  selectedImage.value = null;
 };
 </script>

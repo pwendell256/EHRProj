@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('station');
             $table->string('status');
             $table->string('condition');
+            $table->string('chiefComplaint')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
         

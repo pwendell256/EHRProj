@@ -68,6 +68,10 @@
                                         <Label for="birth_date">Birthdate</Label>
                                         <Input id="birth_date" v-model="form.birth_date" type="date" />
                                     </div>
+                                    <div class="flex flex-col gap-2">
+                                        <Label for="birth_date">Birthplace</Label>
+                                        <Input id="birth_date" v-model="form.birth_place" type="text" />
+                                    </div>
 
                                     <div class="flex flex-col gap-2">
                                         <Label for="gender">Gender</Label>
@@ -124,6 +128,14 @@
                                     <div class="flex flex-col gap-2">
                                         <Label for="condition">Condition</Label>
                                         <Input id="condition" v-model="form.condition" type="text" />
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <Label for="condition">Educational Attainment</Label>
+                                        <Input id="condition" v-model="form.education" type="text" />
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <Label for="condition">Chief Complaint</Label>
+                                        <Input id="condition" v-model="form.chiefComplaint" type="text" />
                                     </div>
 
                                 </div>
@@ -198,6 +210,7 @@
                                     <TableHead class="hidden md:table-cell">Station</TableHead>
                                     <TableHead class="hidden md:table-cell">Status</TableHead>
                                     <TableHead class="hidden md:table-cell">Condition</TableHead>
+                                    <TableHead class="hidden md:table-cell">Chief Complaint</TableHead>
                                     <TableHead class="">Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -222,6 +235,7 @@
                                     <TableCell class="hidden md:table-cell">{{ patient.station }}</TableCell>
                                     <TableCell class="hidden md:table-cell">{{ patient.status }}</TableCell>
                                     <TableCell class="hidden md:table-cell">{{ patient.condition }}</TableCell>
+                                    <TableCell class="hidden md:table-cell">{{ patient.chiefComplaint }}</TableCell>
 
                                     <TableCell class="text-center">
                                         <DropdownMenu>
@@ -310,7 +324,7 @@ import {
     TableRow,
 } from '@/Components/ui/table'
 
-import { Input } from '@/components/ui/input'
+import { Input } from '@/Components/ui/input'
 import { Label } from '@/Components/ui/label'
 import {
     AlertDialog,
@@ -328,7 +342,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { router, useForm, usePage } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
 
-import { Button } from '@/Components/ui/button'
+import { Button } from '@/components/ui/button'
 import {
     Dialog,
     DialogContent,
@@ -369,6 +383,7 @@ const openModal = (patient = null) => {
     if (patient) {
         form.full_name = patient.full_name
         form.birth_date = patient.birth_date
+        form.birth_place = patient.birth_place
         form.gender = patient.gender
         form.admission_no = patient.admission_no
         form.admission_datetime = patient.admission_datetime
@@ -376,6 +391,8 @@ const openModal = (patient = null) => {
         form.station = patient.station
         form.status = patient.status
         form.condition = patient.condition
+        form.chiefComplaint = patient.chiefComplaint
+        form.education = patient.education
     } else {
         form.reset()
         selectedPatient.value = null
@@ -415,6 +432,7 @@ const searchPatients = () => {
 const form = useForm({
     full_name: '',
     birth_date: '',
+    birth_place: '',
     gender: '',
     admission_no: '',
     admission_datetime: '',
@@ -422,6 +440,9 @@ const form = useForm({
     station: '',
     status: '',
     condition: '',
+    chiefComplaint: '',
+    education: '',
+
 });
 
 const submit = () => {
