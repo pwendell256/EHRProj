@@ -17,13 +17,13 @@ const props = defineProps({
             </h2>
         </template>
 
-        <main class="flex-1 mt-8">
+        <main class="flex-1">
 
-            <!-- Pediatric Header Section -->
+            <!-- Pediatric Header Section (Full Page) -->
             <div
-                class="relative overflow-hidden rounded-lg border border-gray-200 bg-gradient-to-br from-green-100 to-blue-100 p-6 shadow-md">
-                <!-- Menu Icon (Optional, can be removed if already in layout) -->
-                <div class="absolute left-4 top-4">
+                class="relative w-full min-h-screen overflow-hidden bg-gradient-to-br from-green-100 to-blue-100 p-6 shadow-md flex flex-col items-center justify-center">
+                <!-- Optional Menu Icon -->
+                <div class="absolute left-6 top-6">
                     <i class="icon-menu h-6 w-6 text-gray-600"></i>
                 </div>
 
@@ -35,9 +35,9 @@ const props = defineProps({
                 </div>
 
                 <!-- Hospital Name -->
-                <div class="mt-4 flex justify-center">
+                <div class="mt-6 flex justify-center">
                     <div
-                        class="rounded-md border border-gray-400 bg-white px-6 py-2 text-center text-xl font-semibold text-gray-800">
+                        class="rounded-md border border-gray-400 bg-white px-6 py-2 text-center text-2xl font-semibold text-gray-800">
                         FEU Fortis Medical Center
                     </div>
                 </div>
@@ -48,12 +48,11 @@ const props = defineProps({
                 </div>
 
                 <!-- Scroll Down Hint -->
-                <div class="mt-4 flex justify-center">
-                    <div class="animate-bounce text-sm text-gray-500">
-                        ↓ scroll down
-                    </div>
+                <div class="mt-8 animate-bounce text-sm text-gray-600">
+                    ↓ scroll down
                 </div>
             </div>
+
 
 
             <div class="space-y-8 mt-4">

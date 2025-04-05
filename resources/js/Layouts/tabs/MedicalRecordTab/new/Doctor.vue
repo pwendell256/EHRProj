@@ -1,14 +1,16 @@
 <template>
     <div class="bg-gray-50 p-4 rounded-lg">
-        <h3 class="text-lg font-semibold mb-2">MAR</h3>
+        <h3 class="text-lg font-semibold mb-2">Doctor's Order</h3>
 
 
-        <UseTemplate>
+
+
+        <UseAddTemplate>
             <form @submit.prevent="submitAddForm" class="grid gap-4 px-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="flex flex-col gap-2 col-span-2">
                         <Label for="day_number_add">Day Number</Label>
-                        <Input id="day_number_add" v-model="addForm.day_number" type="text" required />
+                        <Input id="day_number_add" v-model="addForm.day_number" type="number" required />
                     </div>
 
                     <div class="flex flex-col gap-2 col-span-2">
@@ -35,36 +37,42 @@
                     </div>
                 </div>
 
-                <div class="flex justify-end pt-2 gap-2">
-                    <Button type="button" variant="outline" @click="closeAddModal">Cancel</Button>
-                    <Button type="submit">Submit</Button>
-                </div>
-            </form>
-        </UseTemplate>
 
+                <Button type="submit">Submit</Button>
+
+            </form>
+        </UseAddTemplate>
+
+        <!-- Add Trigger + Dialog (Desktop) -->
         <Dialog v-if="isDesktop" v-model:open="isAddModalOpen">
             <DialogTrigger as-child>
-                <Button @click="isAddModalOpen = true">+ Add Doctor’s Order</Button>
+                <Button @click.prevent="handleAddTrigger">
+                    Add order
+                </Button>
             </DialogTrigger>
+
             <DialogContent class="sm:max-w-[500px]">
                 <DialogHeader>
                     <DialogTitle>Add Doctor’s Order</DialogTitle>
                     <DialogDescription>Fill out the new doctor's order below.</DialogDescription>
                 </DialogHeader>
-                <GridForm />
+                <AddGridForm />
             </DialogContent>
         </Dialog>
 
+        <!-- Add Trigger + Drawer (Mobile) -->
         <Drawer v-else v-model:open="isAddModalOpen">
             <DrawerTrigger as-child>
-                <Button variant="outline" @click="isAddModalOpen = true">+ Add Doctor’s Order</Button>
+                <Button variant="outline" @click.prevent="handleAddTrigger">
+                    Add order
+                </Button>
             </DrawerTrigger>
             <DrawerContent>
                 <DrawerHeader class="text-left">
                     <DrawerTitle>Add Doctor’s Order</DrawerTitle>
                     <DrawerDescription>Fill out the new doctor's order below.</DrawerDescription>
                 </DrawerHeader>
-                <GridForm />
+                <AddGridForm />
                 <DrawerFooter class="pt-2">
                     <DrawerClose as-child>
                         <Button variant="outline">Cancel</Button>
@@ -143,12 +151,12 @@
 
 
         <!-- Modal for Editing Doctor's Order -->
-        <UseTemplate>
+        <UseEditTemplate>
             <form @submit.prevent="submitEditForm" class="grid gap-4 px-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="flex flex-col gap-2 col-span-2">
                         <Label for="day_number_edit">Day Number</Label>
-                        <Input id="day_number_edit" v-model="editForm.day_number" type="text" required />
+                        <Input id="day_number_edit" v-model="editForm.day_number" type="number" required />
                     </div>
 
                     <div class="flex flex-col gap-2 col-span-2">
@@ -179,12 +187,11 @@
                     </div>
                 </div>
 
-                <div class="flex justify-end pt-2 gap-2">
-                    <Button type="button" variant="outline" @click="closeEditModal">Cancel</Button>
-                    <Button type="submit">Update</Button>
-                </div>
+
+                <Button type="submit">Update</Button>
+
             </form>
-        </UseTemplate>
+        </UseEditTemplate>
 
         <Dialog v-if="isDesktop" v-model:open="isEditModalOpen">
             <DialogContent class="sm:max-w-[500px]">
@@ -192,7 +199,7 @@
                     <DialogTitle>Edit Doctor’s Order</DialogTitle>
                     <DialogDescription>Update the existing doctor’s order below.</DialogDescription>
                 </DialogHeader>
-                <GridForm />
+                <EditGridForm />
             </DialogContent>
         </Dialog>
 
@@ -202,7 +209,7 @@
                     <DrawerTitle>Edit Doctor’s Order</DrawerTitle>
                     <DrawerDescription>Update the existing doctor’s order below.</DrawerDescription>
                 </DrawerHeader>
-                <GridForm />
+                <EditGridForm />
                 <DrawerFooter class="pt-2">
                     <DrawerClose as-child>
                         <Button variant="outline">Cancel</Button>
@@ -210,6 +217,7 @@
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>
+
 
         <AlertDialog v-model:open="showDeleteDialog">
             <AlertDialogContent>
@@ -299,7 +307,8 @@ import {
 } from '@/Components/ui/drawer'
 import { createReusableTemplate, useMediaQuery } from '@vueuse/core'
 // Reuse `form` section
-const [UseTemplate, GridForm] = createReusableTemplate()
+const [UseAddTemplate, AddGridForm] = createReusableTemplate();
+const [UseEditTemplate, EditGridForm] = createReusableTemplate();
 const isDesktop = useMediaQuery('(min-width: 768px)')
 
 const isOpen = ref(false)
@@ -335,10 +344,12 @@ const editForm = useForm({
     _method: 'PUT'
 });
 
-// Modal functions for adding orders
-const openAddModal = () => {
-    // Reset form
-    addForm.reset();
+const handleAddTrigger = () => {
+    addForm.day_number = '';
+    addForm.date_time = '';
+    addForm.orders = '';
+    addForm.rationale = '';
+    addForm.signature = null;
     isAddModalOpen.value = true;
 };
 
