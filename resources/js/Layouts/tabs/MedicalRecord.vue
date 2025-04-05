@@ -12,16 +12,16 @@
 
         <!-- Tabs -->
         <div class="mt-4">
-            <Tabs default-value="imaging" class="w-full">
+            <Tabs v-model="selectedTab" class="w-full">
                 <TabsList class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1 bg-gray-50 p-1 rounded-md">
                     <TabsTrigger v-for="tab in tabs" :key="tab.value" :value="tab.value"
-                        @click="selectedTab = tab.value"
                         class="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-muted-foreground rounded-md px-3 py-2 text-sm font-medium transition-colors">
                         {{ tab.label }}
                     </TabsTrigger>
                 </TabsList>
             </Tabs>
         </div>
+
 
 
         <!-- Content -->
@@ -41,7 +41,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import Laboratory from './MedicalRecordTab/Laboratory.vue';
 import Assessment from './MedicalRecordTab/new/Assessment.vue';
 import Allergy from './MedicalRecordTab/Allergy.vue';
@@ -55,24 +56,31 @@ import Nurses from './MedicalRecordTab/new/Nurses.vue';
 import Doctor from './MedicalRecordTab/new/Doctor.vue';
 import Registration from './MedicalRecordTab/new/Registration.vue';
 
-const selectedTab = ref('Registration');
 const props = defineProps({
     patient: Object
 });
 
+const url = new URL(window.location.href)
+const selectedTab = ref(url.searchParams.get('tab') || 'Registration')
 
-    const tabs = [
-    {value: 'Registration', label: 'Registration Sheet' },
-    {value: 'History', label: 'History' },
-    {value: 'Assessment', label: 'Assessment' },
-    {value: 'laboratory', label: 'Laboratory and Diagnosis' },
-    {value: 'Diagnosis', label: 'Diagnosis' },
-    {value: 'Treatment', label: 'Treatment' },
-    {value: 'MAR', label: 'MAR' },
-    {value: 'Nurses', label: 'Nurses Notes' },
-    {value: 'Doctor', label: "Doctor's Order" },
-    {value: 'Allergy', label: 'Allergy' },
-    ];
+watch(selectedTab, (newTab) => {
+    const newUrl = new URL(window.location.href)
+    newUrl.searchParams.set('tab', newTab)
+    window.history.replaceState({}, '', newUrl)
+})
+
+const tabs = [
+    { value: 'Registration', label: 'Registration Sheet' },
+    { value: 'History', label: 'History' },
+    { value: 'Assessment', label: 'Assessment' },
+    { value: 'laboratory', label: 'Laboratory and Diagnosis' },
+    { value: 'Diagnosis', label: 'Diagnosis' },
+    { value: 'Treatment', label: 'Treatment' },
+    { value: 'MAR', label: 'MAR' },
+    { value: 'Nurses', label: 'Nurses Notes' },
+    { value: 'Doctor', label: "Doctor's Order" },
+    { value: 'Allergy', label: 'Allergy' },
+];
 
 
 </script>
