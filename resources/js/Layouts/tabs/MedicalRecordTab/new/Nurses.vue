@@ -26,9 +26,9 @@
                     </div>
                 </div>
 
-            
-                    <Button type="submit">{{ isEditing ? 'Update' : 'Save' }}</Button>
-             
+
+                <Button type="submit">{{ isEditing ? 'Update' : 'Save' }}</Button>
+
             </form>
         </UseTemplate>
 
@@ -86,7 +86,7 @@
                         <TableCell>
                             <span v-if="index === 0 || data.date !== sortedNotes[index - 1].date">{{ data.date }}</span>
                         </TableCell>
-                        <TableCell>{{ data.time }}</TableCell>
+                        <TableCell>{{ formatTime(data.time) }}</TableCell>
                         <TableCell>
                             <div v-html="data.observation.replace(/\n/g, '<br>')" class="ml-2"></div>
                         </TableCell>
@@ -222,7 +222,18 @@ const form = useForm({
 });
 
 const sortedNotes = computed(() => {
-    return [...props.patient.nursenotes].sort((a, b) => a.time.localeCompare(b.time));
+    return [...props.patient.nursenotes].sort((a, b) => {
+        // First compare by date
+        const dateComparison = a.date.localeCompare(b.date);
+
+        // If dates are the same, compare by time
+        if (dateComparison === 0) {
+            return a.time.localeCompare(b.time);
+        }
+
+        // Otherwise, return the date comparison result
+        return dateComparison;
+    });
 });
 
 const openModal = (data = null) => {
@@ -279,5 +290,25 @@ const confirmDelete = () => {
     });
 };
 
+const formatTime = (time24h) => {
+    if (!time24h) return '';
 
+    try {
+        // Parse the time from 24-hour format
+        const [hours24, minutes] = time24h.split(':');
+
+        // Convert hours to 12-hour format
+        let hours12 = parseInt(hours24) % 12;
+        hours12 = hours12 === 0 ? 12 : hours12; // Convert 0 to 12 for 12 AM
+
+        // Determine AM or PM
+        const period = parseInt(hours24) < 12 ? 'AM' : 'PM';
+
+        // Format the time in 12-hour format with AM/PM
+        return `${hours12}:${minutes} ${period}`;
+    } catch (error) {
+        console.error('Error formatting time:', error);
+        return time24h; // Return the original value if there's an error
+    }
+};
 </script>

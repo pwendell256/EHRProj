@@ -29,8 +29,8 @@ const props = withDefaults(defineProps<SidebarProps>(), {
 // This is sample data.
 const data = {
   user: {
-    name: 'test',
-    email: 'test@gmail.com',
+    name: page.props.auth.user.name,
+    email: page.props.auth.user.email,
     avatar: '/avatars/shadcn.jpg',
   },
   teams: [

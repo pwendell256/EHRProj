@@ -2,8 +2,8 @@
     <div class="bg-gray-50 p-4 rounded-lg">
         <h3 class="text-lg font-semibold mb-2">MAR</h3>
 
-
-        <UseTemplate>
+        <!-- Medication Form Template -->
+        <UseTemplateMedication>
             <form @submit.prevent="editMode ? updateMedication() : addMedication()" class="grid gap-4 px-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="flex flex-col gap-2 col-span-2">
@@ -37,48 +37,10 @@
                     <Button type="submit">{{ editMode ? 'Update' : 'Add' }}</Button>
                 </div>
             </form>
-        </UseTemplate>
+        </UseTemplateMedication>
 
-        <!-- Dialog version -->
-        <Dialog v-if="isDesktop" v-model:open="showMedicationModal">
-            <DialogTrigger as-child>
-                <Button @click="openMedicationModal()">+ Add Medication</Button>
-            </DialogTrigger>
-            <DialogContent class="sm:max-w-[500px]">
-                <DialogHeader>
-                    <DialogTitle>{{ editMode ? 'Edit' : 'Add' }} Medication</DialogTitle>
-                    <DialogDescription>
-                        Fill out all medication details before saving.
-                    </DialogDescription>
-                </DialogHeader>
-                <GridForm />
-            </DialogContent>
-        </Dialog>
-
-        <!-- Drawer version -->
-        <Drawer v-else v-model:open="showMedicationModal">
-            <DrawerTrigger as-child>
-                <Button variant="outline">+ Add Medication</Button>
-            </DrawerTrigger>
-            <DrawerContent>
-                <DrawerHeader class="text-left">
-                    <DrawerTitle>{{ editMode ? 'Edit' : 'Add' }} Medication</DrawerTitle>
-                    <DrawerDescription>
-                        Fill out all medication details before saving.
-                    </DrawerDescription>
-                </DrawerHeader>
-                <GridForm />
-                <DrawerFooter class="pt-2">
-                    <DrawerClose as-child>
-                        <Button variant="outline">Cancel</Button>
-                    </DrawerClose>
-                </DrawerFooter>
-            </DrawerContent>
-        </Drawer>
-
-
-        <!-- Martime Form Modal -->
-        <UseTemplate>
+        <!-- Martime Form Template -->
+        <UseTemplateMartime>
             <form @submit.prevent="martimeEditMode ? updateMartime() : addMartime()" class="grid gap-4 px-4">
                 <div class="mb-2 text-gray-600">
                     {{ martimeEditMode ? 'Editing' : 'Adding' }} time for: <strong>{{ currentMedication?.med }}</strong>
@@ -112,9 +74,45 @@
                 </div>
 
                 <Button type="submit">{{ martimeEditMode ? 'Update' : 'Add' }}</Button>
-
             </form>
-        </UseTemplate>
+        </UseTemplateMartime>
+
+        <!-- Dialog version -->
+        <Dialog v-if="isDesktop" v-model:open="showMedicationModal">
+            <DialogTrigger as-child>
+                <Button @click="openMedicationModal()">+ Add Medication</Button>
+            </DialogTrigger>
+            <DialogContent class="sm:max-w-[500px]">
+                <DialogHeader>
+                    <DialogTitle>{{ editMode ? 'Edit' : 'Add' }} Medication</DialogTitle>
+                    <DialogDescription>
+                        Fill out all medication details before saving.
+                    </DialogDescription>
+                </DialogHeader>
+                <MedicationForm />
+            </DialogContent>
+        </Dialog>
+
+        <!-- Drawer version -->
+        <Drawer v-else v-model:open="showMedicationModal">
+            <DrawerTrigger as-child>
+                <Button variant="outline">+ Add Medication</Button>
+            </DrawerTrigger>
+            <DrawerContent>
+                <DrawerHeader class="text-left">
+                    <DrawerTitle>{{ editMode ? 'Edit' : 'Add' }} Medication</DrawerTitle>
+                    <DrawerDescription>
+                        Fill out all medication details before saving.
+                    </DrawerDescription>
+                </DrawerHeader>
+                <MedicationForm />
+                <DrawerFooter class="pt-2">
+                    <DrawerClose as-child>
+                        <Button variant="outline">Cancel</Button>
+                    </DrawerClose>
+                </DrawerFooter>
+            </DrawerContent>
+        </Drawer>
 
         <!-- Martime Dialog -->
         <Dialog v-if="isDesktop" v-model:open="showMartimeModal">
@@ -128,7 +126,7 @@
                         Fill in time details for <strong>{{ currentMedication?.med }}</strong>
                     </DialogDescription>
                 </DialogHeader>
-                <GridForm />
+                <MartimeForm />
             </DialogContent>
         </Dialog>
 
@@ -144,7 +142,7 @@
                         Fill in time details for <strong>{{ currentMedication?.med }}</strong>
                     </DrawerDescription>
                 </DrawerHeader>
-                <GridForm />
+                <MartimeForm />
                 <DrawerFooter class="pt-2">
                     <DrawerClose as-child>
                         <Button variant="outline">Cancel</Button>
@@ -157,12 +155,12 @@
             <Table>
                 <TableHeader class="bg-green-100">
                     <TableRow>
-                        <TableHead >Medication</TableHead>
-                        <TableHead >Date</TableHead>
-                        <TableHead >Time</TableHead>
-                        <TableHead >ADM</TableHead>
-                        <TableHead >Signature</TableHead>
-                        <TableHead >Actions</TableHead>
+                        <TableHead>Medication</TableHead>
+                        <TableHead>Date</TableHead>
+                        <TableHead>Time</TableHead>
+                        <TableHead>ADM</TableHead>
+                        <TableHead>Signature</TableHead>
+                        <TableHead>Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -204,7 +202,7 @@
                                     {{ martime.date }}
                                 </TableCell>
                                 <TableCell v-else></TableCell>
-                                <TableCell class="px-4 py-2">{{ martime.time }}</TableCell>
+                                <TableCell class="px-4 py-2">{{ formatTime(martime.time) }}</TableCell>
                                 <TableCell class="px-4 py-2">{{ martime.adm }}</TableCell>
                                 <TableCell class="px-4 py-2">
                                     <img v-if="martime.path" :src="`/storage/` + martime.path" alt="Signature"
@@ -251,8 +249,14 @@
                                                 d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                         </svg>
                                     </button>
-                                    <button @click="deletemar(mar.id)">delete</button>
+                                    <button @click="deletemar(mar.id)" class="text-red-500 hover:text-red-700">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m2 0a1 1 0 001-1V5a1 1 0 00-1-1h-3.5a1 1 0 01-.707-.293l-.586-.586A1 1 0 0012.5 3h-1a1 1 0 00-.707.293l-.586.586A1 1 0 009.5 4H6a1 1 0 00-1 1v1a1 1 0 001 1h12z" />
+                                        </svg>
 
+                                    </button>
                                 </div>
                             </TableCell>
                             <TableCell class="px-4 py-2 text-center" colspan="4">No Scheduled Time</TableCell>
@@ -366,8 +370,11 @@ import {
     DrawerTrigger,
 } from '@/Components/ui/drawer'
 import { createReusableTemplate, useMediaQuery } from '@vueuse/core'
-// Reuse `form` section
-const [UseTemplate, GridForm] = createReusableTemplate()
+
+// Create two separate reusable templates
+const [UseTemplateMedication, MedicationForm] = createReusableTemplate()
+const [UseTemplateMartime, MartimeForm] = createReusableTemplate()
+
 const isDesktop = useMediaQuery('(min-width: 768px)')
 
 const isOpen = ref(false)
@@ -447,7 +454,7 @@ const editMedication = (mar) => {
 };
 
 const updateMedication = () => {
-    medicationForm.put(route('mar.update', { patient: props.patient.id, mar: currentMarId.value }), {
+    medicationForm.put(route('mar.update', currentMarId.value ), {
         onSuccess: () => {
             closeMedicationModal();
         }
@@ -574,8 +581,6 @@ const sortedMedications = computed(() => {
     }));
 });
 
-
-
 const deletemarform = useForm([])
 const deletemar = (id) => {
     marToDelete.value = id;
@@ -605,4 +610,26 @@ const handleDeleteMartime = () => {
         }
     })
 }
+
+const formatTime = (time24h) => {
+    if (!time24h) return '';
+
+    try {
+        // Parse the time from 24-hour format
+        const [hours24, minutes] = time24h.split(':');
+
+        // Convert hours to 12-hour format
+        let hours12 = parseInt(hours24) % 12;
+        hours12 = hours12 === 0 ? 12 : hours12; // Convert 0 to 12 for 12 AM
+
+        // Determine AM or PM
+        const period = parseInt(hours24) < 12 ? 'AM' : 'PM';
+
+        // Format the time in 12-hour format with AM/PM
+        return `${hours12}:${minutes} ${period}`;
+    } catch (error) {
+        console.error('Error formatting time:', error);
+        return time24h; // Return the original value if there's an error
+    }
+};
 </script>
