@@ -527,10 +527,14 @@
             </div>
         </form>
     </div>
+<Medication :patient="patient" />
+
 </template>
 
 <script setup>
 import { useForm } from '@inertiajs/vue3';
+
+import Medication from '../../Medication.vue';
 import { Input } from '@/Components/ui/input'
 import { Label } from '@/Components/ui/label'
 import {
