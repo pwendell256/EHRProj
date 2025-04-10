@@ -7,16 +7,16 @@
             <div class="mb-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="form-group">
-                        <label for="conductor" class="block mb-1">Assessment Conducted by:</label>
-                        <input type="text" id="conductor" v-model="form.conductor" class="w-full p-2 border rounded" />
+                        <Label for="conductor" class="block mb-1">Assessment Conducted by:</Label>
+                        <Input type="text" id="conductor" v-model="form.conductor" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="date" class="block mb-1">Date:</label>
-                        <input type="date" id="date" v-model="form.date" class="w-full p-2 border rounded" />
+                        <Label for="date" class="block mb-1">Date:</Label>
+                        <Input type="date" id="date" v-model="form.date" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="time" class="block mb-1">Time:</label>
-                        <input type="time" id="time" v-model="form.time" class="w-full p-2 border rounded" />
+                        <Label for="time" class="block mb-1">Time:</Label>
+                        <Input type="time" id="time" v-model="form.time" class="w-full p-2 border rounded" />
                     </div>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                     <div v-for="option in orientationLevels" :key="option" class="flex items-center">
                         <input type="radio" :id="'orientation-' + option.toLowerCase()" :value="option"
                             v-model="form.orientation_level" class="mr-2" />
-                        <label :for="'orientation-' + option.toLowerCase()">{{ option }}</label>
+                        <Label :for="'orientation-' + option.toLowerCase()">{{ option }}</Label>
                     </div>
                 </div>
             </div>
@@ -39,24 +39,20 @@
                 <h3 class="text-lg font-medium mb-2">Orientation</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="form-group">
-                        <label for="person" class="block mb-1">Person:</label>
-                        <input type="text" id="person" v-model="form.person"
-                            class="w-full p-2 border rounded" />
+                        <Label for="person" class="block mb-1">Person:</Label>
+                        <Input type="text" id="person" v-model="form.person" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="place" class="block mb-1">Place:</label>
-                        <input type="text" id="place" v-model="form.place"
-                            class="w-full p-2 border rounded" />
+                        <Label for="place" class="block mb-1">Place:</Label>
+                        <Input type="text" id="place" v-model="form.place" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="orient-time" class="block mb-1">Time:</label>
-                        <input type="text" id="orient-time" v-model="form.time"
-                            class="w-full p-2 border rounded" />
+                        <Label for="orient-time" class="block mb-1">Time:</Label>
+                        <Input type="text" id="orient-time" v-model="form.time" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="situation" class="block mb-1">Situation:</label>
-                        <input type="text" id="situation" v-model="form.situation"
-                            class="w-full p-2 border rounded" />
+                        <Label for="situation" class="block mb-1">Situation:</Label>
+                        <Input type="text" id="situation" v-model="form.situation" class="w-full p-2 border rounded" />
                     </div>
                 </div>
             </div>
@@ -66,28 +62,28 @@
                 <h3 class="text-lg font-medium mb-2">Vitals</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div class="form-group">
-                        <label for="temperature" class="block mb-1">Temperature:</label>
-                        <input type="text" id="temperature" v-model="form.temperature"
+                        <Label for="temperature" class="block mb-1">Temperature:</Label>
+                        <Input type="text" id="temperature" v-model="form.temperature"
                             class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="blood-pressure" class="block mb-1">Blood Pressure:</label>
-                        <input type="text" id="blood-pressure" v-model="form.blood_pressure"
+                        <Label for="blood-pressure" class="block mb-1">Blood Pressure:</Label>
+                        <Input type="text" id="blood-pressure" v-model="form.blood_pressure"
                             class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="respiratory-rate" class="block mb-1">Respiratory Rate:</label>
-                        <input type="text" id="respiratory-rate" v-model="form.respiratory_rate"
+                        <Label for="respiratory-rate" class="block mb-1">Respiratory Rate:</Label>
+                        <Input type="text" id="respiratory-rate" v-model="form.respiratory_rate"
                             class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="pulse-rate" class="block mb-1">Pulse Rate:</label>
-                        <input type="text" id="pulse-rate" v-model="form.pulse_rate"
+                        <Label for="pulse-rate" class="block mb-1">Pulse Rate:</Label>
+                        <Input type="text" id="pulse-rate" v-model="form.pulse_rate"
                             class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="oxygen-sat" class="block mb-1">Oxygen Saturation:</label>
-                        <input type="text" id="oxygen-sat" v-model="form.oxygen_saturation"
+                        <Label for="oxygen-sat" class="block mb-1">Oxygen Saturation:</Label>
+                        <Input type="text" id="oxygen-sat" v-model="form.oxygen_saturation"
                             class="w-full p-2 border rounded" />
                     </div>
                 </div>
@@ -98,45 +94,44 @@
                 <h3 class="text-lg font-medium mb-2">Head</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="form-group">
-                        <label for="hair" class="block mb-1">Hair:</label>
-                        <input type="text" id="hair" v-model="form.hair" class="w-full p-2 border rounded" />
+                        <Label for="hair" class="block mb-1">Hair:</Label>
+                        <Input type="text" id="hair" v-model="form.hair" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="eyes" class="block mb-1">Eyes:</label>
-                        <input type="text" id="eyes" v-model="form.eyes" class="w-full p-2 border rounded" />
+                        <Label for="eyes" class="block mb-1">Eyes:</Label>
+                        <Input type="text" id="eyes" v-model="form.eyes" class="w-full p-2 border rounded" />
                         <div class="mt-2">
                             <input type="checkbox" id="perrla" v-model="form.perrla" class="mr-2" />
-                            <label for="perrla">PERRLA</label>
+                            <Label for="perrla">PERRLA</Label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="nose" class="block mb-1">Nose:</label>
-                        <input type="text" id="nose" v-model="form.nose" class="w-full p-2 border rounded" />
+                        <Label for="nose" class="block mb-1">Nose:</Label>
+                        <Input type="text" id="nose" v-model="form.nose" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="ears" class="block mb-1">Ears:</label>
-                        <input type="text" id="ears" v-model="form.ears" class="w-full p-2 border rounded" />
+                        <Label for="ears" class="block mb-1">Ears:</Label>
+                        <Input type="text" id="ears" v-model="form.ears" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group col-span-1 md:col-span-2">
-                        <label for="mouth" class="block mb-1">Mouth:</label>
-                        <input type="text" id="mouth" v-model="form.mouth" class="w-full p-2 border rounded" />
+                        <Label for="mouth" class="block mb-1">Mouth:</Label>
+                        <Input type="text" id="mouth" v-model="form.mouth" class="w-full p-2 border rounded" />
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-2">
                             <div>
-                                <input type="checkbox" id="midline-tongue" v-model="form.midline_tongue"
-                                    class="mr-1" />
-                                <label for="midline-tongue">Midline tongue</label>
+                                <input type="checkbox" id="midline-tongue" v-model="form.midline_tongue" class="mr-1" />
+                                <Label for="midline-tongue">Midline tongue</Label>
                             </div>
                             <div>
                                 <input type="checkbox" id="moist" v-model="form.moist" class="mr-1" />
-                                <label for="moist">Moist</label>
+                                <Label for="moist">Moist</Label>
                             </div>
                             <div>
                                 <input type="checkbox" id="lesions" v-model="form.lesions" class="mr-1" />
-                                <label for="lesions">Lesions</label>
+                                <Label for="lesions">Lesions</Label>
                             </div>
                             <div>
                                 <input type="checkbox" id="dentition" v-model="form.dentition" class="mr-1" />
-                                <label for="dentition">Dentition</label>
+                                <Label for="dentition">Dentition</Label>
                             </div>
                         </div>
                     </div>
@@ -149,16 +144,15 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="form-group">
                         <input type="checkbox" id="carotid-pulse" v-model="form.carotid_pulse" class="mr-2" />
-                        <label for="carotid-pulse">Carotid Pulse</label>
+                        <Label for="carotid-pulse">Carotid Pulse</Label>
                     </div>
                     <div class="form-group">
-                        <input type="checkbox" id="jugular-vein" v-model="form.jugular_vein_distention"
-                            class="mr-2" />
-                        <label for="jugular-vein">Jugular Vein Distention</label>
+                        <input type="checkbox" id="jugular-vein" v-model="form.jugular_vein_distention" class="mr-2" />
+                        <Label for="jugular-vein">Jugular Vein Distention</Label>
                     </div>
                     <div class="form-group">
                         <input type="checkbox" id="trachea-midline" v-model="form.trachea_midline" class="mr-2" />
-                        <label for="trachea-midline">Trachea Midline</label>
+                        <Label for="trachea-midline">Trachea Midline</Label>
                     </div>
                 </div>
             </div>
@@ -168,50 +162,45 @@
                 <h3 class="text-lg font-medium mb-2">Chest</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="form-group">
-                        <label class="block mb-1">Apical Pulse:</label>
+                        <Label class="block mb-1">Apical Pulse:</Label>
                         <div class="ml-4">
                             <div>
-                                <input type="checkbox" id="muffled" v-model="form.muffled"
-                                    class="mr-2" />
-                                <label for="muffled">Muffled</label>
+                                <input type="checkbox" id="muffled" v-model="form.muffled" class="mr-2" />
+                                <Label for="muffled">Muffled</Label>
                             </div>
                             <div>
-                                <input type="checkbox" id="arrhythmia" v-model="form.arrhythmia"
-                                    class="mr-2" />
-                                <label for="arrhythmia">Arrhythmia</label>
+                                <input type="checkbox" id="arrhythmia" v-model="form.arrhythmia" class="mr-2" />
+                                <Label for="arrhythmia">Arrhythmia</Label>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="block mb-1">Breath Sounds:</label>
+                        <Label class="block mb-1">Breath Sounds:</Label>
                         <div class="grid grid-cols-3 gap-2 ml-4">
                             <div>
-                                <input type="checkbox" id="anterior" v-model="form.anterior"
-                                    class="mr-1" />
-                                <label for="anterior">Anterior</label>
+                                <input type="checkbox" id="anterior" v-model="form.anterior" class="mr-1" />
+                                <Label for="anterior">Anterior</Label>
                             </div>
                             <div>
-                                <input type="checkbox" id="posterior" v-model="form.posterior"
-                                    class="mr-1" />
-                                <label for="posterior">Posterior</label>
+                                <input type="checkbox" id="posterior" v-model="form.posterior" class="mr-1" />
+                                <Label for="posterior">Posterior</Label>
                             </div>
                             <div>
-                                <input type="checkbox" id="lateral" v-model="form.lateral"
-                                    class="mr-1" />
-                                <label for="lateral">Lateral</label>
+                                <input type="checkbox" id="lateral" v-model="form.lateral" class="mr-1" />
+                                <Label for="lateral">Lateral</Label>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <input type="checkbox" id="chest-symmetry" v-model="form.chest_symmetry" class="mr-2" />
-                        <label for="chest-symmetry">Chest Symmetry</label>
+                        <Label for="chest-symmetry">Chest Symmetry</Label>
                     </div>
 
                     <div class="form-group">
                         <input type="checkbox" id="skin-turgor" v-model="form.skin_turgor" class="mr-2" />
-                        <label for="skin-turgor">Skin Turgor (Clavicle)</label>
+                        <Label for="skin-turgor">Skin Turgor (Clavicle)</Label>
                     </div>
                 </div>
             </div>
@@ -221,96 +210,91 @@
                 <h3 class="text-lg font-medium mb-2">Abdomen</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="form-group">
-                        <label for="inspection" class="block mb-1">Inspection:</label>
-                        <input type="text" id="inspection" v-model="form.inspection"
+                        <Label for="inspection" class="block mb-1">Inspection:</Label>
+                        <Input type="text" id="inspection" v-model="form.inspection"
                             class="w-full p-2 border rounded" />
                     </div>
 
                     <div class="form-group">
-                        <label for="palpation" class="block mb-1">Palpation:</label>
-                        <input type="text" id="palpation" v-model="form.palpation"
-                            class="w-full p-2 border rounded" />
+                        <Label for="palpation" class="block mb-1">Palpation:</Label>
+                        <Input type="text" id="palpation" v-model="form.palpation" class="w-full p-2 border rounded" />
                     </div>
 
                     <div class="form-group col-span-1 md:col-span-2">
-                        <label class="block mb-1">Auscultation:</label>
-                        <input type="text" id="auscultation" v-model="form.auscultation"
+                        <Label class="block mb-1">Auscultation:</Label>
+                        <Input type="text" id="auscultation" v-model="form.auscultation"
                             class="w-full p-2 border rounded mb-2" />
 
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
                             <div class="quadrant-group">
-                                <label class="block mb-1">LUQ:</label>
+                                <Label class="block mb-1">LUQ:</Label>
                                 <div>
                                     <input type="radio" id="luq-active" value="Active" v-model="form.luq"
                                         class="mr-1" />
-                                    <label for="luq-active">Active</label>
+                                    <Label for="luq-active">Active</Label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="luq-hyper" value="Hyper" v-model="form.luq"
-                                        class="mr-1" />
-                                    <label for="luq-hyper">Hyper</label>
+                                    <input type="radio" id="luq-hyper" value="Hyper" v-model="form.luq" class="mr-1" />
+                                    <Label for="luq-hyper">Hyper</Label>
                                 </div>
                                 <div>
                                     <input type="radio" id="luq-absent" value="Absent" v-model="form.luq"
                                         class="mr-1" />
-                                    <label for="luq-absent">Absent</label>
+                                    <Label for="luq-absent">Absent</Label>
                                 </div>
                             </div>
 
                             <div class="quadrant-group">
-                                <label class="block mb-1">RUQ:</label>
+                                <Label class="block mb-1">RUQ:</Label>
                                 <div>
                                     <input type="radio" id="ruq-active" value="Active" v-model="form.ruq"
                                         class="mr-1" />
-                                    <label for="ruq-active">Active</label>
+                                    <Label for="ruq-active">Active</Label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="ruq-hyper" value="Hyper" v-model="form.ruq"
-                                        class="mr-1" />
-                                    <label for="ruq-hyper">Hyper</label>
+                                    <input type="radio" id="ruq-hyper" value="Hyper" v-model="form.ruq" class="mr-1" />
+                                    <Label for="ruq-hyper">Hyper</Label>
                                 </div>
                                 <div>
                                     <input type="radio" id="ruq-absent" value="Absent" v-model="form.ruq"
                                         class="mr-1" />
-                                    <label for="ruq-absent">Absent</label>
+                                    <Label for="ruq-absent">Absent</Label>
                                 </div>
                             </div>
 
                             <div class="quadrant-group">
-                                <label class="block mb-1">LLQ:</label>
+                                <Label class="block mb-1">LLQ:</Label>
                                 <div>
                                     <input type="radio" id="llq-active" value="Active" v-model="form.llq"
                                         class="mr-1" />
-                                    <label for="llq-active">Active</label>
+                                    <Label for="llq-active">Active</Label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="llq-hyper" value="Hyper" v-model="form.llq"
-                                        class="mr-1" />
-                                    <label for="llq-hyper">Hyper</label>
+                                    <input type="radio" id="llq-hyper" value="Hyper" v-model="form.llq" class="mr-1" />
+                                    <Label for="llq-hyper">Hyper</Label>
                                 </div>
                                 <div>
                                     <input type="radio" id="llq-absent" value="Absent" v-model="form.llq"
                                         class="mr-1" />
-                                    <label for="llq-absent">Absent</label>
+                                    <Label for="llq-absent">Absent</Label>
                                 </div>
                             </div>
 
                             <div class="quadrant-group">
-                                <label class="block mb-1">RLQ:</label>
+                                <Label class="block mb-1">RLQ:</Label>
                                 <div>
                                     <input type="radio" id="rlq-active" value="Active" v-model="form.rlq"
                                         class="mr-1" />
-                                    <label for="rlq-active">Active</label>
+                                    <Label for="rlq-active">Active</Label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="rlq-hyper" value="Hyper" v-model="form.rlq"
-                                        class="mr-1" />
-                                    <label for="rlq-hyper">Hyper</label>
+                                    <input type="radio" id="rlq-hyper" value="Hyper" v-model="form.rlq" class="mr-1" />
+                                    <Label for="rlq-hyper">Hyper</Label>
                                 </div>
                                 <div>
                                     <input type="radio" id="rlq-absent" value="Absent" v-model="form.rlq"
                                         class="mr-1" />
-                                    <label for="rlq-absent">Absent</label>
+                                    <Label for="rlq-absent">Absent</Label>
                                 </div>
                             </div>
                         </div>
@@ -323,36 +307,35 @@
                 <h3 class="text-lg font-medium mb-2">Upper Extremities</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="form-group">
-                        <label for="radial-pulses" class="block mb-1">Radial Pulses equal, +2:</label>
-                        <input type="text" id="radial-pulses" v-model="form.radial_pulses"
+                        <Label for="radial-pulses" class="block mb-1">Radial Pulses equal, +2:</Label>
+                        <Input type="text" id="radial-pulses" v-model="form.radial_pulses"
                             class="w-full p-2 border rounded" />
-                        <input type="text" id="radial-other" v-model="form.radial_other"
+                        <Input type="text" id="radial-other" v-model="form.radial_other"
                             class="w-full p-2 border rounded mt-2" placeholder="Other" />
                     </div>
 
                     <div class="form-group">
-                        <label class="block mb-1">Temperature (Trunk):</label>
+                        <Label class="block mb-1">Temperature (Trunk):</Label>
                         <div>
                             <input type="radio" id="temp-warm" value="Warm" v-model="form.temperaturetrunk"
                                 class="mr-1" />
-                            <label for="temp-warm">Warm</label>
+                            <Label for="temp-warm">Warm</Label>
                         </div>
                         <div>
                             <input type="radio" id="temp-cool" value="Cool" v-model="form.temperaturetrunk"
                                 class="mr-1" />
-                            <label for="temp-cool">Cool</label>
+                            <Label for="temp-cool">Cool</Label>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="grip" class="block mb-1">Grip equal and strong:</label>
-                        <input type="text" id="grip" v-model="form.grip"
-                            class="w-full p-2 border rounded" />
+                        <Label for="grip" class="block mb-1">Grip equal and strong:</Label>
+                        <Input type="text" id="grip" v-model="form.grip" class="w-full p-2 border rounded" />
                     </div>
 
                     <div class="form-group">
-                        <label for="capillary-refill" class="block mb-1">Capillary refill < 3secs.:</label>
-                                <input type="text" id="capillary-refill" v-model="form.capillary_refill"
+                        <Label for="capillary-refill" class="block mb-1">Capillary refill < 3secs.:</Label>
+                                <Input type="text" id="capillary-refill" v-model="form.capillary_refill"
                                     class="w-full p-2 border rounded" />
                     </div>
                 </div>
@@ -363,40 +346,35 @@
                 <h3 class="text-lg font-medium mb-2">Lower Extremities</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="form-group">
-                        <input type="checkbox" id="hair-present" v-model="form.hair_present"
-                            class="mr-2" />
-                        <label for="hair-present">Hair present</label>
+                        <input type="checkbox" id="hair-present" v-model="form.hair_present" class="mr-2" />
+                        <Label for="hair-present">Hair present</Label>
                     </div>
 
                     <div class="form-group">
-                        <label for="edema" class="block mb-1">Edema:</label>
-                        <input type="text" id="edema" v-model="form.edema"
+                        <Label for="edema" class="block mb-1">Edema:</Label>
+                        <Input type="text" id="edema" v-model="form.edema" class="w-full p-2 border rounded" />
+                    </div>
+
+                    <div class="form-group">
+                        <Label for="foot-strength" class="block mb-1">Foot strength:</Label>
+                        <Input type="text" id="foot-strength" v-model="form.foot_strength"
                             class="w-full p-2 border rounded" />
                     </div>
 
                     <div class="form-group">
-                        <label for="foot-strength" class="block mb-1">Foot strength:</label>
-                        <input type="text" id="foot-strength" v-model="form.foot_strength"
-                            class="w-full p-2 border rounded" />
-                    </div>
-
-                    <div class="form-group">
-                        <label class="block mb-1">Nails:</label>
+                        <Label class="block mb-1">Nails:</Label>
                         <div class="flex flex-wrap gap-4">
                             <div>
-                                <input type="checkbox" id="yellowed" v-model="form.yellowed"
-                                    class="mr-1" />
-                                <label for="yellowed">Yellowed</label>
+                                <input type="checkbox" id="yellowed" v-model="form.yellowed" class="mr-1" />
+                                <Label for="yellowed">Yellowed</Label>
                             </div>
                             <div>
-                                <input type="checkbox" id="thickened" v-model="form.thickened"
-                                    class="mr-1" />
-                                <label for="thickened">Thickened</label>
+                                <input type="checkbox" id="thickened" v-model="form.thickened" class="mr-1" />
+                                <Label for="thickened">Thickened</Label>
                             </div>
                             <div>
-                                <input type="checkbox" id="ingrown" v-model="form.ingrown"
-                                    class="mr-1" />
-                                <label for="ingrown">Ingrown</label>
+                                <input type="checkbox" id="ingrown" v-model="form.ingrown" class="mr-1" />
+                                <Label for="ingrown">Ingrown</Label>
                             </div>
                         </div>
                     </div>
@@ -408,49 +386,40 @@
                 <h3 class="text-lg font-medium mb-2">ROM / Strength</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="form-group">
-                        <label for="upper-r1" class="block mb-1">Upper R:</label>
-                        <input type="text" id="upper-r1" v-model="form.upper_r1"
-                            class="w-full p-2 border rounded" />
+                        <Label for="upper-r1" class="block mb-1">Upper R:</Label>
+                        <Input type="text" id="upper-r1" v-model="form.upper_r1" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="upper-r2" class="block mb-1">Upper R:</label>
-                        <input type="text" id="upper-r2" v-model="form.upper_r2"
-                            class="w-full p-2 border rounded" />
+                        <Label for="upper-r2" class="block mb-1">Upper R:</Label>
+                        <Input type="text" id="upper-r2" v-model="form.upper_r2" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="upper-l1" class="block mb-1">Upper L:</label>
-                        <input type="text" id="upper-l1" v-model="form.upper_l1"
-                            class="w-full p-2 border rounded" />
+                        <Label for="upper-l1" class="block mb-1">Upper L:</Label>
+                        <Input type="text" id="upper-l1" v-model="form.upper_l1" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="upper-l2" class="block mb-1">Upper L:</label>
-                        <input type="text" id="upper-l2" v-model="form.upper_l2"
-                            class="w-full p-2 border rounded" />
+                        <Label for="upper-l2" class="block mb-1">Upper L:</Label>
+                        <Input type="text" id="upper-l2" v-model="form.upper_l2" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="lower-r1" class="block mb-1">Lower R:</label>
-                        <input type="text" id="lower-r1" v-model="form.lower_r1"
-                            class="w-full p-2 border rounded" />
+                        <Label for="lower-r1" class="block mb-1">Lower R:</Label>
+                        <Input type="text" id="lower-r1" v-model="form.lower_r1" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="lower-r2" class="block mb-1">Lower R:</label>
-                        <input type="text" id="lower-r2" v-model="form.lower_r2"
-                            class="w-full p-2 border rounded" />
+                        <Label for="lower-r2" class="block mb-1">Lower R:</Label>
+                        <Input type="text" id="lower-r2" v-model="form.lower_r2" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="lower-l1" class="block mb-1">Lower L:</label>
-                        <input type="text" id="lower-l1" v-model="form.lower_l1"
-                            class="w-full p-2 border rounded" />
+                        <Label for="lower-l1" class="block mb-1">Lower L:</Label>
+                        <Input type="text" id="lower-l1" v-model="form.lower_l1" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="lower-l2" class="block mb-1">Lower L:</label>
-                        <input type="text" id="lower-l2" v-model="form.lower_l1"
-                            class="w-full p-2 border rounded" />
+                        <Label for="lower-l2" class="block mb-1">Lower L:</Label>
+                        <Input type="text" id="lower-l2" v-model="form.lower_l1" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group col-span-1 md:col-span-2">
-                        <label for="sensation" class="block mb-1">Sensation:</label>
-                        <input type="text" id="sensation" v-model="form.sensation"
-                            class="w-full p-2 border rounded" />
+                        <Label for="sensation" class="block mb-1">Sensation:</Label>
+                        <Input type="text" id="sensation" v-model="form.sensation" class="w-full p-2 border rounded" />
                     </div>
                 </div>
             </div>
@@ -460,19 +429,16 @@
                 <h3 class="text-lg font-medium mb-2">General Assessment</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="form-group">
-                        <label for="weight" class="block mb-1">Weight:</label>
-                        <input type="text" id="weight" v-model="form.weight"
-                            class="w-full p-2 border rounded" />
+                        <Label for="weight" class="block mb-1">Weight:</Label>
+                        <Input type="text" id="weight" v-model="form.weight" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="height" class="block mb-1">Height:</label>
-                        <input type="text" id="height" v-model="form.height"
-                            class="w-full p-2 border rounded" />
+                        <Label for="height" class="block mb-1">Height:</Label>
+                        <Input type="text" id="height" v-model="form.height" class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="bmi" class="block mb-1">BMI:</label>
-                        <input type="text" id="bmi" v-model="form.bmi"
-                            class="w-full p-2 border rounded" />
+                        <Label for="bmi" class="block mb-1">BMI:</Label>
+                        <Input type="text" id="bmi" v-model="form.bmi" class="w-full p-2 border rounded" />
                     </div>
                 </div>
             </div>
@@ -482,56 +448,63 @@
                 <h3 class="text-lg font-medium mb-2">Pain Assessment</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="form-group">
-                        <label class="block mb-1">Acute/Chronic:</label>
-                        <select v-model="form.type" class="w-full p-2 border rounded">
-                            <option value="Acute">Acute</option>
-                            <option value="Chronic">Chronic</option>
-                        </select>
+                        <Label class="block mb-1">Acute/Chronic:</Label>
+                        <Select v-model="form.type">
+                            <SelectTrigger class="w-full">
+                                <SelectValue placeholder="Select condition type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Condition Type</SelectLabel>
+                                    <SelectItem value="Acute">Acute</SelectItem>
+                                    <SelectItem value="Chronic">Chronic</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
                     </div>
                     <div class="form-group">
-                        <label for="pain-intensity" class="block mb-1">Intensity (0-10):</label>
-                        <input type="number" id="pain-intensity" v-model="form.intensity" min="0"
-                            max="10" class="w-full p-2 border rounded" />
-                    </div>
-                    <div class="form-group">
-                        <label for="pain-location" class="block mb-1">Location:</label>
-                        <input type="text" id="pain-location" v-model="form.location"
+                        <Label for="pain-intensity" class="block mb-1">Intensity (0-10):</Label>
+                        <Input type="number" id="pain-intensity" v-model="form.intensity" min="0" max="10"
                             class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="pain-duration" class="block mb-1">Duration:</label>
-                        <input type="text" id="pain-duration" v-model="form.duration"
+                        <Label for="pain-location" class="block mb-1">Location:</Label>
+                        <Input type="text" id="pain-location" v-model="form.location"
                             class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="pain-characteristics" class="block mb-1">Characteristics:</label>
-                        <input type="text" id="pain-characteristics" v-model="form.characteristics"
+                        <Label for="pain-duration" class="block mb-1">Duration:</Label>
+                        <Input type="text" id="pain-duration" v-model="form.duration"
                             class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="pain-precipitation" class="block mb-1">Precipitation:</label>
-                        <input type="text" id="pain-precipitation" v-model="form.precipitation"
+                        <Label for="pain-characteristics" class="block mb-1">Characteristics:</Label>
+                        <Input type="text" id="pain-characteristics" v-model="form.characteristics"
                             class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="pain-frequency" class="block mb-1">Frequency:</label>
-                        <input type="text" id="pain-frequency" v-model="form.frequency"
+                        <Label for="pain-precipitation" class="block mb-1">Precipitation:</Label>
+                        <Input type="text" id="pain-precipitation" v-model="form.precipitation"
                             class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="pain-nonverbals" class="block mb-1">Non-verbals:</label>
-                        <input type="text" id="pain-nonverbals" v-model="form.nonverbals"
+                        <Label for="pain-frequency" class="block mb-1">Frequency:</Label>
+                        <Input type="text" id="pain-frequency" v-model="form.frequency"
                             class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="pain-relief" class="block mb-1">Relief factors:</label>
-                        <input type="text" id="pain-relief" v-model="form.reliefFactors"
+                        <Label for="pain-nonverbals" class="block mb-1">Non-verbals:</Label>
+                        <Input type="text" id="pain-nonverbals" v-model="form.nonverbals"
                             class="w-full p-2 border rounded" />
                     </div>
                     <div class="form-group">
-                        <label for="pain-sleep" class="block mb-1">Sleep:</label>
-                        <input type="text" id="pain-sleep" v-model="form.sleep"
+                        <Label for="pain-relief" class="block mb-1">Relief factors:</Label>
+                        <Input type="text" id="pain-relief" v-model="form.reliefFactors"
                             class="w-full p-2 border rounded" />
+                    </div>
+                    <div class="form-group">
+                        <Label for="pain-sleep" class="block mb-1">Sleep:</Label>
+                        <Input type="text" id="pain-sleep" v-model="form.sleep" class="w-full p-2 border rounded" />
                     </div>
                 </div>
             </div>
@@ -540,15 +513,17 @@
             <div class="mb-6">
                 <h3 class="text-lg font-medium mb-2">Skin Assessment</h3>
                 <div class="form-group">
-                    <label for="skin-description" class="block mb-1">Description:</label>
-                    <textarea id="skin-description" v-model="form.description" rows="3"
+                    <Label for="skin-description" class="block mb-1">Description:</Label>
+                    <Textarea id="skin-description" v-model="form.description" rows="3"
                         class="w-full p-2 border rounded"></textarea>
                 </div>
             </div>
 
-            <div class="mt-8">
-                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Submit
-                    Assessment</button>
+            <!-- Submit Button -->
+            <div class="flex justify-end mt-4">
+                <Button type="submit">
+                    Submit
+                </Button>
             </div>
         </form>
     </div>
@@ -558,7 +533,22 @@
 
 <script setup>
 import { useForm } from '@inertiajs/vue3';
+
 import Medication from '../../Medication.vue';
+import { Input } from '@/Components/ui/input'
+import { Label } from '@/Components/ui/label'
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
+import Textarea from '@/Components/ui/textarea/Textarea.vue';
+import Button from '@/components/ui/button/Button.vue';
+
 const orientationLevels = ['Alert', 'Confused', 'Drowsy', 'Unresponsive'];
 
 const props = defineProps({

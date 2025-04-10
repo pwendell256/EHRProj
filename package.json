@@ -27,7 +27,7 @@
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "lucide-vue-next": "^0.484.0",
-        "reka-ui": "^2.1.1",
+        "reka-ui": "^2.2.0",
         "tailwind-merge": "^3.0.2",
         "vaul-vue": "^0.4.1"
     }
