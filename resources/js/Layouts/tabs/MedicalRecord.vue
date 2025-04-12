@@ -42,7 +42,6 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import Laboratory from './MedicalRecordTab/Laboratory.vue';
 import Assessment from './MedicalRecordTab/new/Assessment.vue';
 import Allergy from './MedicalRecordTab/Allergy.vue';
