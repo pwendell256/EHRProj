@@ -27,6 +27,11 @@
                 Update
             </Button>
         </div>
+        <div id="bottom">
+            <Allergy :patient="patient" />
+
+        </div>
+
     </div>
 </template>
 
@@ -34,6 +39,7 @@
 import Button from '@/components/ui/button/Button.vue';
 import Textarea from '@/Components/ui/textarea/Textarea.vue';
 import { useForm } from '@inertiajs/vue3';
+import Allergy from '../Allergy.vue';
 
 
 

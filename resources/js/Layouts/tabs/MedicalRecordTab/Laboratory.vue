@@ -201,7 +201,36 @@
                 v-model="form.impression"></Textarea>
             </TableCell>
           </TableRow>
+          <TableRow>
+            <TableCell class="w-1/4 font-medium align-top">X-RAY</TableCell>
+            <TableCell>
+              <div class="mt-4">
+                <label for="image-upload" class="block text-sm font-medium text-gray-700 mb-1">
+                  Upload Image
+                </label>
+                <input type="file" id="image-upload" class="w-full border rounded px-2 py-1" accept="image/*"
+                  @change="handleFileUploadxray" ref="fileInputxray" />
 
+                <!-- New image preview -->
+                <div v-if="imagePreviewxray" class="mt-3">
+                  <img :src="imagePreviewxray" alt="Preview" class="max-w-xs rounded border" />
+                  <button @click="removeImagexray" type="button"
+                    class="mt-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                    Remove Image
+                  </button>
+                </div>
+
+                <!-- Existing saved image preview -->
+                <div v-else-if="form.xray_path && !imagePreviewxray" class="mt-3">
+                  <img :src="`/storage/${form.xray_path}`" alt="Uploaded image" class="max-w-xs rounded border" />
+                  <button @click="removeImagexray" type="button"
+                    class="mt-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                    Remove Image
+                  </button>
+                </div>
+              </div>
+            </TableCell>
+          </TableRow>
           <TableRow>
             <TableCell class="w-1/4 font-medium align-top">Advice</TableCell>
             <TableCell>
@@ -409,7 +438,9 @@ const props = defineProps({
 });
 
 const fileInput = ref(null);
+const fileInputxray = ref(null);
 const imagePreview = ref(null);
+const imagePreviewxray = ref(null);
 
 const form = useForm({
   wbc: props.patient?.labdiagnosis?.wbc || '',
@@ -430,6 +461,7 @@ const form = useForm({
   impression: props.patient?.labdiagnosis?.impression || '',
   advice: props.patient?.labdiagnosis?.advice || '',
   advice_path: props.patient?.labdiagnosis?.advice_path || null,
+  xray_path: props.patient?.labdiagnosis?.xray_path || null,
   uri_date: props.patient?.labdiagnosis?.uri_date || '',
   uri_time: props.patient?.labdiagnosis?.uri_time || '',
   transparency: props.patient?.labdiagnosis?.transparency || '',
@@ -568,6 +600,14 @@ onMounted(() => {
   initializeStatus();
 });
 
+onMounted(() => {
+  if (props.patient?.labdiagnosis?.xray_path) {
+    form.xray_path = props.patient.labdiagnosis.xray_path;
+  }
+
+  initializeStatus();
+});
+
 const handleFileUpload = (event) => {
   const file = event.target.files[0];
   if (file) {
@@ -576,6 +616,18 @@ const handleFileUpload = (event) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       imagePreview.value = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+};
+const handleFileUploadxray = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    form.xray_path = file;
+    // Create a preview for the image
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imagePreviewxray.value = e.target.result;
     };
     reader.readAsDataURL(file);
   }
@@ -589,6 +641,13 @@ const removeImage = () => {
   }
 };
 
+const removeImagexray = () => {
+  form.xray_path = null;
+  imagePreviewxray.value = null;
+  if (fileInputxray.value) {
+    fileInputxray.value.value = '';
+  }
+};
 const submitForm = () => {
   form.post(route('labdiagnosis.update', props.patient.labdiagnosis.id), {
     forceFormData: true,

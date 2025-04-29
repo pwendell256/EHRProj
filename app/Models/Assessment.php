@@ -10,6 +10,7 @@ class Assessment extends Model
     protected $fillable = [
         'patient_Id',
         'conductor',
+        'triggers',
         'date',
         'time',
         'orientation_level',

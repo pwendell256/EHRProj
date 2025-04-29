@@ -13,4 +13,7 @@ class Medication extends Model
     public function patient(){
         return $this->belongsTo(Patient::class, 'patient_Id', 'id');
     }
+    public function override(){
+        return $this->hasOne(Override::class,'medication_Id','id');
+    }
 }

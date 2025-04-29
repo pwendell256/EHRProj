@@ -87,4 +87,8 @@ class Patient extends Model
     public function history(){
         return $this->hasOne(History::class, 'patient_Id', 'id');
     }
+
+    public function discharge(){
+        return $this->hasOne(Discharge::class, 'patient_Id', 'id');
+    }
     }
