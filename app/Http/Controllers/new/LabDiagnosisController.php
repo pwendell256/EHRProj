@@ -33,6 +33,7 @@ class LabDiagnosisController extends Controller
             'impression' => 'nullable|string',
             'advice' => 'nullable|string',
             'advice_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'xray_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
 
             'uri_date' => 'nullable|date',
             'uri_time' => 'nullable',
@@ -71,6 +72,27 @@ class LabDiagnosisController extends Controller
             // If no new file and not explicitly set to null, don't change the path
             unset($validated['advice_path']);
         }
+
+
+        if ($request->hasFile('xray_path')) {
+            // Delete old image if it exists
+            if ($labDiagnosis->xray_path) {
+                Storage::disk('public')->delete($labDiagnosis->xray_path);
+            }
+
+            // Store the new image
+            $validated['xray_path'] = $request->file('xray_path')->store('LabDiagnosis/Xray', 'public');
+        } else if ($request->has('xray_path') && $request->xray_path === null) {
+            // If advice_path is explicitly set to null, remove the image
+            if ($labDiagnosis->xray_path) {
+                Storage::disk('public')->delete($labDiagnosis->xray_path);
+            }
+            $validated['xray_path'] = null;
+        } else {
+            // If no new file and not explicitly set to null, don't change the path
+            unset($validated['xray_path']);
+        }
+
 
         $labDiagnosis->update($validated);
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AccountManagementController;
 use App\Http\Controllers\ConfigurationController;
+use App\Http\Controllers\DischargeController;
 use App\Http\Controllers\MedicalRecord\AllergyController;
 use App\Http\Controllers\MedicalRecord\HistopathController;
 use App\Http\Controllers\MedicalRecord\ImagingController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\new\MarController;
 use App\Http\Controllers\new\NursenoteController;
 use App\Http\Controllers\new\RegistrationController;
 use App\Http\Controllers\new\TreatmentController;
+use App\Http\Controllers\OverrideController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use App\Models\MedicalRecord\Laboratory;
@@ -115,6 +117,11 @@ Route::middleware('auth')->group(function () {
     Route::match(['put', 'post'], 'martime-update/{id}', [MarController::class, 'martimeupdate'])->name('martime.update');
     Route::delete('mar-delete/{id}', [MarController::class, 'destroy'])->name('mar.delete');
     Route::delete('martime-delete/{id}', [MarController::class, 'martimedestroy'])->name('martime.delete');
+
+
+    Route::post('override/{id}', [OverrideController::class, 'store'])->name('override.store');
+    Route::put('discharge/{id}', [DischargeController::class, 'update'])->name('discharge.update');
+
 });
 
 require __DIR__ . '/auth.php';

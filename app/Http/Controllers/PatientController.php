@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Assessment;
 use App\Models\Diagnosis;
+use App\Models\Discharge;
 use App\Models\History;
 use App\Models\Labdiagnosis;
 use DateTime;
@@ -92,6 +93,10 @@ class PatientController extends Controller
         $history->patient_Id = $patient->id;
         $history->save();
 
+        $discharge = new Discharge();
+        $discharge->patient_Id = $patient->id;
+        $discharge->save();
+
 
 
         return redirect()->route('patient.index')->with('success', 'Patient added successfully.');
@@ -100,7 +105,7 @@ class PatientController extends Controller
     public function update(Request $request, Patient $id)
     {
 
-        $request->validate([
+        $validatedData = $request->validate([
             'full_name' => 'nullable|string|max:255',
             'birth_date' => 'nullable|date',
             'birth_place' => 'nullable|string',
@@ -116,7 +121,15 @@ class PatientController extends Controller
 
         ]);
 
-        $id->update($request->all());
+        $birthdate = new DateTime($validatedData['birth_date']);
+        $today = new DateTime();
+        $age = $today->diff($birthdate)->y;
+
+        // Add age to validated data
+        $validatedData['age'] = $age;
+
+
+        $id->update($validatedData);
 
         return redirect()->route('patient.index')->with('success', 'Patient updated successfully.');
     }
@@ -124,7 +137,7 @@ class PatientController extends Controller
     public function show(Patient $id)
     {
 
-        $patient = $id->with('imagings', 'patientinfo', 'doctororders', 'history', 'treatment', 'mar.martimes', 'assessment',  'diagnosis', 'labdiagnosis',  'nursenotes',  'laboratories', 'histopaths', 'microbiologies', 'specialtests', 'allergies', 'medications')->where('id', $id->id)->first();
+        $patient = $id->with('imagings', 'patientinfo', 'discharge', 'doctororders', 'medications.override', 'history', 'treatment', 'mar.martimes', 'assessment',  'diagnosis', 'labdiagnosis',  'nursenotes',  'laboratories', 'histopaths', 'microbiologies', 'specialtests', 'allergies', 'medications')->where('id', $id->id)->first();
         return Inertia::render('Auth/Patient/Show', ['patient' => $patient]);
     }
 

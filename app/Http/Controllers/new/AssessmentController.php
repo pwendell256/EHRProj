@@ -12,6 +12,7 @@ class AssessmentController extends Controller
 {
     $validated = $request->validate([
         'patient_Id' => 'nullable|integer|exists:patients,id',
+        'triggers' => 'nullable',
         'conductor' => 'nullable|string|max:255',
         'date' => 'nullable|date',
         'time' => 'nullable|string|max:255',
@@ -89,7 +90,9 @@ class AssessmentController extends Controller
         'updated_at' => 'nullable|date',
     ]);
 
+
     $id->update($validated);
+    
 
     return redirect()->back()->with('success', 'Diagnosis updated successfully');
 }

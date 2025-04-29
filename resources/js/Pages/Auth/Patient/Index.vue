@@ -33,19 +33,24 @@
                                     <SelectGroup>
                                         <SelectLabel>Stations</SelectLabel>
                                         <SelectItem value="All">All</SelectItem>
-                                        <SelectItem value="ICU - 502">ICU - 502</SelectItem>
-                                        <SelectItem value="CCU - 609">CCU - 609</SelectItem>
-                                        <SelectItem value="ER - 102">ER - 102</SelectItem>
-                                        <SelectItem value="PICU - 703">PICU - 703</SelectItem>
-                                        <SelectItem value="ICU - 504">ICU - 504</SelectItem>
-                                        <SelectItem value="LDRP - 306">LDRP - 306</SelectItem>
-                                        <SelectItem value="CCU - 603">CCU - 603</SelectItem>
-                                        <SelectItem value="PICU - 702">PICU - 702</SelectItem>
-                                        <SelectItem value="PACU - 404">PACU - 404</SelectItem>
-                                        <SelectItem value="General Medical Ward - Bed No. 6">
-                                            General Medical Ward - Bed No. 6
+                                        <SelectItem value="ER">ER – Emergency Room</SelectItem>
+                                        <SelectItem value="ICU">ICU – Intensive Care Unit</SelectItem>
+                                        <SelectItem value="Med-Surg">Med-Surg – Medical-Surgical Ward</SelectItem>
+                                        <SelectItem value="NICU">NICU – Neonatal Intensive Care Unit</SelectItem>
+                                        <SelectItem value="Nursery Ward">Nursery Ward</SelectItem>
+                                        <SelectItem value="OPD">Outpatient Department (OPD) – Scheduled consults and
+                                            follow-ups
+                                        </SelectItem>
+                                        <SelectItem value="PICU">PICU – Pediatric Intensive Care Unit</SelectItem>
+                                        <SelectItem value="Pediatric Oncology Unit">Pediatric Oncology Unit</SelectItem>
+                                        <SelectItem value="Pediatric Rehab Unit">Pediatric Rehab Unit</SelectItem>
+                                        <SelectItem value="Pediatric Ward">Pediatric Ward</SelectItem>
+                                        <SelectItem value="Trauma ICU">Trauma ICU – Trauma-related critical care
+                                        </SelectItem>
+                                        <SelectItem value="Transplant ICU">Transplant ICU – Post-transplant care
                                         </SelectItem>
                                     </SelectGroup>
+
                                 </SelectContent>
                             </Select>
 
@@ -103,19 +108,32 @@
                                             <SelectContent>
                                                 <SelectGroup>
                                                     <SelectLabel>Stations</SelectLabel>
-                                                    <SelectItem value="ICU - 502">ICU - 502</SelectItem>
-                                                    <SelectItem value="CCU - 609">CCU - 609</SelectItem>
-                                                    <SelectItem value="ER - 102">ER - 102</SelectItem>
-                                                    <SelectItem value="PICU - 703">PICU - 703</SelectItem>
-                                                    <SelectItem value="ICU - 504">ICU - 504</SelectItem>
-                                                    <SelectItem value="LDRP - 306">LDRP - 306</SelectItem>
-                                                    <SelectItem value="CCU - 603">CCU - 603</SelectItem>
-                                                    <SelectItem value="PICU - 702">PICU - 702</SelectItem>
-                                                    <SelectItem value="PACU - 404">PACU - 404</SelectItem>
-                                                    <SelectItem value="General Medical Ward - Bed No. 6">
-                                                        General Medical Ward - Bed No. 6
+                                                    <SelectItem value="All">All</SelectItem>
+                                                    <SelectItem value="ER">ER – Emergency Room</SelectItem>
+                                                    <SelectItem value="ICU">ICU – Intensive Care Unit</SelectItem>
+                                                    <SelectItem value="Med-Surg">Med-Surg – Medical-Surgical Ward
+                                                    </SelectItem>
+                                                    <SelectItem value="NICU">NICU – Neonatal Intensive Care Unit
+                                                    </SelectItem>
+                                                    <SelectItem value="Nursery Ward">Nursery Ward</SelectItem>
+                                                    <SelectItem value="OPD">Outpatient Department (OPD) – Scheduled
+                                                        consults and
+                                                        follow-ups</SelectItem>
+                                                    <SelectItem value="PICU">PICU – Pediatric Intensive Care Unit
+                                                    </SelectItem>
+                                                    <SelectItem value="Pediatric Oncology Unit">Pediatric Oncology Unit
+                                                    </SelectItem>
+                                                    <SelectItem value="Pediatric Rehab Unit">Pediatric Rehab Unit
+                                                    </SelectItem>
+                                                    <SelectItem value="Pediatric Ward">Pediatric Ward</SelectItem>
+                                                    <SelectItem value="Trauma ICU">Trauma ICU – Trauma-related critical
+                                                        care
+                                                    </SelectItem>
+                                                    <SelectItem value="Transplant ICU">Transplant ICU – Post-transplant
+                                                        care
                                                     </SelectItem>
                                                 </SelectGroup>
+
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -140,10 +158,10 @@
 
                                 </div>
 
-                                    <Button type="submit">
-                                        Save changes
-                                    </Button>
-                    
+                                <Button type="submit">
+                                    Save changes
+                                </Button>
+
                             </form>
                         </UseTemplate>
 
@@ -168,7 +186,7 @@
 
                             <Drawer v-else v-model:open="isOpen">
                                 <DrawerTrigger as-child>
-                                    <Button class="hover:bg-gray-100" >
+                                    <Button class="hover:bg-gray-100">
                                         + Add Patient
                                     </Button>
                                 </DrawerTrigger>

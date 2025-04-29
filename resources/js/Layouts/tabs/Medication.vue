@@ -102,6 +102,10 @@
                                     <DropdownMenuItem @click="openEditModal(record)">
                                         <i class="fa-solid fa-pen-to-square mr-2"></i> Edit
                                     </DropdownMenuItem>
+                                    <DropdownMenuItem v-if="record.override" @click="openViewModal(record.override)">
+                                        <i class="fa-solid fa-eye mr-2"></i> View
+                                    </DropdownMenuItem>
+
                                     <DropdownMenuItem @click="deleteRecord(record.id)">
                                         <i class="fa-solid fa-trash mr-2"></i> Delete
                                     </DropdownMenuItem>
@@ -135,13 +139,84 @@
             <div class="bg-white p-6 rounded-lg shadow-lg w-96">
                 <h3 class="text-lg font-semibold mb-4 text-red-600">Error</h3>
                 <p class="text-gray-700">{{ errorMessage }}</p>
-                <div class="flex justify-end mt-4">
+                <div class="flex justify-end space-x-2 mt-4">
                     <button @click="errorMessage = ''" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
                         Close
+                    </button>
+                    <button @click="openAllergyHistory"
+                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                        View Allergy History
+                    </button>
+
+                    <button @click="showOverrideModal = true"
+                        class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                        Override
                     </button>
                 </div>
             </div>
         </div>
+
+        <!-- Override Modal -->
+        <div v-if="showOverrideModal"
+            class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+                <h3 class="text-lg font-semibold mb-4">Medication Override</h3>
+                <form @submit.prevent="submitOverride" class="space-y-4">
+                    <div class="flex flex-col gap-2">
+                        <Label for="override_reason">Override Reason</Label>
+                        <textarea id="override_reason" v-model="overrideForm.reason"
+                            class="border border-gray-300 rounded-md p-2 w-full" rows="3" required></textarea>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <Label for="prescriber_name">Prescriber Name</Label>
+                        <Input id="prescriber_name" type="text" v-model="overrideForm.prescriber_name" required />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <Label for="signature">Signature (Image Upload)</Label>
+                        <Input id="signature" type="file" accept="image/*" @change="handleSignatureUpload" required />
+                        <div v-if="signaturePreview" class="mt-2">
+                            <img :src="signaturePreview" alt="Signature Preview" class="max-h-24 border rounded-md" />
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <Label for="override_date">Date and Time of Override</Label>
+                        <Input id="override_date" type="datetime-local" v-model="overrideForm.date_time" required />
+                    </div>
+
+                    <div class="flex justify-end space-x-2 mt-6">
+                        <Button type="button" variant="outline" @click="showOverrideModal = false">Cancel</Button>
+                        <Button type="submit">Submit Override</Button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- View Override Modal -->
+        <div v-if="viewOverrideModal"
+            class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+                <h3 class="text-lg font-semibold mb-4">Override Details</h3>
+                <div class="space-y-3 text-sm text-gray-700">
+                    <div><strong>Name:</strong> {{ selectedOverride.name }}</div>
+                    <div><strong>Reason:</strong> {{ selectedOverride.reason }}</div>
+                    <div><strong>Override DateTime:</strong> {{ selectedOverride.dateTime }}</div>
+                    <div>
+                        <strong>Signature:</strong><br>
+                        <img :src="`/storage/${selectedOverride.signature}`" alt="Signature"
+                            class="mt-1 border rounded max-h-32">
+                    </div>
+                </div>
+                <div class="flex justify-end mt-6 space-x-2">
+                    <Button variant="outline" @click="viewOverrideModal = false">Close</Button>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </template>
 
@@ -236,12 +311,78 @@ const editForm = useForm({
     medication: '',
 });
 
+// For the override functionality
+const showOverrideModal = ref(false);
+const signaturePreview = ref(null);
+
+const viewOverrideModal = ref(false);
+const selectedOverride = ref({});
+
+const openViewModal = (record) => {
+    selectedOverride.value = record;
+    viewOverrideModal.value = true;
+};
+
+
+const overrideForm = useForm({
+    reason: '',
+    prescriber_name: '',
+    signature: null,
+    date_time: ''
+});
+
+const handleSignatureUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        overrideForm.signature = file;
+
+        // Create preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            signaturePreview.value = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+const submitOverride = () => {
+    const payload = {
+        date: form.date,
+        medication: form.medication,
+        override_reason: overrideForm.reason,
+        prescriber_name: overrideForm.prescriber_name,
+        signature: overrideForm.signature,
+        override_date_time: overrideForm.date_time,
+    };
+
+    router.post(route('override.store', props.patient.id), payload, {
+        forceFormData: true, // required to send file uploads
+        onSuccess: () => {
+            showOverrideModal.value = false;
+            errorMessage.value = '';
+            isOpen.value = false;
+            form.reset();
+            overrideForm.reset();
+            signaturePreview.value = null;
+        },
+        onError: (errors) => {
+            console.error(errors);
+        }
+    });
+};
+
 
 const openModal = () => {
     form.reset(); // clear previous values
     isEditing.value = false;
     isOpen.value = true;
 };
+
+
+const openAllergyHistory = () => {
+    const url = route('patient.show', { id: props.patient.id, tab: 'History' }) + '#bottom';;
+    window.open(url, '_blank');
+}
 
 const openEditModal = (record) => {
     form.id = record.id;
@@ -256,6 +397,7 @@ const saveMedication = () => {
         onError: (errors) => {
             if (errors.medication) {
                 errorMessage.value = errors.medication;
+                isOpen.value = false;
             }
         },
         onSuccess: () => {
@@ -270,6 +412,7 @@ const updateMedication = () => {
         onError: (errors) => {
             if (errors.medication) {
                 errorMessage.value = errors.medication;
+                isOpen.value = false;
             }
         },
         onSuccess: () => {
@@ -286,6 +429,8 @@ const deleteRecord = (id) => {
     recordToDeleteId.value = id
     showDeleteDialog.value = true
 }
+
+const deleteform = useForm()
 
 const handleDelete = () => {
     deleteform.delete(route('medication.destroy', recordToDeleteId.value), {

@@ -35,7 +35,8 @@
             <MAR v-if="selectedTab === 'MAR'" :patient="patient" />
             <Nurses v-if="selectedTab === 'Nurses'" :patient="patient" />
             <Doctor v-if="selectedTab === 'Doctor'" :patient="patient" />
-            <Allergy v-if="selectedTab === 'Allergy'" :patient="patient" />
+            <Discharge v-if="selectedTab === 'Discharge'" :patient="patient" />
+            <!-- <Allergy v-if="selectedTab === 'Allergy'" :patient="patient" /> -->
         </div>
     </div>
 </template>
@@ -54,6 +55,7 @@ import MAR from './MedicalRecordTab/new/MAR.vue';
 import Nurses from './MedicalRecordTab/new/Nurses.vue';
 import Doctor from './MedicalRecordTab/new/Doctor.vue';
 import Registration from './MedicalRecordTab/new/Registration.vue';
+import Discharge from './MedicalRecordTab/new/Discharge.vue';
 
 const props = defineProps({
     patient: Object
@@ -70,15 +72,16 @@ watch(selectedTab, (newTab) => {
 
 const tabs = [
     { value: 'Registration', label: 'Registration Sheet' },
-    { value: 'History', label: 'History' },
+    { value: 'History', label: 'Medical History' },
     { value: 'Assessment', label: 'Assessment' },
     { value: 'laboratory', label: 'Laboratory and Diagnosis' },
-    { value: 'Diagnosis', label: 'Diagnosis' },
-    { value: 'Treatment', label: 'Treatment' },
+    { value: 'Diagnosis', label: 'Nursing Diagnosis' },
+    { value: 'Treatment', label: 'Planning and Intervention' },
     { value: 'MAR', label: 'MAR' },
     { value: 'Nurses', label: 'Nurses Notes' },
     { value: 'Doctor', label: "Doctor's Order" },
-    { value: 'Allergy', label: 'Allergy' },
+    { value: 'Discharge', label: "Discharge Plan" },
+    // { value: 'Allergy', label: 'Allergy' },
 ];
 
 

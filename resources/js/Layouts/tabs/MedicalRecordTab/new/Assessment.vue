@@ -1,8 +1,16 @@
 <template>
     <div class="assessment-form">
-        <h1 class="text-2xl font-bold mb-6">Medical Assessment Form</h1>
-
         <form @submit.prevent="submitForm">
+            <h1 class="text-2xl font-bold mb-6">Triggers</h1>
+            <div class="form-group">
+                <Label for="skin-description" class="block mb-1">Triggers:</Label>
+                <Textarea id="skin-description" v-model="form.triggers" rows="3"
+                    class="w-full p-2 border rounded"></textarea>
+            </div>
+
+            <h1 class="text-2xl font-bold mb-6">Medical Assessment Form</h1>
+
+
             <!-- Assessor Information -->
             <div class="mb-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -527,7 +535,8 @@
             </div>
         </form>
     </div>
-<Medication :patient="patient" />
+    
+    <Medication :patient="patient" />
 
 </template>
 
@@ -556,6 +565,7 @@ const props = defineProps({
 })
 
 const form = useForm({
+    triggers : props.patient?.assessment.triggers ?? '',
     conductor: props.patient?.assessment.conductor ?? '',
     date: props.patient?.assessment.date ?? '',
     time: props.patient?.assessment.time ?? '',
