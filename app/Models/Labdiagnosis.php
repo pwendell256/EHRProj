@@ -27,6 +27,7 @@ class Labdiagnosis extends Model
         'impression',
         'advice',
         'advice_path',
+        'xray_path',
         'uri_date',
         'uri_time',
         'transparency',
