@@ -137,7 +137,7 @@ class PatientController extends Controller
     public function show(Patient $id)
     {
 
-        $patient = $id->with('imagings', 'patientinfo', 'discharge', 'doctororders', 'medications.override', 'history', 'treatment', 'mar.martimes', 'assessment',  'diagnosis', 'labdiagnosis',  'nursenotes',  'laboratories', 'histopaths', 'microbiologies', 'specialtests', 'allergies', 'medications')->where('id', $id->id)->first();
+        $patient = $id->with('imagings', 'patientinfo','tprs', 'ios.iostimes' , 'discharge', 'doctororders', 'medications.override', 'history', 'treatment', 'mar.martimes', 'assessment',  'diagnosis', 'labdiagnosis',  'nursenotes',  'laboratories', 'histopaths', 'microbiologies', 'specialtests', 'allergies', 'medications')->where('id', $id->id)->first();
         return Inertia::render('Auth/Patient/Show', ['patient' => $patient]);
     }
 

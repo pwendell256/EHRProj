@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountManagementController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\DischargeController;
+use App\Http\Controllers\IosController;
 use App\Http\Controllers\MedicalRecord\AllergyController;
 use App\Http\Controllers\MedicalRecord\HistopathController;
 use App\Http\Controllers\MedicalRecord\ImagingController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\new\TreatmentController;
 use App\Http\Controllers\OverrideController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TPRController;
 use App\Models\MedicalRecord\Laboratory;
 use App\Models\User;
 use Illuminate\Foundation\Application;
@@ -121,6 +123,16 @@ Route::middleware('auth')->group(function () {
 
     Route::post('override/{id}', [OverrideController::class, 'store'])->name('override.store');
     Route::put('discharge/{id}', [DischargeController::class, 'update'])->name('discharge.update');
+
+    Route::post('tprs/{id}', [TPRController::class, 'store'])->name('tprs.store');
+    Route::put('tprs/{id}', [TPRController::class, 'update'])->name('tprs.update');
+    Route::delete('tprs/{id}', [TPRController::class, 'destroy'])->name('tprs.delete');
+
+    Route::post('ios/{id}', [IosController::class, 'store'])->name('ios.store');
+    Route::post('ios-updatestatus', [IosController::class, 'updateStatus'])->name('ios.updateStatus');
+    Route::delete('ios-delete/{id}', [IosController::class, 'deletegroup'])->name('ios.delete');
+
+
 
 });
 
