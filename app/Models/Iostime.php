@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Iostime extends Model
 {
     protected $table = 'iostime';
-    protected $fillabel =[
+    protected $fillable =[
         'ios_Id',
         'time',
         'source',

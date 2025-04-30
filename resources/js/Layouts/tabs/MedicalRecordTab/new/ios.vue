@@ -20,74 +20,130 @@
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                     <template v-for="(dateGroup, dateIndex) in groupedData" :key="dateIndex">
-                        <template v-for="(row, rowIndex) in dateGroup.rows" :key="rowIndex">
-                            <tr>
-                                <!-- Date - only show on first row of each date -->
-                                <td class="px-4 py-2 text-sm text-gray-700">
-                                    <template v-if="row.isFirstInDate">{{ dateGroup.date }}</template>
-                                </td>
+                        <template v-for="(shiftGroup, shiftIndex) in dateGroup.shiftGroups" :key="shiftIndex">
+                            <!-- Template section with fix for the total and signature row -->
+                            <!-- Instead of rendering the total row unconditionally, check if there are rows -->
+                            <template v-for="(statusGroup, statusIndex) in shiftGroup.statusGroups" :key="statusIndex">
+                                <!-- Display each time entry -->
+                                <template v-for="(row, rowIndex) in statusGroup.rows" :key="rowIndex">
+                                    <tr>
+                                        <!-- Date - only show on first row of each date -->
+                                        <td class="px-4 py-2 text-sm text-gray-700">
+                                            <template v-if="rowIndex === 0 && statusIndex === 0 && shiftIndex === 0">
+                                                {{ dateGroup.date }}
+                                            </template>
+                                        </td>
 
-                                <!-- Shift - only show on first row of each shift in a day -->
-                                <td class="px-4 py-2 text-sm text-gray-700">
-                                    <template v-if="row.isFirstInShift">{{ row.shift }}</template>
-                                </td>
+                                        <!-- Shift - only show on first row of each shift in a day -->
+                                        <td class="px-4 py-2 text-sm text-gray-700">
+                                            <template v-if="rowIndex === 0 && statusIndex === 0">
+                                                {{ shiftGroup.shift }}
+                                            </template>
+                                        </td>
 
-                                <!-- Status - only show on first row of each status in a shift -->
-                                <td class="px-4 py-2 text-sm text-gray-700">
-                                    <div class="flex items-center gap-2">
-                                        <template v-if="row.isFirstInStatus">{{ row.status }}</template>
-                                        <template v-if="row.isFirstInStatus">
-                                            <button @click="openEditModal(dateGroup.date, row.shift, row.status)"
-                                                class="text-yellow-500 hover:text-yellow-600">
-                                                <!-- Pen icon (Heroicons pencil-square) -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M15.232 5.232l3.536 3.536M16.732 3.732a2.5 2.5 0 113.536 3.536L7 20.5H3.5V17L16.732 3.732z" />
-                                                </svg>
-                                            </button>
-                                            <button @click="deletegroup(dateGroup.date, row.shift, row.status)" class="text-red-500 hover:text-red-600 ml-2">
-                                                <!-- Trash icon (Heroicons trash) -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M6 18L18 6M6 6l12 12" />
-                                                </svg>
-                                            </button>
+                                        <!-- Status - only show on first row of each status in a shift -->
+                                        <td class="px-4 py-2 text-sm text-gray-700">
+                                            <div class="flex items-center gap-2">
+                                                <template v-if="rowIndex === 0">
+                                                    {{ statusGroup.status }}
+                                                </template>
+                                                <template v-if="rowIndex === 0">
+                                                    <button
+                                                        @click="openEditModal(dateGroup.date, shiftGroup.shift, statusGroup.status)"
+                                                        class="text-yellow-500 hover:text-yellow-600">
+                                                        <!-- Pen icon (Heroicons pencil-square) -->
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                            stroke-width="2">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M15.232 5.232l3.536 3.536M16.732 3.732a2.5 2.5 0 113.536 3.536L7 20.5H3.5V17L16.732 3.732z" />
+                                                        </svg>
+                                                    </button>
+                                                    <button
+                                                        @click="deletegroup(dateGroup.date, shiftGroup.shift, statusGroup.status)"
+                                                        class="text-red-500 hover:text-red-600 ml-2">
+                                                        <!-- Trash icon (Heroicons trash) -->
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                            stroke-width="2">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </button>
+                                                </template>
+                                            </div>
+                                        </td>
+
+                                        <!-- Time - always show with edit button -->
+                                        <td class="px-4 py-2 text-sm text-gray-700">
+                                            <div class="flex items-center gap-2">
+                                                {{ row.time }}
+                                                <button
+                                                    @click="openTimeEditModal(dateGroup.date, shiftGroup.shift, statusGroup.status, row.time, row.source, row.amount, row.timeId)"
+                                                    class="text-blue-500 hover:text-blue-600">
+                                                    <!-- Pen icon (Heroicons pencil-square) -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M15.232 5.232l3.536 3.536M16.732 3.732a2.5 2.5 0 113.536 3.536L7 20.5H3.5V17L16.732 3.732z" />
+                                                    </svg>
+                                                </button>
+
+                                                <button @click="deletetime(row.timeId)"
+                                                    class="text-red-500 hover:text-red-600 ml-2">
+                                                    <!-- Trash icon (Heroicons trash) -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </td>
+
+                                        <!-- Always show source and amount -->
+                                        <td class="px-4 py-2 text-sm text-gray-700">{{ row.source || '-' }}</td>
+                                        <td class="px-4 py-2 text-sm text-gray-700">{{ row.amount }}</td>
+
+                                        <!-- No total and signature in regular rows -->
+                                        <td class="px-4 py-2 text-sm text-gray-700"></td>
+                                        <td class="px-4 py-2 text-sm text-gray-700"></td>
+                                    </tr>
+                                </template>
+
+                                <!-- Add total and signature row at the end of each status group ONLY if there are rows -->
+                                <tr v-if="statusGroup.rows && statusGroup.rows.length > 0" class="bg-gray-50">
+                                    <td class="px-4 py-2 text-sm text-gray-700"></td>
+                                    <td class="px-4 py-2 text-sm text-gray-700"></td>
+                                    <td class="px-4 py-2 text-sm text-gray-700"></td>
+                                    <td class="px-4 py-2 text-sm text-gray-700"></td>
+                                    <td class="px-4 py-2 text-sm font-medium text-gray-700 text-right">
+                                        Total:
+                                    </td>
+                                    <td class="px-4 py-2 text-sm font-bold text-gray-700">
+                                        {{ statusGroup.total || '-' }}
+                                    </td>
+                                    <td class="px-4 py-2 text-sm text-gray-700 text-right">
+                                        Signature:
+                                    </td>
+                                    <td class="px-4 py-2 text-sm text-gray-700">
+                                        <template v-if="statusGroup.signature">
+                                            <img :src="`/storage/${statusGroup.signature}`" alt="Signature"
+                                                class="h-10 max-w-full" />
                                         </template>
-                                    </div>
-                                </td>
-
-                                <!-- Time - always show -->
-                                <td class="px-4 py-2 text-sm text-gray-700">{{ row.time }}</td>
-
-                                <!-- Always show source and amount -->
-                                <td class="px-4 py-2 text-sm text-gray-700">{{ row.source || '-' }}</td>
-                                <td class="px-4 py-2 text-sm text-gray-700">{{ row.amount }}</td>
-
-                                <!-- Total - only show on last row of a status group -->
-                                <td class="px-4 py-2 text-sm text-gray-700">
-                                    <template v-if="row.isLastInStatus">{{ row.total || '-' }}</template>
-                                </td>
-
-                                <!-- Signature - only show on last row of a status group -->
-                                <td class="px-4 py-2 text-sm text-gray-700">
-                                    <template v-if="row.isLastInStatus && row.signature">
-                                        <img :src="`/storage/${row.signature}`" alt="Signature"
-                                            class="h-10 max-w-full" />
-                                    </template>
-                                    <template v-else-if="row.isLastInStatus">
-                                        -
-                                    </template>
-                                </td>
-                            </tr>
+                                        <template v-else>
+                                            -
+                                        </template>
+                                    </td>
+                                </tr>
+                            </template>
                         </template>
                     </template>
                 </tbody>
             </table>
         </div>
 
-        <!-- Modal -->
+        <!-- Add Modal -->
         <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
                 <!-- Step 1 -->
@@ -150,7 +206,7 @@
             </div>
         </div>
 
-        <!-- Edit Modal -->
+        <!-- Status Edit Modal -->
         <div v-if="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
                 <h2 class="text-lg font-bold mb-4">Edit</h2>
@@ -194,6 +250,35 @@
             </div>
         </div>
 
+        <!-- Time Edit Modal -->
+        <div v-if="showTimeEditModal"
+            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
+                <h2 class="text-lg font-bold mb-4">Edit Time Entry</h2>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium">Time</label>
+                    <select v-model="timeEditForm.time" class="w-full mt-1 px-3 py-2 border rounded-md">
+                        <option value="" disabled>Select Time</option>
+                        <option v-for="t in shiftTimes[timeEditForm.shift] || []" :key="t">{{ t }}</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium">Amount</label>
+                    <input type="text" v-model="timeEditForm.amount" class="w-full mt-1 px-3 py-2 border rounded-md" />
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium">Source</label>
+                    <input type="text" v-model="timeEditForm.source" class="w-full mt-1 px-3 py-2 border rounded-md" />
+                </div>
+                <div class="flex justify-between">
+                    <button @click="closeTimeEditModal"
+                        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
+                    <button @click="submitTimeEdit"
+                        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -219,7 +304,7 @@ const form = useForm({
 
 // Static table headers
 const tableHeaders = [
-    'Date', 'Shift', 'Status', 'Time', 'Source', 'Amount', 'Total', 'Signature'
+    'Date', 'Shift', 'Status', 'Time', 'Source', 'Amount', '', ''
 ]
 
 // Shift-specific time slots
@@ -261,7 +346,7 @@ const signaturePreview = ref(null)
 const shiftOrder = { Morning: 1, Afternoon: 2, Night: 3 }
 const statusOrder = { Intake: 1, Output: 2 }
 
-// First sort the ios as before
+// First sort the ios entries
 const sortedIos = computed(() => {
     return [...(props.patient.ios || [])]
         .sort((a, b) => {
@@ -289,95 +374,97 @@ const sortedIos = computed(() => {
         }))
 })
 
-// Completely reorganized groupedData to flatten the structure for easier display management
+// Redesigned groupedData to have a clear hierarchical structure: date > shift > status > rows
 const groupedData = computed(() => {
-    // Group by date first
-    const dateGroups = {};
+    const result = [];
 
-    // Process all IO entries and organize them by date
+    // Temporary storage to build the hierarchy
+    const dateMap = new Map();
+
+    // First pass: group by date, shift, and status
     sortedIos.value.forEach(io => {
-        const date = io.date;
+        const { date, shift, status, total, signature, iostimes } = io;
 
-        if (!dateGroups[date]) {
-            dateGroups[date] = {
+        // Create or get date group
+        if (!dateMap.has(date)) {
+            dateMap.set(date, {
                 date,
-                rows: [],
-                shiftsSeen: new Set(),
-                statusesSeen: new Map(), // Map to track shift+status combinations
-                shiftStatusGroups: {} // To track groups for totals and signatures
-            };
+                shiftGroups: new Map()
+            });
         }
+        const dateGroup = dateMap.get(date);
 
-        // Create a unique key for this shift+status combination
-        const shiftStatusKey = `${io.shift}-${io.status}`;
-
-        // Initialize or get the group for this shift+status combination
-        if (!dateGroups[date].shiftStatusGroups[shiftStatusKey]) {
-            dateGroups[date].shiftStatusGroups[shiftStatusKey] = {
-                rows: [],
-                total: io.total,
-                signature: io.signature
-            };
+        // Create or get shift group
+        if (!dateGroup.shiftGroups.has(shift)) {
+            dateGroup.shiftGroups.set(shift, {
+                shift,
+                statusGroups: new Map()
+            });
         }
+        const shiftGroup = dateGroup.shiftGroups.get(shift);
 
-        // Process each time entry within this IO
-        io.iostimes.forEach((timeEntry) => {
-            // Check if this is the first row for this shift in this date
-            const isFirstInShift = !dateGroups[date].shiftsSeen.has(io.shift);
+        // Create or get status group
+        if (!shiftGroup.statusGroups.has(status)) {
+            shiftGroup.statusGroups.set(status, {
+                status,
+                total,
+                signature,
+                rows: []
+            });
+        }
+        const statusGroup = shiftGroup.statusGroups.get(status);
 
-            // Check if this is the first row for this status in this shift on this date
-            const isFirstInStatus = !dateGroups[date].statusesSeen.has(shiftStatusKey);
-
-            // Mark this shift as seen for this date
-            if (isFirstInShift) {
-                dateGroups[date].shiftsSeen.add(io.shift);
-            }
-
-            // Mark this shift+status combination as seen
-            if (isFirstInStatus) {
-                dateGroups[date].statusesSeen.set(shiftStatusKey, true);
-            }
-
-            // Add row to the appropriate group
-            const row = {
-                shift: io.shift,
-                status: io.status,
+        // Add time entries as rows
+        iostimes.forEach(timeEntry => {
+            statusGroup.rows.push({
                 time: timeEntry.time,
                 source: timeEntry.source,
                 amount: timeEntry.amount,
-                isFirstInShift,
-                isFirstInStatus
+                timeId: timeEntry.id
+            });
+        });
+    });
+
+    // Convert Map structure to arrays for template rendering
+    dateMap.forEach((dateGroup, dateKey) => {
+        const formattedDateGroup = {
+            date: dateKey,
+            shiftGroups: []
+        };
+
+        dateGroup.shiftGroups.forEach((shiftGroup, shiftKey) => {
+            const formattedShiftGroup = {
+                shift: shiftKey,
+                statusGroups: []
             };
 
-            dateGroups[date].shiftStatusGroups[shiftStatusKey].rows.push(row);
+            shiftGroup.statusGroups.forEach((statusGroup, statusKey) => {
+                formattedShiftGroup.statusGroups.push({
+                    status: statusKey,
+                    total: statusGroup.total,
+                    signature: statusGroup.signature,
+                    rows: statusGroup.rows
+                });
+            });
 
-            // Also add to the main rows array for tracking date display
-            dateGroups[date].rows.push(row);
+            // Sort status groups (Intake, then Output)
+            formattedShiftGroup.statusGroups.sort((a, b) =>
+                statusOrder[a.status] - statusOrder[b.status]
+            );
+
+            formattedDateGroup.shiftGroups.push(formattedShiftGroup);
         });
+
+        // Sort shift groups (Morning, Afternoon, Night)
+        formattedDateGroup.shiftGroups.sort((a, b) =>
+            shiftOrder[a.shift] - shiftOrder[b.shift]
+        );
+
+        result.push(formattedDateGroup);
     });
 
-    // Now flatten the rows properly and mark last rows in each status group
-    Object.values(dateGroups).forEach(dateGroup => {
-        // Mark the first row of the date
-        if (dateGroup.rows.length > 0) {
-            dateGroup.rows[0].isFirstInDate = true;
-        }
-
-        // Process each shift+status group to mark last rows
-        Object.entries(dateGroup.shiftStatusGroups).forEach(([key, group]) => {
-            if (group.rows.length > 0) {
-                const lastRow = group.rows[group.rows.length - 1];
-                lastRow.isLastInStatus = true;
-                lastRow.total = group.total;
-                lastRow.signature = group.signature;
-            }
-        });
-    });
-
-    // Convert to array and sort by date
-    const result = Object.values(dateGroups).sort((a, b) =>
-        new Date(a.date) - new Date(b.date)
-    );
+    // Sort by date
+    result.sort((a, b) => new Date(a.date) - new Date(b.date));
 
     return result;
 })
@@ -403,6 +490,7 @@ const submitForm = () => {
     })
 }
 
+// Status Edit Modal
 const showEditModal = ref(false)
 const editForm = useForm({
     total: '',
@@ -416,10 +504,9 @@ const deletegroup = (date, shift, status) => {
         io.shift === shift &&
         io.status === status
     );
-    if(confirm('Are you sure you want to delete this?')){
+    if (confirm('Are you sure you want to delete this?')) {
         deletegourpform.delete(route('ios.delete', io?.id))
     }
-
 }
 
 const openEditModal = (date, shift, status) => {
@@ -509,5 +596,56 @@ const submitEdit = () => {
         forceFormData: true,
         onSuccess: () => closeEditModal(),
     })
+}
+
+// Time Edit Modal and functionality
+const showTimeEditModal = ref(false)
+const timeEditForm = useForm({
+    id: '',
+    ios_Id: '',
+    time: '',
+    source: '',
+    amount: '',
+    shift: '', // Needed to get available time slots
+})
+
+const openTimeEditModal = (date, shift, status, time, source, amount, timeId) => {
+    // Find the IO entry
+    const io = sortedIos.value.find(io =>
+        io.date === date &&
+        io.shift === shift &&
+        io.status === status
+    );
+
+    // Prefill the form
+    timeEditForm.id = timeId || '';
+    timeEditForm.ios_Id = io?.id || '';
+    timeEditForm.time = time;
+    timeEditForm.source = source || '';
+    timeEditForm.amount = amount;
+    timeEditForm.shift = shift; // Store shift to filter time options
+
+    showTimeEditModal.value = true;
+}
+
+const closeTimeEditModal = () => {
+    showTimeEditModal.value = false;
+}
+
+const submitTimeEdit = () => {
+    timeEditForm.post(route('ios.updatetime', {
+        id: timeEditForm.id
+    }), {
+        preserveScroll: true,
+        onSuccess: () => {
+            closeTimeEditModal();
+        },
+    });
+}
+const deletetimeform = useForm()
+const deletetime = (id) => {
+    if (confirm('Are you sure you want to delete this time?')) {
+        deletetimeform.delete(route('ios.deletetime', id))
+    }
 }
 </script>

@@ -97,4 +97,8 @@ class Patient extends Model
     public function ios(){
         return $this->hasMany(Ios::class, 'patient_Id', 'id');
     }
+
+    public function doctorprogress(){
+        return $this->hasOne(Doctorprogress::class, 'patient_Id', 'id');
+    }
     }
