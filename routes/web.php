@@ -3,6 +3,8 @@
 use App\Http\Controllers\AccountManagementController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\DischargeController;
+use App\Http\Controllers\DoctorProgressController;
+use App\Http\Controllers\DoctroprogressController;
 use App\Http\Controllers\IosController;
 use App\Http\Controllers\MedicalRecord\AllergyController;
 use App\Http\Controllers\MedicalRecord\HistopathController;
@@ -24,6 +26,7 @@ use App\Http\Controllers\OverrideController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TPRController;
+use App\Models\Doctorprogress;
 use App\Models\MedicalRecord\Laboratory;
 use App\Models\User;
 use Illuminate\Foundation\Application;
@@ -132,6 +135,10 @@ Route::middleware('auth')->group(function () {
     Route::post('ios-updatestatus', [IosController::class, 'updateStatus'])->name('ios.updateStatus');
     Route::delete('ios-delete/{id}', [IosController::class, 'deletegroup'])->name('ios.delete');
 
+    Route::post('ios-updatetime', [IosController::class, 'updatetime'])->name('ios.updatetime');
+    Route::delete('ios-deletetime/{id}', [IosController::class, 'deletetime'])->name('ios.deletetime');
+
+    Route::put('doctorprogress-update/{id}', [DoctorProgressController::class, 'update'])->name('doctorprogress.update');
 
 
 });

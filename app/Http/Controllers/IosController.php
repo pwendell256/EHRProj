@@ -73,7 +73,7 @@ class IosController extends Controller
             }
 
             // Update the signature URL
-            $io->signature= $path;
+            $io->signature = $path;
         }
         // Handle signature removal
         elseif ($request->has('remove_signature')) {
@@ -90,7 +90,8 @@ class IosController extends Controller
         return redirect()->back();
     }
 
-    public function deletegroup(Ios $id){
+    public function deletegroup(Ios $id)
+    {
 
         if ($id->signature && Storage::disk('public')->exists($id->signature)) {
             Storage::disk('public')->delete($id->signature);
@@ -98,6 +99,29 @@ class IosController extends Controller
 
         $id->delete();
 
+        return redirect()->back();
+    }
+
+
+    public function updatetime(Request $request)
+    {
+
+        $validatedData = $request->validate([
+            'time' => 'nullable|string',
+            'source' => 'nullable|string',
+            'amount' => 'nullable|nullable',
+        ]);
+
+        $iostime = Iostime::findorFail($request->id);
+        $iostime->update($validatedData);
+
+        return redirect()->back();
+    }
+
+    public function deletetime(Iostime $id)
+    {
+
+        $id->delete();
         return redirect()->back();
     }
 }
