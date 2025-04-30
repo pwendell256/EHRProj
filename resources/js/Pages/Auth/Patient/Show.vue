@@ -28,17 +28,22 @@
                         <h2 class="text-2xl font-bold mb-3">{{ patient.full_name }}</h2>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm text-muted-foreground">
                             <p><strong class="text-card-foreground">Address:</strong> {{ patient?.patientinfo?.address
-                                }}</p>
+                            }}</p>
                             <p><strong class="text-card-foreground">Age:</strong> {{ patient.age }}</p>
                             <p><strong class="text-card-foreground">Birthdate:</strong> {{ patient.birth_date }}</p>
                             <p><strong class="text-card-foreground">Birthplace:</strong> {{ patient.birth_place }}</p>
                             <p><strong class="text-card-foreground">Gender:</strong> {{ patient.gender }}</p>
+                            <p><strong class="text-card-foreground">Status:</strong> {{ patient.status }}</p>
                             <p><strong class="text-card-foreground">Religion:</strong> {{ patient?.patientinfo?.religion
-                                }}</p>
+                            }}</p>
                             <p><strong class="text-card-foreground">Educational Attainment:</strong> {{
                                 patient.education }}</p>
                             <p><strong class="text-card-foreground">Chief Complaint:</strong> {{ patient.chiefComplaint
-                                }}</p>
+                            }}</p>
+                            <p><strong class="text-card-foreground">Room Number:</strong> {{ patient.room_no
+                            }}</p>
+                             <p><strong class="text-card-foreground">Station:</strong> {{ patient.station
+                            }}</p>
                         </div>
                     </div>
                 </div>
