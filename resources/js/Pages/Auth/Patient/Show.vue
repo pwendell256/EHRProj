@@ -49,13 +49,12 @@
                 </div>
             </div>
 
-
-
-
             <!-- Tabs Section -->
             <div class="mt-4">
                 <MedicalRecord v-if="selectedTab === 'medical_record'" :patient="patient" />
             </div>
+
+
         </div>
     </AuthenticatedLayout>
 </template>

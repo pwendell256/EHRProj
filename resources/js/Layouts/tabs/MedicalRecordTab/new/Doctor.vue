@@ -47,7 +47,7 @@
         <Dialog v-if="isDesktop" v-model:open="isAddModalOpen">
             <DialogTrigger as-child>
                 <Button @click.prevent="handleAddTrigger">
-                    Add order
+                    + Add order
                 </Button>
             </DialogTrigger>
 

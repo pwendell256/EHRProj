@@ -1,5 +1,6 @@
 <template>
     <div class="p-4 bg-white shadow rounded-lg">
+
         <div class="flex justify-between items-center mb-4">
             <div>
                 <h2 class="text-xl font-semibold flex items-center">
@@ -24,11 +25,8 @@
                         <p v-if="form.errors?.medication" class="text-red-500 text-sm">{{ form.errors.medication }}</p>
                     </div>
                 </div>
+                <Button type="submit">{{ isEditing ? 'Update' : 'Save' }}</Button>
 
-                <div class="flex justify-end pt-2 gap-2">
-                    <Button type="button" variant="outline" @click="isOpen = false">Cancel</Button>
-                    <Button type="submit">{{ isEditing ? 'Update' : 'Save' }}</Button>
-                </div>
             </form>
         </UseTemplate>
 
@@ -135,26 +133,28 @@
         </AlertDialog>
 
         <!-- Error Modal -->
-        <div v-if="errorMessage" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+        <div v-if="errorMessage" class="fixed inset-0 flex items-center z-50 justify-center bg-gray-900 bg-opacity-50">
             <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-                <h3 class="text-lg font-semibold mb-4 text-red-600">Error</h3>
+                <h3 class=" font-semibold mb-4 text-red-600">Error</h3>
                 <p class="text-gray-700">{{ errorMessage }}</p>
                 <div class="flex justify-end space-x-2 mt-4">
-                    <button @click="errorMessage = ''" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                    <Button @click="errorMessage = ''" variant="outline">
                         Close
-                    </button>
-                    <button @click="openAllergyHistory"
+                    </Button>
+                    <Button @click="openAllergyHistory"
                         class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
                         View Allergy History
-                    </button>
+                    </Button>
 
-                    <button @click="showOverrideModal = true"
+                    <Button @click="showOverrideModal = true"
                         class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
                         Override
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>
+
+
 
         <!-- Override Modal -->
         <div v-if="showOverrideModal"

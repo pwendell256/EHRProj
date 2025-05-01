@@ -1,27 +1,27 @@
 <template>
-  <div class="p-6 bg-gray-100 rounded-lg shadow-md">
+  <div class="bg-gray-50 p-4 rounded-lg space-y-4">
     <h1 class="text-xl font-bold text-gray-800 mb-4">Treatment</h1>
 
     <div class="mb-6">
-      <h2 class="text-lg font-semibold text-gray-700">Short Term Goals</h2>
+      <h2 class="font-semibold text-gray-700">Short Term Goals</h2>
       <Textarea v-model="form.short_term" class="w-full h-40 p-2 mt-2 text-gray-600 border border-gray-300 rounded-md"
         placeholder="Enter short term goals..."></Textarea>
     </div>
 
     <div class="mb-6">
-      <h2 class="text-lg font-semibold text-gray-700">Long Term Goals</h2>
+      <h2 class="font-semibold text-gray-700">Long Term Goals</h2>
       <Textarea v-model="form.long_term" class="w-full h-40 p-2 mt-2 text-gray-600 border border-gray-300 rounded-md"
         placeholder="Enter long term goals..."></Textarea>
     </div>
 
     <div class="mb-6">
-      <h2 class="text-lg font-semibold text-gray-700">Medications</h2>
+      <h2 class="font-semibold text-gray-700">Medications</h2>
       <Textarea v-model="form.medication" class="w-full h-40 p-2 mt-2 text-gray-600 border border-gray-300 rounded-md"
         placeholder="Enter medication details..."></Textarea>
     </div>
 
     <div>
-      <h2 class="text-lg font-semibold text-gray-700">Interventions</h2>
+      <h2 class="font-semibold text-gray-700">Interventions</h2>
       <Textarea v-model="form.intervention" class="w-full h-40 p-2 mt-2 text-gray-600 border border-gray-300 rounded-md"
         placeholder="Enter intervention details..."></Textarea>
     </div>

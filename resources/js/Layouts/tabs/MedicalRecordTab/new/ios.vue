@@ -1,146 +1,122 @@
 <template>
-    <div class="p-4">
+    <div class="bg-gray-50 p-4 rounded-lg">
         <!-- Add Button -->
+        <h3 class="text-lg font-semibold mb-2">Intake/Output Sheet</h3>
         <div class="mb-4">
-            <button @click="openModal" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                Add
-            </button>
+            <Button @click="openModal">
+                + Add Intake/Output
+            </Button>
         </div>
 
         <!-- Table -->
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200 border rounded-lg">
-                <thead class="bg-gray-100">
-                    <tr>
-                        <th v-for="header in tableHeaders" :key="header"
-                            class="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                            {{ header }}
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    <template v-for="(dateGroup, dateIndex) in groupedData" :key="dateIndex">
-                        <template v-for="(shiftGroup, shiftIndex) in dateGroup.shiftGroups" :key="shiftIndex">
-                            <!-- Template section with fix for the total and signature row -->
-                            <!-- Instead of rendering the total row unconditionally, check if there are rows -->
-                            <template v-for="(statusGroup, statusIndex) in shiftGroup.statusGroups" :key="statusIndex">
-                                <!-- Display each time entry -->
-                                <template v-for="(row, rowIndex) in statusGroup.rows" :key="rowIndex">
-                                    <tr>
-                                        <!-- Date - only show on first row of each date -->
-                                        <td class="px-4 py-2 text-sm text-gray-700">
-                                            <template v-if="rowIndex === 0 && statusIndex === 0 && shiftIndex === 0">
-                                                {{ dateGroup.date }}
-                                            </template>
-                                        </td>
+        <div class="grid gap-4 auto-rows-fr grid-cols-1 md:grid-cols-4">
+            <div class="md:col-span-4 xl:col-span-4 flex flex-col h-full">
+                <div class="overflow-x-auto mt-4 border rounded-lg">
 
-                                        <!-- Shift - only show on first row of each shift in a day -->
-                                        <td class="px-4 py-2 text-sm text-gray-700">
-                                            <template v-if="rowIndex === 0 && statusIndex === 0">
-                                                {{ shiftGroup.shift }}
-                                            </template>
-                                        </td>
+                    <Table>
+                        <TableHeader class="bg-green-100">
+                            <TableRow>
+                                <TableHead v-for="header in tableHeaders" :key="header">
+                                    {{ header }}
+                                </TableHead>
+                            </TableRow>
+                        </TableHeader>
 
-                                        <!-- Status - only show on first row of each status in a shift -->
-                                        <td class="px-4 py-2 text-sm text-gray-700">
-                                            <div class="flex items-center gap-2">
-                                                <template v-if="rowIndex === 0">
-                                                    {{ statusGroup.status }}
+                        <TableBody>
+                            <template v-for="(dateGroup, dateIndex) in groupedData" :key="dateIndex">
+                                <template v-for="(shiftGroup, shiftIndex) in dateGroup.shiftGroups" :key="shiftIndex">
+                                    <template v-for="(statusGroup, statusIndex) in shiftGroup.statusGroups"
+                                        :key="statusIndex">
+                                        <template v-for="(row, rowIndex) in statusGroup.rows" :key="rowIndex">
+                                            <TableRow>
+                                                <!-- Date -->
+                                                <TableCell>
+                                                    <template
+                                                        v-if="rowIndex === 0 && statusIndex === 0 && shiftIndex === 0">
+                                                        {{ dateGroup.date }}
+                                                    </template>
+                                                </TableCell>
+
+                                                <!-- Shift -->
+                                                <TableCell>
+                                                    <template v-if="rowIndex === 0 && statusIndex === 0">
+                                                        {{ shiftGroup.shift }}
+                                                    </template>
+                                                </TableCell>
+
+                                                <!-- Status + group action buttons -->
+                                                <TableCell>
+                                                    <template v-if="rowIndex === 0">
+                                                        <div class="flex items-center gap-2">
+                                                            {{ statusGroup.status }}
+                                                            <button
+                                                                @click="openEditModal(dateGroup.date, shiftGroup.shift, statusGroup.status)"
+                                                                class="text-yellow-500 hover:text-yellow-600">
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </button>
+                                                            <button
+                                                                @click="deletegroup(dateGroup.date, shiftGroup.shift, statusGroup.status)"
+                                                                class="text-red-500 hover:text-red-600">
+                                                                <i class="fa-solid fa-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </template>
+                                                </TableCell>
+
+                                                <!-- Time with edit/delete -->
+                                                <TableCell>
+                                                    <div class="flex items-center gap-2">
+                                                        {{ row.time }}
+                                                        <button
+                                                            @click="openTimeEditModal(dateGroup.date, shiftGroup.shift, statusGroup.status, row.time, row.source, row.amount, row.timeId)"
+                                                            class="text-blue-500 hover:text-blue-600">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </button>
+                                                        <button @click="deletetime(row.timeId)"
+                                                            class="text-red-500 hover:text-red-600">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </TableCell>
+
+                                                <!-- Source -->
+                                                <TableCell>{{ row.source || '-' }}</TableCell>
+
+                                                <!-- Amount -->
+                                                <TableCell>{{ row.amount }}</TableCell>
+
+                                                <!-- Total -->
+                                                <TableCell></TableCell>
+
+                                                <!-- Signature -->
+                                                <TableCell></TableCell>
+                                            </TableRow>
+                                        </template>
+
+                                        <!-- Total + Signature row -->
+                                        <TableRow v-if="statusGroup.rows && statusGroup.rows.length > 0"
+                                            class="bg-gray-50">
+                                            <TableCell colspan="4"></TableCell>
+                                            <TableCell class="text-right font-medium">Total:</TableCell>
+                                            <TableCell class="font-bold">{{ statusGroup.total || '-' }}</TableCell>
+                                            <TableCell class="text-right font-medium">Signature:</TableCell>
+                                            <TableCell>
+                                                <template v-if="statusGroup.signature">
+                                                    <img :src="`/storage/${statusGroup.signature}`" alt="Signature"
+                                                        class="h-10 max-w-full" />
                                                 </template>
-                                                <template v-if="rowIndex === 0">
-                                                    <button
-                                                        @click="openEditModal(dateGroup.date, shiftGroup.shift, statusGroup.status)"
-                                                        class="text-yellow-500 hover:text-yellow-600">
-                                                        <!-- Pen icon (Heroicons pencil-square) -->
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                            stroke-width="2">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M15.232 5.232l3.536 3.536M16.732 3.732a2.5 2.5 0 113.536 3.536L7 20.5H3.5V17L16.732 3.732z" />
-                                                        </svg>
-                                                    </button>
-                                                    <button
-                                                        @click="deletegroup(dateGroup.date, shiftGroup.shift, statusGroup.status)"
-                                                        class="text-red-500 hover:text-red-600 ml-2">
-                                                        <!-- Trash icon (Heroicons trash) -->
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                            stroke-width="2">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M6 18L18 6M6 6l12 12" />
-                                                        </svg>
-                                                    </button>
-                                                </template>
-                                            </div>
-                                        </td>
-
-                                        <!-- Time - always show with edit button -->
-                                        <td class="px-4 py-2 text-sm text-gray-700">
-                                            <div class="flex items-center gap-2">
-                                                {{ row.time }}
-                                                <button
-                                                    @click="openTimeEditModal(dateGroup.date, shiftGroup.shift, statusGroup.status, row.time, row.source, row.amount, row.timeId)"
-                                                    class="text-blue-500 hover:text-blue-600">
-                                                    <!-- Pen icon (Heroicons pencil-square) -->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M15.232 5.232l3.536 3.536M16.732 3.732a2.5 2.5 0 113.536 3.536L7 20.5H3.5V17L16.732 3.732z" />
-                                                    </svg>
-                                                </button>
-
-                                                <button @click="deletetime(row.timeId)"
-                                                    class="text-red-500 hover:text-red-600 ml-2">
-                                                    <!-- Trash icon (Heroicons trash) -->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M6 18L18 6M6 6l12 12" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </td>
-
-                                        <!-- Always show source and amount -->
-                                        <td class="px-4 py-2 text-sm text-gray-700">{{ row.source || '-' }}</td>
-                                        <td class="px-4 py-2 text-sm text-gray-700">{{ row.amount }}</td>
-
-                                        <!-- No total and signature in regular rows -->
-                                        <td class="px-4 py-2 text-sm text-gray-700"></td>
-                                        <td class="px-4 py-2 text-sm text-gray-700"></td>
-                                    </tr>
+                                                <template v-else>-</template>
+                                            </TableCell>
+                                        </TableRow>
+                                    </template>
                                 </template>
-
-                                <!-- Add total and signature row at the end of each status group ONLY if there are rows -->
-                                <tr v-if="statusGroup.rows && statusGroup.rows.length > 0" class="bg-gray-50">
-                                    <td class="px-4 py-2 text-sm text-gray-700"></td>
-                                    <td class="px-4 py-2 text-sm text-gray-700"></td>
-                                    <td class="px-4 py-2 text-sm text-gray-700"></td>
-                                    <td class="px-4 py-2 text-sm text-gray-700"></td>
-                                    <td class="px-4 py-2 text-sm font-medium text-gray-700 text-right">
-                                        Total:
-                                    </td>
-                                    <td class="px-4 py-2 text-sm font-bold text-gray-700">
-                                        {{ statusGroup.total || '-' }}
-                                    </td>
-                                    <td class="px-4 py-2 text-sm text-gray-700 text-right">
-                                        Signature:
-                                    </td>
-                                    <td class="px-4 py-2 text-sm text-gray-700">
-                                        <template v-if="statusGroup.signature">
-                                            <img :src="`/storage/${statusGroup.signature}`" alt="Signature"
-                                                class="h-10 max-w-full" />
-                                        </template>
-                                        <template v-else>
-                                            -
-                                        </template>
-                                    </td>
-                                </tr>
                             </template>
-                        </template>
-                    </template>
-                </tbody>
-            </table>
+                        </TableBody>
+                    </Table>
+
+
+                </div>
+            </div>
         </div>
 
         <!-- Add Modal -->
@@ -150,31 +126,44 @@
                 <div v-if="modalStep === 1">
                     <h2 class="text-lg font-bold mb-4">Step 1: Basic Info</h2>
                     <div class="mb-3">
-                        <label class="block text-sm font-medium">Date</label>
-                        <input type="date" v-model="form.date" class="w-full mt-1 px-3 py-2 border rounded-md" />
+                        <Label class="block text-sm font-medium">Date</Label>
+                        <Input type="date" v-model="form.date" class="w-full mt-1 px-3 py-2 border rounded-md" />
                     </div>
                     <div class="mb-3">
-                        <label class="block text-sm font-medium">Shift</label>
-                        <select v-model="form.shift" class="w-full mt-1 px-3 py-2 border rounded-md">
-                            <option value="" disabled>Select Shift</option>
-                            <option>Morning</option>
-                            <option>Afternoon</option>
-                            <option>Night</option>
-                        </select>
+                        <Label class="block text-sm font-medium mb-1">Shift</Label>
+                        <Select v-model="form.shift">
+                            <SelectTrigger class="w-full">
+                                <SelectValue placeholder="Select Shift" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Shifts</SelectLabel>
+                                    <SelectItem value="Morning">Morning</SelectItem>
+                                    <SelectItem value="Afternoon">Afternoon</SelectItem>
+                                    <SelectItem value="Night">Night</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
                     </div>
+
                     <div class="mb-4">
-                        <label class="block text-sm font-medium">Status</label>
-                        <select v-model="form.status" class="w-full mt-1 px-3 py-2 border rounded-md">
-                            <option value="" disabled>Select Status</option>
-                            <option>Intake</option>
-                            <option>Output</option>
-                        </select>
+                        <Label class="block text-sm font-medium mb-1">Status</Label>
+                        <Select v-model="form.status">
+                            <SelectTrigger class="w-full">
+                                <SelectValue placeholder="Select Status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Statuses</SelectLabel>
+                                    <SelectItem value="Intake">Intake</SelectItem>
+                                    <SelectItem value="Output">Output</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
                     </div>
-                    <div class="flex justify-between">
-                        <button @click="closeModal"
-                            class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
-                        <button @click="modalStep = 2"
-                            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Next</button>
+                    <div class="flex justify-end gap-2 mt-6">
+                        <Button @click="closeModal" variant="outline">Cancel</button>
+                        <Button @click="modalStep = 2">Next</button>
                     </div>
                 </div>
 
@@ -182,25 +171,32 @@
                 <div v-else-if="modalStep === 2">
                     <h2 class="text-lg font-bold mb-4">Step 2: Time and Details</h2>
                     <div class="mb-3">
-                        <label class="block text-sm font-medium">Time</label>
-                        <select v-model="form.time" class="w-full mt-1 px-3 py-2 border rounded-md">
-                            <option value="" disabled>Select Time</option>
-                            <option v-for="t in shiftTimes[form.shift] || []" :key="t">{{ t }}</option>
-                        </select>
+                        <Label class="block text-sm font-medium mb-1">Time</Label>
+                        <Select v-model="form.time">
+                            <SelectTrigger class="w-full mt-1">
+                                <SelectValue placeholder="Select Time" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Times</SelectLabel>
+                                    <SelectItem v-for="t in shiftTimes[form.shift] || []" :key="t" :value="t">
+                                        {{ t }}
+                                    </SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
                     </div>
                     <div class="mb-3">
-                        <label class="block text-sm font-medium">Amount</label>
-                        <input type="text" v-model="form.amount" class="w-full mt-1 px-3 py-2 border rounded-md" />
+                        <Label class="block text-sm font-medium">Amount</Label>
+                        <Input type="text" v-model="form.amount" class="w-full mt-1 px-3 py-2 border rounded-md" />
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-medium">Source</label>
-                        <input type="text" v-model="form.source" class="w-full mt-1 px-3 py-2 border rounded-md" />
+                        <Label class="block text-sm font-medium">Source</Label>
+                        <Input type="text" v-model="form.source" class="w-full mt-1 px-3 py-2 border rounded-md" />
                     </div>
-                    <div class="flex justify-between">
-                        <button @click="modalStep = 1"
-                            class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Back</button>
-                        <button @click="submitForm"
-                            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Submit</button>
+                    <div class="flex justify-end gap-2 mt-6">
+                        <Button @click="modalStep = 1" variant="outline">Back</button>
+                        <Button @click="submitForm">Submit</button>
                     </div>
                 </div>
             </div>
@@ -211,12 +207,12 @@
             <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
                 <h2 class="text-lg font-bold mb-4">Edit</h2>
                 <div class="mb-3">
-                    <label class="block text-sm font-medium">Total</label>
-                    <input type="text" v-model="editForm.total" class="w-full mt-1 px-3 py-2 border rounded-md" />
+                    <Label class="block text-sm font-medium">Total</Label>
+                    <Input type="text" v-model="editForm.total" class="w-full mt-1 px-3 py-2 border rounded-md" />
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-sm font-medium">Signature</label>
+                    <Label class="block text-sm font-medium">Signature</Label>
 
                     <!-- Signature Image Preview (if exists) -->
                     <div v-if="signaturePreview" class="mt-2 mb-2">
@@ -226,7 +222,7 @@
 
                     <!-- Signature File Upload -->
                     <div class="mt-1">
-                        <label for="signature-upload" class="flex items-center justify-center w-full px-4 py-2 border border-gray-300 rounded-md 
+                        <Label for="signature-upload" class="flex items-center justify-center w-full px-4 py-2 border border-gray-300 rounded-md 
                             cursor-pointer bg-white hover:bg-gray-50">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-400"
                                 viewBox="0 0 20 20" fill="currentColor">
@@ -235,17 +231,17 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <span class="text-sm">Upload Signature</span>
-                        </label>
-                        <input id="signature-upload" type="file" @change="handleSignatureUpload" accept="image/*"
+                        </Label>
+                        <Input id="signature-upload" type="file" @change="handleSignatureUpload" accept="image/*"
                             class="hidden" />
                     </div>
                 </div>
 
-                <div class="flex justify-between">
-                    <button @click="closeEditModal"
-                        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
-                    <button @click="submitEdit"
-                        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save</button>
+                <div class="flex justify-end gap-2 mt-6">
+                    <Button @click="closeEditModal"
+                       variant="outline">Cancel</Button>
+                    <Button @click="submitEdit"
+                        >Save</Button>
                 </div>
             </div>
         </div>
@@ -256,36 +252,146 @@
             <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
                 <h2 class="text-lg font-bold mb-4">Edit Time Entry</h2>
                 <div class="mb-3">
-                    <label class="block text-sm font-medium">Time</label>
-                    <select v-model="timeEditForm.time" class="w-full mt-1 px-3 py-2 border rounded-md">
-                        <option value="" disabled>Select Time</option>
-                        <option v-for="t in shiftTimes[timeEditForm.shift] || []" :key="t">{{ t }}</option>
-                    </select>
+                    <Label class="block text-sm mb-1">Time</Label>
+                    <Select v-model="timeEditForm.time">
+                        <SelectTrigger class="w-full mt-1">
+                            <SelectValue placeholder="Select Time" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Times</SelectLabel>
+                                <SelectItem v-for="t in shiftTimes[timeEditForm.shift] || []" :key="t" :value="t">
+                                    {{ t }}
+                                </SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
                 </div>
                 <div class="mb-3">
-                    <label class="block text-sm font-medium">Amount</label>
-                    <input type="text" v-model="timeEditForm.amount" class="w-full mt-1 px-3 py-2 border rounded-md" />
+                    <Label class="block text-sm font-medium">Amount</Label>
+                    <Input type="text" v-model="timeEditForm.amount" class="w-full mt-1 px-3 py-2 border rounded-md" />
                 </div>
                 <div class="mb-4">
-                    <label class="block text-sm font-medium">Source</label>
-                    <input type="text" v-model="timeEditForm.source" class="w-full mt-1 px-3 py-2 border rounded-md" />
+                    <Label class="block text-sm font-medium">Source</Label>
+                    <Input type="text" v-model="timeEditForm.source" class="w-full mt-1 px-3 py-2 border rounded-md" />
                 </div>
-                <div class="flex justify-between">
-                    <button @click="closeTimeEditModal"
-                        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
-                    <button @click="submitTimeEdit"
-                        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save</button>
+
+
+
+                <div class="flex justify-end gap-2 mt-6">
+
+                    <Button variant="outline" @click="closeTimeEditModal">Cancel</Button>
+                    <Button @click="submitTimeEdit">Save</Button>
                 </div>
             </div>
         </div>
+
+        <AlertDialog v-model:open="showDeleteDialog">
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>
+                        <template v-if="deleteTarget?.type === 'group'">
+                            Delete Intake/Output Group?
+                        </template>
+                        <template v-else-if="deleteTarget?.type === 'time'">
+                            Delete Time Entry?
+                        </template>
+                        <template v-else>
+                            Confirm Delete
+                        </template>
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                        <template v-if="deleteTarget?.type === 'group'">
+                            This will permanently delete the <strong>{{ deleteTarget.description }}</strong>. This
+                            includes all related time entries.
+                        </template>
+                        <template v-else-if="deleteTarget?.type === 'time'">
+                            This will permanently delete <strong>{{ deleteTarget.description }}</strong>.
+                        </template>
+                        <template v-else>
+                            This action cannot be undone.
+                        </template>
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel @click="showDeleteDialog = false">Cancel</AlertDialogCancel>
+                    <AlertDialogAction class="bg-red-600 hover:bg-red-700" @click="handleDelete">
+                        Delete
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+
+
 
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useForm } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { Input } from '@/Components/ui/input'
+import { Label } from '@/Components/ui/label'
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from '@/Components/ui/select'
+import Textarea from '@/Components/ui/textarea/Textarea.vue';
+import Button from '@/components/ui/button/Button.vue';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuTrigger,
+} from '@/Components/ui/dropdown-menu'
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/Components/ui/table'
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/Components/ui/alert-dialog'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Link } from '@inertiajs/vue3';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/Components/ui/dialog'
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from '@/Components/ui/drawer'
+
 
 const showModal = ref(false)
 const modalStep = ref(1)
@@ -497,17 +603,7 @@ const editForm = useForm({
     signature: null,
 })
 
-const deletegourpform = useForm()
-const deletegroup = (date, shift, status) => {
-    const io = sortedIos.value.find(io =>
-        io.date === date &&
-        io.shift === shift &&
-        io.status === status
-    );
-    if (confirm('Are you sure you want to delete this?')) {
-        deletegourpform.delete(route('ios.delete', io?.id))
-    }
-}
+
 
 const openEditModal = (date, shift, status) => {
     // Find the IO entry with matching date, shift, and status
@@ -642,10 +738,69 @@ const submitTimeEdit = () => {
         },
     });
 }
-const deletetimeform = useForm()
-const deletetime = (id) => {
-    if (confirm('Are you sure you want to delete this time?')) {
-        deletetimeform.delete(route('ios.deletetime', id))
+
+
+const showDeleteDialog = ref(false)
+const deleteTarget = ref({
+    type: '', // 'group' | 'time'
+    id: null,
+    description: '' // Optional: Used for clearer dialog messaging
+})
+
+
+const deletegroup = (date, shift, status) => {
+    const io = sortedIos.value.find(io =>
+        io.date === date &&
+        io.shift === shift &&
+        io.status === status
+    )
+    if (io?.id) {
+        deleteTarget.value = {
+            type: 'group',
+            id: io.id,
+            description: `${status} group for ${shift} shift on ${date}`
+        }
+        showDeleteDialog.value = true
     }
 }
+
+const deletetime = (id) => {
+    // Ideally: find the entry details using the id to construct a description
+    deleteTarget.value = {
+        type: 'time',
+        id,
+        description: `this time entry`
+    }
+    showDeleteDialog.value = true
+}
+
+
+const deletegourpform = useForm()
+const deletetimeform = useForm()
+
+const handleDelete = () => {
+    if (!deleteTarget.value) return
+
+    if (deleteTarget.value.type === 'group') {
+        deletegourpform.delete(route('ios.delete', deleteTarget.value.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                showDeleteDialog.value = false
+                deleteTarget.value = null
+            }
+        })
+    }
+
+    if (deleteTarget.value.type === 'time') {
+        deletetimeform.delete(route('ios.deletetime', deleteTarget.value.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                showDeleteDialog.value = false
+                deleteTarget.value = null
+            }
+        })
+    }
+}
+
+
 </script>
