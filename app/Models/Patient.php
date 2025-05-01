@@ -91,4 +91,14 @@ class Patient extends Model
     public function discharge(){
         return $this->hasOne(Discharge::class, 'patient_Id', 'id');
     }
+    public function tprs(){
+        return $this->hasMany(Tpr::class, 'patient_Id', 'id');
+    }
+    public function ios(){
+        return $this->hasMany(Ios::class, 'patient_Id', 'id');
+    }
+
+    public function doctorprogress(){
+        return $this->hasOne(Doctorprogress::class, 'patient_Id', 'id');
+    }
     }

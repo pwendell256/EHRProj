@@ -36,7 +36,10 @@
             <Nurses v-if="selectedTab === 'Nurses'" :patient="patient" />
             <Doctor v-if="selectedTab === 'Doctor'" :patient="patient" />
             <Discharge v-if="selectedTab === 'Discharge'" :patient="patient" />
-            <!-- <Allergy v-if="selectedTab === 'Allergy'" :patient="patient" /> -->
+            <Tpr v-if="selectedTab === 'Tpr'" :patient="patient" />
+            <ios v-if="selectedTab === 'Ios'" :patient="patient" />
+            <cdss v-if="selectedTab === 'CDSS'" :patient="patient" />
+            <Doctorprogress v-if="selectedTab === 'progress'" :patient="patient" />
         </div>
     </div>
 </template>
@@ -56,6 +59,10 @@ import Nurses from './MedicalRecordTab/new/Nurses.vue';
 import Doctor from './MedicalRecordTab/new/Doctor.vue';
 import Registration from './MedicalRecordTab/new/Registration.vue';
 import Discharge from './MedicalRecordTab/new/Discharge.vue';
+import Tpr from './MedicalRecordTab/new/Tpr.vue';
+import ios from './MedicalRecordTab/new/ios.vue';
+import cdss from './MedicalRecordTab/new/cdss.vue';
+import Doctorprogress from './MedicalRecordTab/new/doctorprogress.vue';
 
 const props = defineProps({
     patient: Object
@@ -80,7 +87,11 @@ const tabs = [
     { value: 'MAR', label: 'MAR' },
     { value: 'Nurses', label: 'Nurses Notes' },
     { value: 'Doctor', label: "Doctor's Order" },
+    { value: 'Tpr', label: "Vital Signs" },
+    { value: 'Ios', label: "Intake/Output Sheet" },
+    { value: 'progress', label: "Doctor's Progress" },
     { value: 'Discharge', label: "Discharge Plan" },
+    { value: 'CDSS', label: "CDSS" },
     // { value: 'Allergy', label: 'Allergy' },
 ];
 
